@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Recipe Home</title>
+<link rel="stylesheet" type="text/css" href="recipestyle.css">
+</head>
+
+<!--Header -->
+<div class="header">
+	<h1>Recipes</h1>
+</div>
+
+<!-- Navigation bar-->
+<ul>
+	<li><a href="Recipe_Home.html">Home</a></li> <!--Clicking home takes you to the home page-->
+	<!-- Meals dropdown menu-->
+	<li class="dropdown">
+		<a href="javascript:void(0)" class="dropbtn">Meals</a>
+			<div class="dropdown-content"> <!--Meal options-->
+				<a href="#">Breakfast</a>
+				<a href="#">Lunch</a>
+				<a href="#">Dinner</a>
+				<a href="#">Pudding</a>
+				<a href="#">Snacks</a>
+			</div>
+		</li>
+	<!-- Categories dropdown menu-->
+	<li class="dropdown">
+			<a href="Category_Search.html" class="dropbtn">Categories</a>
+			<div class="dropdown-content"> <!-- Category options-->
+				<a href="#">Spicy</a>
+				<a href="#">Baking</a>
+				<a href="#">Mexican</a>
+				<a href="#">Vegetarian</a>
+				<a href="#">Pasta</a>
+				<a href="#">Rice</a>
+				<a href="#">One Pot</a>
+				<a href="#">Low Calorie</a>
+				<a href="#">Pies</a>
+				<a href="#">Cakes</a>
+			</div>
+		</li>
+	<li><a href="Favourites.html">Favourites</a></li>
+	<li><a href="Add_a_Recipe.html">Add</a></li>
+	<!--Search bar-->
+	<li>
+		<form action="Recipe_Search.html">
+		<input type="text" id="search" name="recipesearch" placeholder="Search all recipes...">
+		<input type="submit" value="Search" id="search_button">
+		
+	
+	</form></li>
+</div>
+</ul>
+
+<body>
+	
+<h2> Sorry! </h2>
+<p> Searching for ingredients isn't available yet. </p>

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Recipe Home</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="static/recipestyle.css">
+</head>
+
+<!--Header -->
+<div class="header">
+	<h1>Recipes</h1>
+</div>
+
+<!-- Navigation bar-->
+<ul>
+	<li><a href="Recipe_Home.html">Home</a></li> <!--Clicking home takes you to the home page-->
+	<!-- Meals dropdown menu-->
+	<li class="dropdwn">
+		<a href="javascript:void(0)" class="dropbttn">Meals</a>
+			<div class="dropdwn-content"> <!--Meal options-->
+				<a href="#">Breakfast</a>
+				<a href="#">Lunch</a>
+				<a href="#">Dinner</a>
+				<a href="#">Pudding</a>
+				<a href="#">Snacks</a>
+			</div>
+		</li>
+	<!-- Categories dropdown menu-->
+	<li class="dropdwn">
+			<a href="Category_Search.html" class="dropbttn">Categories</a>
+			<div class="dropdwn-content"> <!-- Category options-->
+				<a href="#">Spicy</a>
+				<a href="#">Baking</a>
+				<a href="#">Mexican</a>
+				<a href="#">Vegetarian</a>
+				<a href="#">Pasta</a>
+				<a href="#">Rice</a>
+				<a href="#">One Pot</a>
+				<a href="#">Low Calorie</a>
+				<a href="#">Pies</a>
+				<a href="#">Cakes</a>
+			</div>
+		</li>
+	<li><a href="Favourites.html">Favourites</a></li>
+	<li><a href="Add_a_Recipe.html">Add</a></li>
+	<!--Search bar-->
+	<li>
+		<form action="Recipe_Search.html">
+		<input type="text" id="search" name="recipesearch" placeholder="Search all recipes...">
+		<input type="submit" value="Search" id="search_button">
+		
+	
+	</form></li>
+</div>
+</ul>
+
+<body>
+	<h2>Add a Recipe</h2>
+	
+	<div>
+		<form action="Added_Recipe.html" id="add_recipe"> 
+			<label for="recipe_name">Title</label>
+			<input type="text" name="ingsearch" placeholder="Title">
+			
+			<label for="skill_level">Skill Level</label>
+			<input type="text" name="skill" placeholder="Skill level">
+			
+			<label for="cooking_time">Cooking Time</label>
+			<input type="text" name="time" placeholder="Cooking Time">
+			
+			
+			<label for="ingredients" id="label">Ingredients </label>
+			<textarea name="ingredients" id="add_ingredients" placeholder="List ingredients here"></textarea>
+			
+			<label for="method" id="label">Method</label>
+			<textarea name="Method" id="add_method" placeholder="Enter method here"></textarea>
+		
+			<input type="submit"
+			value="Add Recipe">
+		</form>
+	</div>
+	
+</body>
