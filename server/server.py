@@ -1,5 +1,4 @@
-from flask import Flask, render_template
-from flask import request
+from flask import Flask, render_template,request
 
 app = Flask(__name__)
 
@@ -39,5 +38,11 @@ def favs():
 def ingredientSearch():
 	return render_template('Ingredient_Search.html')
 
+#Function to open a file
+def openFile(aFile):
+	with open(aFile) as inFile:
+		list = inFile.readlines()
+	return list
+
 if __name__ == '__main__':
-	app.run(debug=True, host="0.0.0.0")
+    app.run(debug=True, host="0.0.0.0")
