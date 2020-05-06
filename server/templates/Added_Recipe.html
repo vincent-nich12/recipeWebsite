@@ -2,7 +2,11 @@
 <html>
 <head>
 <title>Recipe Home</title>
-<link rel="stylesheet" type="text/css" href="recipestyle.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="static/recipestyle.css">
 </head>
 
 <!--Header -->
@@ -12,11 +16,11 @@
 
 <!-- Navigation bar-->
 <ul>
-	<li><a href="Recipe_Home.html">Home</a></li> <!--Clicking home takes you to the home page-->
+	<li><a href="/">Home</a></li> <!--Clicking home takes you to the home page-->
 	<!-- Meals dropdown menu-->
-	<li class="dropdown">
-		<a href="javascript:void(0)" class="dropbtn">Meals</a>
-			<div class="dropdown-content"> <!--Meal options-->
+	<li class="dropdwn">
+		<a href="javascript:void(0)" class="dropbttn">Meals</a>
+			<div class="dropdwn-content"> <!--Meal options-->
 				<a href="#">Breakfast</a>
 				<a href="#">Lunch</a>
 				<a href="#">Dinner</a>
@@ -25,9 +29,9 @@
 			</div>
 		</li>
 	<!-- Categories dropdown menu-->
-	<li class="dropdown">
-		<a href="javascript:void(0)" class="dropbtn">Categories</a>
-			<div class="dropdown-content"> <!-- Category options-->
+	<li class="dropdwn">
+			<a href="/Category_Search.html" class="dropbttn">Categories</a>
+			<div class="dropdwn-content"> <!-- Category options-->
 				<a href="#">Spicy</a>
 				<a href="#">Baking</a>
 				<a href="#">Mexican</a>
@@ -40,8 +44,8 @@
 				<a href="#">Cakes</a>
 			</div>
 		</li>
-	<li><a href="Favourites.html">Favourites</a></li>
-	<li><a href="Add_a_Recipe.html">Add</a></li>
+	<li><a href="/Favourites.html">Favourites</a></li>
+	<li><a href="/Add_a_Recipe.html">Add</a></li>
 	<!--Search bar-->
 	<li>
 		<form action="Recipe_Search.html">
