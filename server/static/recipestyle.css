@@ -2,16 +2,31 @@
 html{
 	font-family:Arial, Helvetica, sans-serif;
 }
-/*Heading 1 font*/
+
+/*The layout of the whole page*/
+.main_body{
+	margin-left:10%;
+	margin-right:10%;
+}
+
+/*Heading 1 font - The writing in the header*/
 h1 {
 	text-align: center;
 	font-size:60px;
 	color:white;
 }
 
+/*The header formatting*/
+.header{
+	background-color:#e37d1e;
+	text-align: center;
+	padding: 20px;
+}
+
 /* Navigation bar*/
+
 /*List*/
-ul{
+.topnav{ /*The whole navigation bar - i.e. the background, padding, etc.*/
 	list-style-type: none;
 	margin: 0;
 	padding: 0;
@@ -19,11 +34,12 @@ ul{
 	background-color:#a83122; /*Red*/
 }
 
-li {
-	float: left;
+.myTopnav { /*The list in the navigation bar*/
+	float: left;	
 }
 
-li a, .dropbttn {
+/*Links in a list - navigation bar*/
+li a, .dropbttn { /*li a: The list of links in the navigation bar, dropbttn: the links which are dropdown buttons*/
   display: inline-block;
   color: white;
   text-align: center;
@@ -33,30 +49,45 @@ li a, .dropbttn {
 }
 
 /*Hovering over nav buttons changes colour*/
-li a:hover, .dropdwn:hover .dropbttn {
+li a:hover, li.active, .myTopnav.dropdwn:hover .dropbttn .dropdwn {
 	background-color: #5e0707;
 	color:white;
 	text-decoration:none;
 }
 
-/* Search for a recipe on the right of the navbar*/
-li:last-child{
-	float:right;
+/*Resizing*/
+
+/*The "icon" part of "topnav" shouldn't be displayed by default*/
+#nav_icon{ 
+  display: none;
 }
 
-
-
-/*Colour of the active page*/
-.active {
-	background-color: #e3bb1e;
+/*When screen size is less than 1000px wide, only display the Home button and the navigation icon*/
+@media screen and (max-width: 1000px) {
+  .myTopnav:not(:first-child) {display: none;}
+  #nav_icon {
+    float: left;
+    display: block;
+  }
+}
+@media screen and (max-width: 1000px) {
+  .myTopnav.responsive {position: relative;}
+  .myTopnav.responsive a.icon {
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+  .myTopnav.responsive a {
+    float: none;
+    display: block;
+    text-align: left;
+  }
 }
 
 /*Dropdown menus*/
 li.dropdwn{
 	display:inline-block;
 }
-
-
 
 /*Style of the dropdown menus*/
 .dropdwn-content{
@@ -67,6 +98,7 @@ li.dropdwn{
 	box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
 	z-index: 1;
 }
+
 .dropdwn-content a{
 	color:black;
 	padding: 12px 16px;
@@ -78,11 +110,36 @@ li.dropdwn{
 /*Hover colour*/
 .dropdwn-content a:hover{
 	background-color:#f1f1f1}
+	
+.nav_dropdown{
+	display:none;
+	position:absolute;
+	background-color:#a83122;
+    min-width: 160px;
+	box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+	z-index: 1;
+	}
+	
+.nav_dropdown a{
+	color:black;
+	padding: 12px 16px;
+	text-decoration:none;
+	display:block;
+	color:white;
+	text-align:left;
+}
 
-.dropdwn:hover .dropdwn-content {
+
+.nav_dropdown a:hover{
+	background-color:#5e0707}
+
+.dropdwn:hover .dropdwn-content{
   display: block;
 }
 
+.dropdwn:hover .nav_dropdown{
+	display:block;
+}
 
 /*Forms*/
 
@@ -96,18 +153,24 @@ input[type=text], #add_ingredients, #add_method, select{
 	box-sizing: border-box;
 	float:none;
 }
+
 /*Search recipe bar*/
 #search {
 	position:relative;
-	right:200px;
 	height:30px;
+	width:200px;
+	float:right;
+	right:150px;
 }
+
 /*Search recipe button*/
 #search_button {
-	position:absolute;
-	right:100px;
+	position:relative;
+	padding-right:15%;
 	height:30px;
 	padding: 0 0;
+	float:right;
+	left:150px;
 }
 
 input[type=submit] {
@@ -127,22 +190,27 @@ input[type=submit]:hover {
 	background-color: #45a049;
 }
 
-
 /*Formatting for form for adding a recipe*/
 #add_recipe{
 	width:400px;
+	background-color:white;
+}
+
+#main{
+	background-color:white;
+	padding-right: 15%;
+	padding-left: 15%;
 }
 
 /*Formatting for ingredient and method boxes*/
-#add_ingredients{
+#add_ingredients{ /*Add ingredients text area*/
 	min-width:400px;
 	max-width:600px;
 	min-height:200px;
 	max-height:400px;
 }
 
-
-#add_method{
+#add_method{ /*Add ingredients text area*/
 	width: 600px;
 	min-width: 400px;
 	max-width: 900px;
@@ -156,10 +224,10 @@ input[type=submit]:hover {
 
 div{
 	border-radius: 5px;
-	background-color: #f2f2f2;
+	background-color: white;
 	padding: 10px;
-	
 }
+
 /* Picture gallery */
 
 div.gallery{
@@ -176,6 +244,7 @@ div.gallery:hover {
 div.gallery img{
 	width:200px;
 	height:200px;
+	object-fit:cover;
 }
 
 div.desc{
@@ -183,8 +252,31 @@ div.desc{
 	text-align:center;
 }
 
-.header{
-	background-color:#e37d1e;
-	text-align: center;
-	padding: 20px;
+/*Filterable table of category*/
+#category_table{
+	width: 50%;
+}
+
+/*The input of the categories table search*/
+#categorySearch{
+	color: black;
+}
+
+#search_result{ /*Images displayed on search results*/
+	width:250px;
+	height:200px;
+}
+
+#search_result_text{
+	height:200px;
+	padding-right:100px;
+}
+
+.categories{
+	float:left;
+}
+
+.table_row:hover;{
+	cursor:pointer;
+	background-color:gray;
 }

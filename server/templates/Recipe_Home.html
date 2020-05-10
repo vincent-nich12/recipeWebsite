@@ -6,21 +6,40 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
-  <link rel="stylesheet" type="text/css" href="static/recipestyle.css">
-</head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" type="text/css" href="static/recipestyle.css"> <!--My CSS StyleSheet-->
 
-<body>
+</head>
+<body class="main_body">
+
 <!--Header -->
 <div class="header">
 	<h1>Recipes</h1>
 </div>
-
+ 
 <!-- Navigation bar-->
-<ul>
-	<li><a href="/">Home</a></li> <!--Clicking home takes you to the home page-->
+<ul class="topnav">
+		<li class="myTopnav active"><a href="/">Home</a></li> <!--Clicking home takes you to the home page-->
+		
+		<!--Navigation icon when screen is small-->
+		<li class="myTopnav dropdwn" id="nav_icon">  
+			<a href="javascript:void(0)"
+			 class="dropbttn"> <i class="fa fa-bars"></i> </a>
+				<div class="nav_dropdown">
+					<a href="#">Meals</a>
+					<a href="Category_Search.html">Categories</a>
+					<a href="Favourites.html">Favourties</a>
+					<a href="Add_a_Recipe.html">Add</a>
+				</div>
+					</li>
+	
+	
+	
 	<!-- Meals dropdown menu-->
-	<li class="dropdwn">
-		<a href="javascript:void(0)" class="dropbttn">Meals</a>
+	<li class="myTopnav dropdwn"  id="myTopnav">
+		<a href="javascript:void(0)"
+		 class="dropbttn">Meals</a>
 			<div class="dropdwn-content"> <!--Meal options-->
 				<a href="#">Breakfast</a>
 				<a href="#">Lunch</a>
@@ -29,24 +48,15 @@
 				<a href="#">Snacks</a>
 			</div>
 		</li>
+		
 	<!-- Categories dropdown menu-->
-	<li class="dropdwn">
-			<a href="/Category_Search.html" class="dropbttn">Categories</a>
-			<div class="dropdwn-content"> <!-- Category options-->
-				<a href="#">Spicy</a>
-				<a href="#">Baking</a>
-				<a href="#">Mexican</a>
-				<a href="#">Vegetarian</a>
-				<a href="#">Pasta</a>
-				<a href="#">Rice</a>
-				<a href="#">One Pot</a>
-				<a href="#">Low Calorie</a>
-				<a href="#">Pies</a>
-				<a href="#">Cakes</a>
-			</div>
+	<li class="myTopnav" id="myTopnav">
+			<a href="/Category_Search.html">Categories</a>
+		
 		</li>
-	<li><a href="/Favourites.html">Favourites</a></li>
-	<li><a href="/Add_a_Recipe.html">Add</a></li>
+	<li class="myTopnav" id="myTopnav"><a href="/Favourites.html">Favourites</a></li>
+	<li class="myTopnav" id="myTopnav"><a href="/Add_a_Recipe.html">Add</a></li>
+	
 	<!--Search bar-->
 	<li>
 		<form action="Recipe_Search.html">
@@ -55,10 +65,14 @@
 		
 	
 	</form></li>
+
 </div>
 </ul>
-	
+
+
+<br>
 <h2>Search for a Recipe</h2>
+<br>
 <!-- Search for ingredients form-->
 <div>
 	<form action="/Ingredient_Search.html">
@@ -79,25 +93,34 @@
 <hr>
 
 <!-- Gallery-->
-<div class="gallery">
+<a href="Recipe_Result.html">
+	<div class="gallery">
 		<img src="static/pancakes.jpeg" alt="Pancakes">
-	<div class="desc">Gluten Free Pancakes</div>
-</div>
+		<div class="desc">Gluten Free Pancakes</div>
+	</div>
+</a>
 
-<div class="gallery">
+<a href="Recipe_Result.html">
+	<div class="gallery">
 		<img src="static/Cheesy-Cottage-Pie-Scoop-500x500.jpg" alt="Cottage Pie">
-	<div class="desc">Cottage Pie</div>
-</div>
+		<div class="desc">Cottage Pie</div>
+	</div>
+</a>
 
-<div class="gallery">
+<a href="Recipe_Result.html">
+	<div class="gallery">
 		<img src="static/d48f476f-ab97-4edf-8d5b-d617e5f261d0.jpg" alt="Brownies">
-	<div class="desc">Double Choc Brownies</div>
-</div>
+		<div class="desc">Double Choc Brownies</div>
+	</div>
+</a>
 
-<div class="gallery">
+<a href="Recipe_Result.html">
+	<div class="gallery">
 		<img src="static/creamy-carbonara-1.jpg" alt="Carbonara">
-	<div class="desc">Spaghetti Carbonara</div>
-</div>
+		<div class="desc">Spaghetti Carbonara</div>
+	</div>
+</a>
+
 </body>
 
 </html>

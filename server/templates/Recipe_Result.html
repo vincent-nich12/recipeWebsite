@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Recipe Home</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" type="text/css" href="static/recipestyle.css"> <!--My CSS StyleSheet-->
+
+</head>
+<body class="main_body">
+
+<!--Header -->
+<div class="header">
+	<h1>Recipes</h1>
+</div>
+ 
+<!-- Navigation bar-->
+<ul class="topnav">
+		<li class="myTopnav active"><a href="/">Home</a></li> <!--Clicking home takes you to the home page-->
+		
+		<!--Navigation icon when screen is small-->
+		<li class="myTopnav dropdwn" id="nav_icon">  
+			<a href="javascript:void(0)"
+			 class="dropbttn"> <i class="fa fa-bars"></i> </a>
+				<div class="nav_dropdown">
+					<a href="#">Meals</a>
+					<a href="Category_Search.html">Categories</a>
+					<a href="Favourites.html">Favourties</a>
+					<a href="Add_a_Recipe.html">Add</a>
+				</div>
+					</li>
+	
+	
+	
+	<!-- Meals dropdown menu-->
+	<li class="myTopnav dropdwn"  id="myTopnav">
+		<a href="javascript:void(0)"
+		 class="dropbttn">Meals</a>
+			<div class="dropdwn-content"> <!--Meal options-->
+				<a href="#">Breakfast</a>
+				<a href="#">Lunch</a>
+				<a href="#">Dinner</a>
+				<a href="#">Pudding</a>
+				<a href="#">Snacks</a>
+			</div>
+		</li>
+		
+	<!-- Categories dropdown menu-->
+	<li class="myTopnav" id="myTopnav">
+			<a href="/Category_Search.html">Categories</a>
+		
+		</li>
+	<li class="myTopnav" id="myTopnav"><a href="/Favourites.html">Favourites</a></li>
+	<li class="myTopnav" id="myTopnav"><a href="/Add_a_Recipe.html">Add</a></li>
+	
+	<!--Search bar-->
+	<li>
+		<form action="Recipe_Search.html">
+		<input type="text" id="search" name="recipesearch" placeholder="Search all recipes...">
+		<input type="submit" value="Search" id="search_button">
+		
+	
+	</form></li>
+
+</div>
+</ul>
+
+<br>
+<div style=height:350px>
+<img src="static/sausage_risotto.jpg" style="float:left; height:300px; width:400px; object-fit:cover;">
+<div style="position:relative; left:20px; width:300px; float:left">
+<h2>Sausage Risotto</h2>
+<p style=line-height:2>Cooking time: 40 minutes<br>
+	Skill level: Medium<br>
+	Servings: 4<br>
+	Categories: Rice, One-pot, Meat
+</div>
+</div>
+<div style="position:relative; float:left; width:400px; display:inline">
+<h3 style=clear:left>Ingredients</h3>
+<ul><li>450 g best quality pork sausages, about 6 in total </li>
+<li>50 g unsalted butter </li>
+<li>1 small onion, finely chopped </li>
+<li>2 cloves garlic, crushed </li>
+<li>350 g arborio risotto rice </li>
+<li>1.2 litres chicken stock </li>
+<li>150 g frozen peas, or petit pois </li>
+<li>6 tbsp parmesan, freshly grated, plus extra to garnish </li>
+<li>2 tbsp flat leaf parsley, roughly chopped </li>
+<li>black pepper </li>
+</ul>
+</div>
+<div style="position:relative; float:left; width:650px; display:inline;">
+<h3>Method</h3>
+<ol>
+<li>Pre heat the grill to medium. Arrange the sausages on a grill rack and grill for 10-15 minutes, depending on the thickness, turning every 2-3 minutes until cooked through and golden brown. Transfer to a plate and leave until cool enough to handle, then cut into chunky slices and set aside.</li>
+ 
+<li>Melt the butter in a large, shallow pan. Add the onion and garlic and cook gently for about 4-5 minutes until softened but not coloured, stirring occasionally. Increase the heat, stir in the rice and cook gently for 1 minute, stirring continuously, until the rice is opaque. </li>
+ 
+<li>Meanwhile, pour the stock into a separate pan and bring to a gentle simmer. Add a ladleful of stock to the rice mixture and allow to reduce, stirring until it is completely absorbed. Continue to add the simmering stock a ladleful at a time, stirring frequently. Allow each stock addition to be almost completely absorbed before adding the next ladleful.</li>
+ 
+<li>After about 20 minutes, when the rice is nearly cooked, tip the peas into the remaining stock and simmer for 2 minutes before adding to the risotto. When the risotto is ready it should be just tender but still have a little bite. Season to taste, then stir in the Parmesan and parsley until combined, then fold in the sausages. Season to taste and divide among warmed serving bowls or plates. Garnish with some Parmesan and serve immediately.</li>
+
+</ol>
+</div>

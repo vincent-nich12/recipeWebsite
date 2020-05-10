@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-<!DOCTYPE html>
 <html>
 <head>
 <title>Recipe Home</title>
@@ -7,20 +6,39 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
-  <link rel="stylesheet" type="text/css" href="recipestyle.css">
-</head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" type="text/css" href="static/recipestyle.css"> <!--My CSS StyleSheet-->
 
+</head>
+<body class="main_body">
 <!--Header -->
 <div class="header">
 	<h1>Recipes</h1>
 </div>
-
+ 
 <!-- Navigation bar-->
-<ul>
-	<li><a href="Recipe_Home.html">Home</a></li> <!--Clicking home takes you to the home page-->
+<ul class="topnav">
+		<li class="myTopnav"><a href="/">Home</a></li> <!--Clicking home takes you to the home page-->
+		
+		<!--Navigation icon when screen is small-->
+		<li class="myTopnav dropdwn" id="nav_icon">  
+			<a href="javascript:void(0)"
+			 class="dropbttn"> <i class="fa fa-bars"></i> </a>
+				<div class="nav_dropdown">
+					<a href="#">Meals</a>
+					<a href="Category_Search.html">Categories</a>
+					<a href="Favourites.html">Favourties</a>
+					<a href="Add_a_Recipe.html">Add</a>
+				</div>
+					</li>
+	
+	
+	
 	<!-- Meals dropdown menu-->
-	<li class="dropdwn">
-		<a href="javascript:void(0)" class="dropbttn">Meals</a>
+	<li class="myTopnav dropdwn"  id="myTopnav">
+		<a href="javascript:void(0)"
+		 class="dropbttn">Meals</a>
 			<div class="dropdwn-content"> <!--Meal options-->
 				<a href="#">Breakfast</a>
 				<a href="#">Lunch</a>
@@ -30,23 +48,12 @@
 			</div>
 		</li>
 	<!-- Categories dropdown menu-->
-	<li class="dropdwn">
-			<a href="Category_Search.html" class="dropbttn">Categories</a>
-			<div class="dropdwn-content"> <!-- Category options-->
-				<a href="#">Spicy</a>
-				<a href="#">Baking</a>
-				<a href="#">Mexican</a>
-				<a href="#">Vegetarian</a>
-				<a href="#">Pasta</a>
-				<a href="#">Rice</a>
-				<a href="#">One Pot</a>
-				<a href="#">Low Calorie</a>
-				<a href="#">Pies</a>
-				<a href="#">Cakes</a>
-			</div>
+	<li class="myTopnav" id="myTopnav">
+			<a href="/Category_Search.html">Categories</a>
+		
 		</li>
-	<li><a href="Favourites.html">Favourites</a></li>
-	<li><a href="Add_a_Recipe.html">Add</a></li>
+	<li class="myTopnav" id="myTopnav"><a href="/Favourites.html">Favourites</a></li>
+	<li class="myTopnav" id="myTopnav"><a href="/Add_a_Recipe.html">Add</a></li>
 	<!--Search bar-->
 	<li>
 		<form action="Recipe_Search.html">
@@ -55,9 +62,31 @@
 		
 	
 	</form></li>
+
 </div>
 </ul>
-<body>
+
+	<br><h2>Search Results: </h2> <br>
 	
-	<h2>Sorry! </h2>
-	<p>Searching is not available yet</p>
+	<a href="/Recipe_Result.html"><img src="static/sausage_risotto.jpg" alt="Sausage Risotto" id="search_result" style="float:left"></a>
+	<div id="search_result_text">
+		<h3> <a href="/Recipe_Result.html">Sausage Risotto</a></h3>
+		<p><b>Serves:</b> 4<br>
+		<b>Cooking time:</b> 40 mins <br>
+		<b>Skill level: </b>Medium<br>
+		<b>Ingredients:</b> Risotto rice, Sausages, Stock cube, Onions, Mushrooms, Peas </p>
+	</div>
+		<hr style=clear:left>
+
+	<a href="/Recipe_Result.html"><img src="static/Easy-mushroom-risotto.jpg" alt="Mushroom Risotto" id="search_result" style="float:left; clear:left"></a>
+		<div id="search_result_text">
+		<h3><a href=Recipe_Result.html>Mushroom Risotto</a></h3>
+		<p><b>Serves:</b> 4<br>
+			<b>Cooking time:</b> 35 mins<br>
+			<b>Skill level:</b> Easy<br>
+			<b>Ingredients:</b>Risotto rice, Mushrooms, Stock cube, Onions, Peas, Parmesan, White wine </p>
+	</div>
+	
+	
+</body>
+</html>

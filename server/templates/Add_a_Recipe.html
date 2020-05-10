@@ -6,20 +6,39 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
-  <link rel="stylesheet" type="text/css" href="static/recipestyle.css">
-</head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" type="text/css" href="static/recipestyle.css"> <!--My CSS StyleSheet-->
 
+</head>
+<body class="main_body">
 <!--Header -->
 <div class="header">
 	<h1>Recipes</h1>
 </div>
-
+ 
 <!-- Navigation bar-->
-<ul>
-	<li><a href="Recipe_Home.html">Home</a></li> <!--Clicking home takes you to the home page-->
+<ul class="topnav">
+		<li class="myTopnav"><a href="/">Home</a></li> <!--Clicking home takes you to the home page-->
+		
+		<!--Navigation icon when screen is small-->
+		<li class="myTopnav dropdwn" id="nav_icon">  
+			<a href="javascript:void(0)"
+			 class="dropbttn"> <i class="fa fa-bars"></i> </a>
+				<div class="nav_dropdown">
+					<a href="#">Meals</a>
+					<a href="Category_Search.html">Categories</a>
+					<a href="Favourites.html">Favourties</a>
+					<a href="Add_a_Recipe.html">Add</a>
+				</div>
+					</li>
+	
+	
+	
 	<!-- Meals dropdown menu-->
-	<li class="dropdwn">
-		<a href="javascript:void(0)" class="dropbttn">Meals</a>
+	<li class="myTopnav dropdwn"  id="myTopnav">
+		<a href="javascript:void(0)"
+		 class="dropbttn">Meals</a>
 			<div class="dropdwn-content"> <!--Meal options-->
 				<a href="#">Breakfast</a>
 				<a href="#">Lunch</a>
@@ -29,23 +48,12 @@
 			</div>
 		</li>
 	<!-- Categories dropdown menu-->
-	<li class="dropdwn">
-			<a href="Category_Search.html" class="dropbttn">Categories</a>
-			<div class="dropdwn-content"> <!-- Category options-->
-				<a href="#">Spicy</a>
-				<a href="#">Baking</a>
-				<a href="#">Mexican</a>
-				<a href="#">Vegetarian</a>
-				<a href="#">Pasta</a>
-				<a href="#">Rice</a>
-				<a href="#">One Pot</a>
-				<a href="#">Low Calorie</a>
-				<a href="#">Pies</a>
-				<a href="#">Cakes</a>
-			</div>
+	<li class="myTopnav" id="myTopnav">
+			<a href="/Category_Search.html">Categories</a>
+		
 		</li>
-	<li><a href="Favourites.html">Favourites</a></li>
-	<li><a href="Add_a_Recipe.html">Add</a></li>
+	<li class="myTopnav" id="myTopnav"><a href="/Favourites.html">Favourites</a></li>
+	<li class="myTopnav active" id="myTopnav"><a href="/Add_a_Recipe.html">Add</a></li>
 	<!--Search bar-->
 	<li>
 		<form action="Recipe_Search.html">
@@ -54,33 +62,88 @@
 		
 	
 	</form></li>
+
 </div>
 </ul>
 
-<body>
+<div id="main">
+<br>
 	<h2>Add a Recipe</h2>
 	
-	<div>
-		<form action="Added_Recipe.html" id="add_recipe"> 
-			<label for="recipe_name">Title</label>
-			<input type="text" name="ingsearch" placeholder="Title">
+		<form action="/Added_Recipe.html" id="add_recipe" method="post" enctype="multipart/form-data"> 
+			<!--Title of Recipe-->
+			<label for="recipe_name">Title</label>							
+			<input type="text" name="recipe_name" placeholder="Title">
 			
-			<label for="skill_level">Skill Level</label>
-			<input type="text" name="skill" placeholder="Skill level">
+			<!--Meal Type (Radio)-->
+			<label for="meal_type">Meal</label> <br>
+			<input type="radio" id="breakfast" name="meal" value="breakfast" checked>
+			<label for="breakfast">Breakfast</label><br>
+			<input type="radio" id="lunch" name="meal" value="lunch">
+			<label for="lunch">Lunch</label><br>
+			<input type="radio" id="dinner" name="meal" value="dinner">
+			<label for="dinner">Dinner</label><br>
+			<input type="radio" id="dessert" name="meal" value="dessert">
+			<label for="dessert">Dessert</label><br>
+			<input type="radio" id="snacks" name="meal" value="snacks">
+			<label for="snacks">Snacks</label><br>
 			
-			<label for="cooking_time">Cooking Time</label>
-			<input type="text" name="time" placeholder="Cooking Time">
+			<!--Skill Level (Radio)-->
+			<br><label for="skill_level">Skill Level</label><br>	
+			<input type="radio" id="easy" name="skill_level" value="easy" checked>
+			<label for="easy">Easy</label><br>
+			<input type="radio" id="medium" name="skill_level" value="medium">
+			<label for="medium">Medium</label><br>
+			<input type="radio" id="hard" name="skill_level" value="hard">
+			<label for="hard">Hard</label><br>
+			
+			<!-- Cooking Time-->
+			<br><label for="cooking_time">Cooking Time</label><br> 	
+			<input type="number" id="hours" name="hours" min="0" max="5">
+			<label for=hours>Hour(s)</label>
+			<input type="number" id="minutes" name="minutes" min="0" max="59">
+			<label for=minutes>Minutes</label><br>							
+		
+			<!--Categories-->
+			<br><label for="categories">Categories</label><br>
+			<input type="checkbox" id="Spicy" name="Spicy" value="Spicy">
+			<label for="spicy">Spicy</label>
+			<input type="checkbox" id="Baking" name="Baking" value="Baking">
+			<label for="Baking">Baking</label>
+			<input type="checkbox" id="Noodles" name="Noodles" value="Noodles">
+			<label for="Noodles">Noodles</label>
+			<input type="checkbox" id="Rice" name="Rice" value="Rice">
+			<label for="Rice">Rice</label>
+			<input type="checkbox" id="Pasta" name="Pasta" value="Pasta">
+			<label for="Pasta">Pasta</label> 
+			
+			<input type="checkbox" id="Pie" name="Pie" value="Pie">
+			<label for="Pie">Pie</label> 
+			<input type="checkbox" id="Pasta" name="Pasta" value="Pasta">
+			<label for="Pasta">Vegetarian</label> 
+			<input type="checkbox" id="Pasta" name="Pasta" value="Pasta">
+			<label for="Pasta">One Pot</label> 
+			<input type="checkbox" id="Pasta" name="Pasta" value="Pasta">
+			<label for="Pasta">Cake</label> 
+			<br>
 			
 			
-			<label for="ingredients" id="label">Ingredients </label>
+			 <!-- Ingredients list-->
+			<br><label for="ingredients" id="label" style=text-align:left>Ingredients </label><br>		
 			<textarea name="ingredients" id="add_ingredients" placeholder="List ingredients here"></textarea>
 			
-			<label for="method" id="label">Method</label>
+			<!-- Method explanation-->
+			<br><label for="method" id="label">Method</label> 		
 			<textarea name="Method" id="add_method" placeholder="Enter method here"></textarea>
+			
+				<!--Image upload-->
+			<br><label for="image" id="label">Image Upload</label>
+			<input type="file" name="upload">
 		
-			<input type="submit"
-			value="Add Recipe">
-		</form>
-	</div>
-	
+			<br><input type="submit"
+			value="Add">
+			
+		
+		</form>	
+</div>
 </body>
