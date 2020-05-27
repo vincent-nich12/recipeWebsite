@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        
+    </head>
+    
+    <body>
+        {% if error is none %}
+            <h2> Recipe Added Successfully! </h2>
+        {% else %}
+            <h2> Recipe Not Added Successfully </h2>
+            <h4> Error details: {{emsg}} </h4>
+        {% endif %}
+    </body>
+</html>

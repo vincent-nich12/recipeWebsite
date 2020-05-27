@@ -10,18 +10,6 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <link rel="stylesheet" type="text/css" href="static/recipestyle.css"> <!--My CSS StyleSheet-->
 
-<script>
-$(document).ready(function(){
-  $("#categorySearch").on("keyup", function() {
-    var value = $(this).val().toLowerCase();
-    $("#myTable tr").filter(function() {
-      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
-    });
-  });
-});
-</script>
-
-
 </head>
 <body class="main_body">
 <!--Header -->
@@ -60,12 +48,12 @@ $(document).ready(function(){
 			</div>
 		</li>
 	<!-- Categories dropdown menu-->
-	<li class="myTopnav active" id="myTopnav">
+	<li class="myTopnav" id="myTopnav">
 			<a href="/Category_Search.html">Categories</a>
 		
 		</li>
 	<li class="myTopnav" id="myTopnav"><a href="/Favourites.html">Favourites</a></li>
-	<li class="myTopnav" id="myTopnav"><a href="/Add_a_Recipe.html">Add</a></li>
+	<li class="myTopnav active" id="myTopnav"><a href="/Add_a_Recipe.html">Add</a></li>
 	<!--Search bar-->
 	<li>
 		<form action="Recipe_Search.html">
@@ -78,60 +66,92 @@ $(document).ready(function(){
 </div>
 </ul>
 
+<h2>Preview</h2>
 
-<br>
+<h3> Recipe Title: {{ recipeTitle }} </h3> <br>
+<h3> Meal Type: {{ mealString }} </h3> <br>
 
+<h3> Skill Level: {{skillLevelString}} </h3> <br>
 
-<div class="container mt-3" id="category_table" style="width:500px; alignment: left;">
-  <h2>Browse Recipes by Category</h2> 
-  <input class="form-control" id="categorySearch" type="text" placeholder="Search...">
-  <br>
-  <table class="table table-bordered">
+<h3> Hours: {{hours}} </h3> <br>
 
-    <tbody id="myTable">
-    <tr class="table_row" onclick="window.location='/Recipe_Search.html';"> 
-      <td>Baking</td>
-     </tr>
-  <tr class="table_row" onclick="window.location='/Recipe_Search.html';">
-		  <td>Cake</td>
- 	 </tr></a>
-	  <tr class="table_row" onclick="window.location='/Recipe_Search.html';">
-		  <td>Curry</td>
-	  </tr>
-	  <tr class="table_row" onclick="window.location='/Recipe_Search.html';">
-		  <td>Fish</td>
-	  </tr>
-	  <tr class="table_row" onclick="window.location='/Recipe_Search.html';">
-		  <td>Gluten Free</td>
-	  </tr>
- 	 <tr class="table_row" onclick="window.location='/Recipe_Search.html';">
-	  <td>Meat</td>
-  </tr>
-  <tr class="table_row" onclick="window.location='/Recipe_Search.html';">
-	  <td>Noodles</td>
-  </tr>
-  <tr class="table_row" onclick="window.location='/Recipe_Search.html';">
-	  <td>One-pot</td>
-  </tr>
-     <tr class="table_row" onclick="window.location='/Recipe_Search.html';">
-       <td>Pasta</td>
-     </tr>
-   
-     <tr class="table_row" onclick="window.location='/Recipe_Search.html';">
-       <td>Rice</td>
-     </tr>
-      <tr class="table_row" onclick="window.location='/Recipe_Search.html';">
-        <td>Spicy</td>
-      </tr>
-	  <tr class="table_row" onclick="window.location='/Recipe_Search.html';">
-		  <td>Vegetarian</td>
-	  </tr>
-	  
-    </tbody>
-  </table>
+<h3> Minutes: {{minutes}} </h3><br>
 
-</div>
+<h3> Number of servings: {{servings}} </h3> <br>
 
+<h3> Identified Categories: </h3> <br>
+
+<ul>
+    <!-- If pasta display it -->
+    {% if categories[0] %}
+    <li> Pasta </li>
+    {% endif %}
+    
+    <!-- If Spicy display it -->
+    {% if categories[1] %}
+    <li> Spicy </li>
+    {% endif %}
+    
+    {% if categories[2] %}
+    <li> Rice </li>
+    {% endif %}
+    
+    {% if categories[3] %}
+    <li> Noodles </li>
+    {% endif %}
+    
+    {% if categories[4] %}
+    <li> Baked </li>
+    {% endif %}
+    
+    {% if categories[5] %}
+    <li> Pie </li>
+    {% endif %}
+    
+    {% if categories[6] %}
+    <li> Vegetarian </li>
+    {% endif %}
+    
+    {% if categories[7] %}
+    <li> One Pot </li>
+    {% endif %}
+    
+    {% if categories[8] %}
+    <li> Cake </li>
+    {% endif %}
+</ul>
+
+<h3> List of Ingredients:</h3>
+<p>
+{% for ing in ingredients %}
+     {{ ing }} <br>
+{% endfor %}
+</p>
+
+<h3> Method: </h3>
+<p>
+{% for m in method %}
+     {{ m }} <br>
+{% endfor %}
+</p>
+
+<h3> Notes: (Cat you'll need to figure a way of making text wrap onto next line)</h3>
+<p>
+{% for n in notes %}
+     {{ n }} <br>
+{% endfor %}
+</p>
+
+<h3> Uploaded Image: </h3>
+{% if file_URL is none %}
+    <img src="static/knifeAndFork.jpg" alt="img" />
+{% else %}
+    <img src="{{ file_URL }}" alt="img" />
+{% endif %}
+
+<form action="Submitted_Recipe.html" method="post">
+    <input type="submit" value="Submit" id="submit_button">
+</form>
 
 
 </body>

@@ -70,31 +70,31 @@
 <br>
 	<h2>Add a Recipe</h2>
 	
-		<form action="/Added_Recipe.html" id="add_recipe" method="post" enctype="multipart/form-data"> 
+		<form action="/Preview_Recipe.html" id="add_recipe" method="post" enctype="multipart/form-data"> 
 			<!--Title of Recipe-->
 			<label for="recipe_name">Title</label>							
 			<input type="text" name="recipe_name" placeholder="Title">
 			
 			<!--Meal Type (Radio)-->
 			<label for="meal_type">Meal</label> <br>
-			<input type="radio" id="breakfast" name="meal" value="breakfast" checked>
+			<input type="radio" id="breakfast" name="meal" value="Breakfast" checked>
 			<label for="breakfast">Breakfast</label><br>
-			<input type="radio" id="lunch" name="meal" value="lunch">
+			<input type="radio" id="lunch" name="meal" value="Lunch">
 			<label for="lunch">Lunch</label><br>
-			<input type="radio" id="dinner" name="meal" value="dinner">
+			<input type="radio" id="dinner" name="meal" value="Dinner">
 			<label for="dinner">Dinner</label><br>
-			<input type="radio" id="dessert" name="meal" value="dessert">
+			<input type="radio" id="dessert" name="meal" value="Dessert">
 			<label for="dessert">Dessert</label><br>
-			<input type="radio" id="snacks" name="meal" value="snacks">
+			<input type="radio" id="snacks" name="meal" value="Snacks">
 			<label for="snacks">Snacks</label><br>
 			
 			<!--Skill Level (Radio)-->
 			<br><label for="skill_level">Skill Level</label><br>	
-			<input type="radio" id="easy" name="skill_level" value="easy" checked>
+			<input type="radio" id="easy" name="skill_level" value="Easy" checked>
 			<label for="easy">Easy</label><br>
-			<input type="radio" id="medium" name="skill_level" value="medium">
+			<input type="radio" id="medium" name="skill_level" value="Medium">
 			<label for="medium">Medium</label><br>
-			<input type="radio" id="hard" name="skill_level" value="hard">
+			<input type="radio" id="hard" name="skill_level" value="Hard">
 			<label for="hard">Hard</label><br>
 			
 			<!-- Cooking Time-->
@@ -102,7 +102,12 @@
 			<input type="number" id="hours" name="hours" min="0" max="5">
 			<label for=hours>Hour(s)</label>
 			<input type="number" id="minutes" name="minutes" min="0" max="59">
-			<label for=minutes>Minutes</label><br>							
+			<label for=minutes>Minutes</label><br>	
+			
+			<!--Servings-->
+			<br><label for="servings">Servings</label><br>
+			<input type="number" id="servings" name="servings" min="1" max="15">
+			<br>						
 		
 			<!--Categories-->
 			<br><label for="categories">Categories</label><br>
@@ -119,12 +124,12 @@
 			
 			<input type="checkbox" id="Pie" name="Pie" value="Pie">
 			<label for="Pie">Pie</label> 
-			<input type="checkbox" id="Pasta" name="Pasta" value="Pasta">
-			<label for="Pasta">Vegetarian</label> 
-			<input type="checkbox" id="Pasta" name="Pasta" value="Pasta">
-			<label for="Pasta">One Pot</label> 
-			<input type="checkbox" id="Pasta" name="Pasta" value="Pasta">
-			<label for="Pasta">Cake</label> 
+			<input type="checkbox" id="Vegetarian" name="Vegetarian" value="Vegetarian">
+			<label for="Vegetarian">Vegetarian</label> 
+			<input type="checkbox" id="One Pot" name="One Pot" value="One Pot">
+			<label for="One Pot">One Pot</label> 
+			<input type="checkbox" id="Cake" name="Cake" value="Cake">
+			<label for="Cake">Cake</label> 
 			<br>
 			
 			
@@ -136,12 +141,16 @@
 			<br><label for="method" id="label">Method</label> 		
 			<textarea name="Method" id="add_method" placeholder="Enter method here"></textarea>
 			
+			<!-- Notes-->
+			<br><label for="notes" id="label">Notes</label>
+			<textarea name="notes" id="notes" placeholder="Enter notes here"></textarea>
+			
 				<!--Image upload-->
-			<br><label for="image" id="label">Image Upload</label>
+			<br><label for="image" id="label">Image Upload</label> <br>
 			<input type="file" name="upload">
 		
 			<br><input type="submit"
-			value="Add">
+			value="Preview">
 			
 		
 		</form>	

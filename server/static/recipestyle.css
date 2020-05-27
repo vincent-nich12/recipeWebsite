@@ -83,6 +83,12 @@ li a:hover, li.active, .myTopnav.dropdwn:hover .dropbttn .dropdwn {
     text-align: left;
   }
 }
+@media screen and (max-width: 1000px) {
+	.main_body{
+		margin-left:0;
+		margin-right:0;
+	}
+}
 
 /*Dropdown menus*/
 li.dropdwn{
@@ -276,7 +282,7 @@ div.desc{
 	float:left;
 }
 
-.table_row:hover;{
+.table_row:hover{
 	cursor:pointer;
-	background-color:gray;
+	background-color:#d6d6d6;
 }

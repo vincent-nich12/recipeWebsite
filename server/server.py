@@ -5,11 +5,12 @@ import psycopg2
 import traceback
 import os
 from werkzeug.utils import secure_filename
+import pickle
 
 #################################################################
 
 ####################### Prerequisites ###########################
-UPLOAD_FOLDER = 'uploads/'
+UPLOAD_FOLDER = 'static/'
 ALLOWED_EXTENSIONS = ['.gif','.png','.jpg','.jpeg']
 
 app = Flask(__name__)
@@ -40,40 +41,68 @@ def searchCategory():
 	return render_template('Category_Search.html')
 
 #Page Rendered when a recipe is added to the database (or attempted)
-@app.route('/Added_Recipe.html', methods=['POST'])
-def submitRecipe():
+@app.route('/Preview_Recipe.html', methods=['POST'])
+def previewRecipe():
     try:
         conn = None
-		
-		#Recipe title
+
+        #Recipe title
         recipeTitle = request.form['recipe_name']
-		#Breakfast, Lunch, Dinner, Dessert or Snacks
+        #Breakfast, Lunch, Dinner, Dessert or Snacks
         mealString = request.form['meal']
-		#Easy, Medium or Hard
+        #Easy, Medium or Hard
         skillLevelString = request.form['skill_level']
+        #Number of servings
+        servings = request.form['servings']
         #Time taken to complete the recipe
         hours = request.form['hours']
         minutes = request.form['minutes']
-		
+
         #CheckBoxes for categories
-        pasta = request.form.get('Pasta')
-        spicy = request.form.get('Spicy')
-        rice = request.form.get('Rice')
-        noodles = request.form.get('Noodles')
-        baked = request.form.get('Baking')
-        pie = request.form.get('Pie')
-        vegetarian = request.form.get('Vegetarian')
-        one_pot = request.form.get('One Pot')
-        cake = request.form.get('Cake')
+        pasta = (request.form.get('Pasta') is not None)
+        spicy = (request.form.get('Spicy') is not None)
+        rice = (request.form.get('Rice') is not None)
+        noodles = (request.form.get('Noodles') is not None)
+        baked = (request.form.get('Baking') is not None)
+        pie = (request.form.get('Pie') is not None)
+        vegetarian = (request.form.get('Vegetarian') is not None)
+        one_pot = (request.form.get('One Pot') is not None)
+        cake = (request.form.get('Cake') is not None)
         
-		#Ingredients textbox 
+        categories = [pasta,spicy,rice,noodles,baked,pie,vegetarian,one_pot,cake]
+
+        #Ingredients textbox 
         ingredients = request.form['ingredients']
-		#Method textbox
+        #Split by new line.
+        ingredients = ingredients.replace(',','\n')
+        ingredients = ingredients.split('\n')
+        #Remove \r characters
+        for x in ingredients:
+            if x == '\r':
+                ingredients.remove(x)
+                
+        #Method textbox
         method = request.form['Method']
-		
+        #Split by new line.
+        method = method.replace(',','\n')
+        method = method.split('\n')
+        #Remove \r characters
+        for x in method:
+            if x == '\r':
+                method.remove(x)
+                
+        #Notes textbox
+        notes = request.form['notes']
+        #Split by new line.
+        notes = notes.split('\n')
+        #Remove \r characters
+        for x in notes:
+            if x == '\r':
+                notes.remove(x)
+
         conn = getConn()
         cur = conn.cursor()
-		
+
         #Generate the IDs for the new recipe
         ##########################################################
         cur.execute('SET search_path to public')
@@ -83,27 +112,77 @@ def submitRecipe():
         numRecords = 0
         numRecords = len(rows)
             
-        #raise Exception('Message')
         newID = numRecords + 1
         ##########################################################
         #Image upload handler
-        file_URL = upload_file(request,newID)	
+        file_URL = upload_file(request,newID)
 
-        #cur.execute('INSERT INTO Meal_types (Meal_type_ID, Pasta, Spicy, Rice,' \
-        #'Noodles, Baked, Pie, Vegetarian, One_pot, Cake) VALUES(%s, %s, %s, %s, %s,%s, %s, %s, %s, %s)', \
-        #[])
+        #Save the details temporarly into a pickle file
+        with open('newItems.pkl', 'wb') as f:
+            pickle.dump([newID,recipeTitle,mealString,skillLevelString,servings,hours,minutes,categories,ingredients,method,notes,file_URL],f)
 
-        conn.commit()
-
-        return render_template('Added_Recipe.html', msg='Recipe Added Successfully!')
+        return render_template('Preview_Recipe.html',recipeTitle=recipeTitle,mealString=mealString,skillLevelString=skillLevelString,servings=servings,hours=hours,minutes=minutes,categories=categories,ingredients=ingredients,method=method,notes=notes,file_URL=file_URL)
 		
     except Exception as e:
         #print(e)
         traceback.print_exc()
-        return render_template('Added_Recipe.html', error='Recipe Not Added Successfully!', emsg=e)
+        return render_template('Added_Recipe_Error.html', error='Error!', emsg=e)
     finally:
         if conn:
             conn.close()
+
+#Function called by the preview page to submit the recipes 
+@app.route('/Submitted_Recipe.html', methods=['POST'])
+def submitRecipe():
+    try:
+        #Submit everything to the database
+        conn = None
+        
+        conn = getConn()
+        cur = conn.cursor()
+        
+        #load previous variables
+        file = open('newItems.pkl','rb')
+        data = pickle.load(file)
+        file.close()
+        
+        #Order of variables in data.
+        #[newID,recipeTitle,mealString,skillLevelString,servings,hours,minutes,
+        #categories,ingredients,method,notes,file_URL]
+        cur.execute('SET search_path to public')
+        
+        mealCats = [data[0]] #add the ID
+        #Add all the categories (7 because thats the index of the categories)
+        for x in data[7]:
+            mealCats.append(x)
+            
+        #Initialise list
+        recipeToAdd = [0]*len(data)
+        recipeToAdd[0] = data[0] #add a new ID
+        recipeToAdd[7] = data[0] #add the category ID
+        
+        for x in range(0,len(data)):
+            if x == 7 or x == 0:
+                continue
+            recipeToAdd[x] = data[x]
+        
+        
+        #Add the category type
+        cur.execute('INSERT INTO meal_cats VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)',mealCats)
+        #Add the recipe
+        cur.execute('INSERT INTO recipes VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)',recipeToAdd)
+               
+        conn.commit()
+        
+        return render_template('Submitted_Recipe.html',error=None)
+    except Exception as e:
+        traceback.print_exc()
+        return render_template('Submitted_Recipe.html', error='Error!', emsg=e)
+    finally:
+        if conn:
+            conn.close()
+    
+	
 
 #Favourites Page
 @app.route('/Favourites.html')
@@ -157,6 +236,7 @@ def upload_file(request,ID):
         if file and (file_extension.lower() in ALLOWED_EXTENSIONS):
             filename = str(ID) + file_extension.lower()
             file.save(os.path.join(app.config['UPLOAD_FOLDER'],filename))
+            return os.path.join(app.config['UPLOAD_FOLDER'],filename)
         else:
             errorStr = ''
             for i in range(len(ALLOWED_EXTENSIONS)):
