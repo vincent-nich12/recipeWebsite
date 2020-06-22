@@ -1,15 +1,159 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        
-    </head>
+<head>
+<title>Recipe Submitted</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" type="text/css" href="static/recipestyle.css"> <!--My CSS StyleSheet-->
+
+</head>
+<body class="main_body">
+<!--Header -->
+<div class="header">
+	<h1>Recipes</h1>
+</div>
+ 
+<!-- Navigation bar-->
+<ul class="topnav">
+		<li class="myTopnav"><a href="/">Home</a></li> <!--Clicking home takes you to the home page-->
+		
+		<!--Navigation icon when screen is small-->
+		<li class="myTopnav dropdwn" id="nav_icon">  
+			<a href="javascript:void(0)"
+			 class="dropbttn"> <i class="fa fa-bars"></i> </a>
+				<div class="nav_dropdown">
+					<a href="#">Meals</a>
+					<a href="Category_Search.html">Categories</a>
+					<a href="Favourites.html">Favourites</a>
+					<a href="Add_a_Recipe.html">Add</a>
+				</div>
+					</li>
+	
+	
+	
+	<!-- Meals dropdown menu-->
+	<li class="myTopnav dropdwn"  id="myTopnav">
+		<a href="javascript:void(0)"
+		 class="dropbttn">Meals</a>
+			<div class="dropdwn-content"> <!--Meal options-->
+				<a href="#">Breakfast</a>
+				<a href="#">Lunch</a>
+				<a href="#">Dinner</a>
+				<a href="#">Pudding</a>
+				<a href="#">Snacks</a>
+			</div>
+		</li>
+	<!-- Categories dropdown menu-->
+	<li class="myTopnav" id="myTopnav">
+			<a href="/Category_Search.html">Categories</a>
+		
+		</li>
+	<li class="myTopnav" id="myTopnav"><a href="/Favourites.html">Favourites</a></li>
+	<li class="myTopnav active" id="myTopnav"><a href="/Add_a_Recipe.html">Add</a></li>
+	<!--Search bar-->
+	<li>
+		<form action="Recipe_Search.html">
+		<input type="text" id="search" name="recipesearch" placeholder="Search all recipes...">
+		<input type="submit" value="Search" id="search_button">
+		
+	
+	</form></li>
+
+</div>
+</ul>
+	{% if error is none %}
+	<div style="background-color:green;">
+		<h2 style="text-align:center; color:white;"> Recipe Added Successfully! </h2>
+	</div>
+	<div style="height:auto; min-height:350px; background-color:#f0dcd1;">
+		{% if file_URL is none %}
+		    <img src="static/knifeAndFork.jpg" alt="img" style="float:left; height:300px; width:400px; margin:10px; object-fit:cover;">
+		{% else %}
+		    <img src="{{ file_URL }}" alt="img" style="float:left; height:300px; width:400px; margin:20px; object-fit:cover;">
+		{% endif %}
+			<h2 class="recipe_info" style="padding-left:425px;">{{ recipeTitle }} </h2> <!--Recipe Title-->
+			<p class="recipe_info" style="line-height:2; padding-left:450px;">
+				Meal Type: {{ mealString }} <br>
+				Cooking time: {{hours}} hrs {{minutes}} mins <br>
+				Skill Level: {{skillLevelString}} <br>
+				Servings: {{servings}} <br>
+				Categories:
+					<ul class="recipe_info category_list">
+					    <!-- If pasta display it -->
+					    {% if categories[0] %}
+					    <li> Pasta </li>
+					    {% endif %}
     
-    <body>
-        {% if error is none %}
-            <h2> Recipe Added Successfully! </h2>
+					    <!-- If Spicy display it -->
+					    {% if categories[1] %}
+					    <li> Spicy </li>
+					    {% endif %}
+    
+					    {% if categories[2] %}
+					    <li> Rice </li>
+					    {% endif %}
+    
+					    {% if categories[3] %}
+					    <li> Noodles </li>
+					    {% endif %}
+    
+					    {% if categories[4] %}
+					    <li> Baked </li>
+					    {% endif %}
+    
+					    {% if categories[5] %}
+					    <li> Pie </li>
+					    {% endif %}
+    
+					    {% if categories[6] %}
+					    <li> Vegetarian </li>
+					    {% endif %}
+    
+					    {% if categories[7] %}
+					    <li> One Pot </li>
+					    {% endif %}
+    
+					    {% if categories[8] %}
+					    <li> Cake </li>
+					    {% endif %}
+					</ul>
+			</p>
+	</div>
+	<div style="position:relative; float:left; width:400px; display:inline">
+	<h3 style=clear:left>Ingredients</h3>
+		<p>
+			{% for ing in ingredients %}
+	   	 	 	{{ ing }} <br>
+		  {% endfor %}
+		</p>
+	</div>
+	<div style="position:relative; float:left; width:650px; display:inline;">
+	<h3> Method: </h3>
+	<p>
+	{% for m in method %}
+	     {{ m }} <br>
+	{% endfor %}
+	</p>
+	</div>
+
+	<h3 style="clear:left"> Notes:</h3>
+	<p>
+	{% for n in notes %}
+	     {{ n }} <br>
+	{% endfor %}
+	</p>
+	
+	
+	
+	
         {% else %}
             <h2> Recipe Not Added Successfully </h2>
             <h4> Error details: {{emsg}} </h4>
         {% endif %}
-    </body>
+		
+</body>
 </html>

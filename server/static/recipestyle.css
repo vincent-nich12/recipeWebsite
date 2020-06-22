@@ -9,6 +9,14 @@ html{
 	margin-right:10%;
 }
 
+/*Removing the margins on the page when the page is less than 1000px so it is not too narrow*/
+@media screen and (max-width: 1000px) {
+	.main_body{
+		margin-left:0;
+		margin-right:0;
+	}
+}
+
 /*Heading 1 font - The writing in the header*/
 h1 {
 	text-align: center;
@@ -23,128 +31,180 @@ h1 {
 	padding: 20px;
 }
 
+/*Formatting for divs*/
+div{
+	border-radius: 5px;
+	background-color: white;
+	padding: 10px;
+}
+
 /* Navigation bar*/
 
-/*List*/
-.topnav{ /*The whole navigation bar - i.e. the background, padding, etc.*/
-	list-style-type: none;
-	margin: 0;
-	padding: 0;
-	overflow:hidden;
-	background-color:#a83122; /*Red*/
-}
-
-.myTopnav { /*The list in the navigation bar*/
-	float: left;	
-}
-
-/*Links in a list - navigation bar*/
-li a, .dropbttn { /*li a: The list of links in the navigation bar, dropbttn: the links which are dropdown buttons*/
-  display: inline-block;
-  color: white;
-  text-align: center;
-  padding: 14px 16px;
-  text-decoration: none;
-  border-right: 1px solid white;
-}
-
-/*Hovering over nav buttons changes colour*/
-li a:hover, li.active, .myTopnav.dropdwn:hover .dropbttn .dropdwn {
-	background-color: #5e0707;
-	color:white;
-	text-decoration:none;
-}
-
-/*Resizing*/
-
-/*The "icon" part of "topnav" shouldn't be displayed by default*/
-#nav_icon{ 
-  display: none;
-}
-
-/*When screen size is less than 1000px wide, only display the Home button and the navigation icon*/
-@media screen and (max-width: 1000px) {
-  .myTopnav:not(:first-child) {display: none;}
-  #nav_icon {
-    float: left;
-    display: block;
-  }
-}
-@media screen and (max-width: 1000px) {
-  .myTopnav.responsive {position: relative;}
-  .myTopnav.responsive a.icon {
-    position: absolute;
-    right: 0;
-    top: 0;
-  }
-  .myTopnav.responsive a {
-    float: none;
-    display: block;
-    text-align: left;
-  }
-}
-@media screen and (max-width: 1000px) {
-	.main_body{
-		margin-left:0;
-		margin-right:0;
+	/*List*/
+	.topnav{ /*The whole navigation bar - i.e. the background, padding, etc.*/
+		list-style-type: none;
+		margin: 0;
+		padding: 0;
+		overflow:hidden;
+		background-color:#a83122; /*Red*/
 	}
-}
 
-/*Dropdown menus*/
-li.dropdwn{
-	display:inline-block;
-}
+	.myTopnav { /*The list in the navigation bar*/
+		float: left;	
+	}
 
-/*Style of the dropdown menus*/
-.dropdwn-content{
-	display:none;
-	position:absolute;
-	background-color:#f9f9f9;
-    min-width: 160px;
-	box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-	z-index: 1;
-}
+	/*Links in a list - navigation bar*/
+	li a, .dropbttn { /*li a: The list of links in the navigation bar, dropbttn: the links which are dropdown buttons*/
+		display: inline-block;
+		color: white;
+		text-align: center;
+		padding: 14px 16px;
+		text-decoration: none;
+		border-right: 1px solid white;
+	}
 
-.dropdwn-content a{
-	color:black;
-	padding: 12px 16px;
-	text-decoration:none;
-	display:block;
-	text-align:left;
-}
+	/*Hovering over nav buttons changes colour*/
+	li a:hover, li.active, .myTopnav.dropdwn:hover .dropbttn .dropdwn {
+		background-color: #5e0707;
+		color:white;
+		text-decoration:none;
+	}
 
-/*Hover colour*/
-.dropdwn-content a:hover{
-	background-color:#f1f1f1}
-	
-.nav_dropdown{
-	display:none;
-	position:absolute;
-	background-color:#a83122;
-    min-width: 160px;
-	box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-	z-index: 1;
+	/*Resizing the page alters the navbar*/
+
+		/*The "icon" part of "topnav" shouldn't be displayed by default*/
+		#nav_icon{ 
+  		  display: none;
+	  }
+
+	  /*When screen size is less than 1000px wide, only display the Home button and the navigation icon*/
+	  @media screen and (max-width: 1000px) {
+		  .myTopnav:not(:first-child) {display: none;}
+		  #nav_icon {
+			  float: left;
+			  display: block;
+		  }
+	  }
+	  
+	  /*Something to do with the navbar*/
+	  @media screen and (max-width: 1000px) {
+  		.myTopnav.responsive {position: relative;}
+  	  	.myTopnav.responsive a.icon {
+    		position: absolute;
+    		right: 0;
+    		top: 0;
+  	  }
+	  
+	  /*Formating of the navbar buttons*/
+	  .myTopnav.responsive a {
+		  float: none;
+		  display: block;
+		  text-align: left;
+		  }
+	  }
+	  
+	  /*Hover colour*/
+	  .dropdwn-content a:hover{
+		  background-color:#f1f1f1}
+	  
+	  /*Dropdown menus*/
+	  li.dropdwn{
+		  display:inline-block;
+	  }
+	  
+	  	/*Style of the dropdown menus*/
+	  	.dropdwn-content{
+		  	display:none;
+		  	position:absolute;
+		  	background-color:#f9f9f9;
+		  	min-width: 160px;
+		 	 box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+		  	z-index: 1;
+		  	}
+		  
+		.dropdwn-content a{
+			color:black;
+			padding: 12px 16px;
+			text-decoration:none;
+			display:block;
+			text-align:left;
+		}
+		/*The dropdown menu when the screen is small*/
+	.nav_dropdown{
+		display:none;
+		position:absolute;
+		background-color:#a83122;
+		min-width: 160px;
+		box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+		z-index: 1;
+		}
+		
+	.nav_dropdown a{
+		float:left;
+		padding: 12px 16px;
+		text-decoration:none;
+		display:block;
+		color:white;
+		text-align:left;
 	}
 	
-.nav_dropdown a{
-	color:black;
-	padding: 12px 16px;
-	text-decoration:none;
-	display:block;
-	color:white;
-	text-align:left;
+	.nav_dropdown a:last-child{
+		border-right:none;
+	}
+	
+
+	.nav_dropdown a:hover{
+		background-color:#5e0707}
+		
+	.dropdwn:hover .dropdwn-content{
+		display: block;
+		}
+	
+	.dropdwn:hover .nav_dropdown{
+		display:block;
+	}
+	
+	/*Search recipe bar*/
+	#search {
+		position:relative;
+		height:30px;
+		width:200px;
+		float:right;
+		right:150px;
+	}
+
+	/*Search recipe button*/
+	#search_button {
+		position:relative;
+		padding-right:15%;
+		height:30px;
+		padding: 0 0;
+		float:right;
+		left:150px;
+	}
+
+/* Picture gallery on home page*/
+
+div.gallery{
+	margin:5px;
+	border:1px solid #ccc;
+	float:left;
+	}
+
+div.gallery:hover {
+	border: 1px solid #777;
 }
 
 
-.nav_dropdown a:hover{
-	background-color:#5e0707}
-
-.dropdwn:hover .dropdwn-content{
-  display: block;
+div.gallery img{
+	width:200px;
+	height:200px;
+	object-fit:cover;
 }
 
-.dropdwn:hover .nav_dropdown{
-	display:block;
+div.desc{
+	padding:15px;
+	text-align:center;
 }
 
 /*Forms*/
@@ -160,24 +220,10 @@ input[type=text], #add_ingredients, #add_method, select{
 	float:none;
 }
 
-/*Search recipe bar*/
-#search {
-	position:relative;
-	height:30px;
-	width:200px;
-	float:right;
-	right:150px;
-}
-
-/*Search recipe button*/
-#search_button {
-	position:relative;
-	padding-right:15%;
-	height:30px;
-	padding: 0 0;
-	float:right;
-	left:150px;
-}
+/*Form label formatting*/
+	#label{
+		position: relative;
+	}
 
 input[type=submit] {
 	width:100px;
@@ -202,61 +248,27 @@ input[type=submit]:hover {
 	background-color:white;
 }
 
-#main{
-	background-color:white;
-	padding-right: 15%;
-	padding-left: 15%;
-}
+	#main{
+		background-color:white;
+		padding-right: 15%;
+		padding-left: 15%;
+	}
 
-/*Formatting for ingredient and method boxes*/
-#add_ingredients{ /*Add ingredients text area*/
-	min-width:400px;
-	max-width:600px;
-	min-height:200px;
-	max-height:400px;
-}
+	/*Formatting for ingredient and method boxes*/
+	#add_ingredients{ /*Add ingredients text area*/
+		min-width:400px;
+		max-width:600px;
+		min-height:200px;
+		max-height:400px;
+	}
 
-#add_method{ /*Add ingredients text area*/
-	width: 600px;
-	min-width: 400px;
-	max-width: 900px;
-	min-height: 200px;
-	max-height:600px;
-}
-
-#label{
-	position: relative;
-}
-
-div{
-	border-radius: 5px;
-	background-color: white;
-	padding: 10px;
-}
-
-/* Picture gallery */
-
-div.gallery{
-	margin:5px;
-	border:1px solid #ccc;
-	float:left;
-}
-
-div.gallery:hover {
-  border: 1px solid #777;
-}
-
-
-div.gallery img{
-	width:200px;
-	height:200px;
-	object-fit:cover;
-}
-
-div.desc{
-	padding:15px;
-	text-align:center;
-}
+	#add_method{ /*Add ingredients text area*/
+		width: 600px;
+		min-width: 400px;
+		max-width: 900px;
+		min-height: 200px;
+		max-height:600px;
+	}
 
 /*Filterable table of category*/
 #category_table{
@@ -266,6 +278,15 @@ div.desc{
 /*The input of the categories table search*/
 #categorySearch{
 	color: black;
+}
+
+.categories{
+	float:left;
+}
+
+.table_row:hover{
+	cursor:pointer;
+	background-color:#d6d6d6;
 }
 
 #search_result{ /*Images displayed on search results*/
@@ -278,11 +299,18 @@ div.desc{
 	padding-right:100px;
 }
 
-.categories{
-	float:left;
+
+
+
+.category_list{
+	margin-left:450px;
 }
 
-.table_row:hover{
-	cursor:pointer;
-	background-color:#d6d6d6;
+/*Formatting the preview recipe page when on a small screen*/
+
+@media screen and (max-width: 700px) {
+	.recipe_info{
+		clear:left;
+		padding:0px !important;
+	}
 }

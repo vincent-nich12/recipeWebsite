@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Recipe Home</title>
+<title>Preview Recipe</title>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
@@ -28,7 +28,7 @@
 				<div class="nav_dropdown">
 					<a href="#">Meals</a>
 					<a href="Category_Search.html">Categories</a>
-					<a href="Favourites.html">Favourties</a>
+					<a href="Favourites.html">Favourites</a>
 					<a href="Add_a_Recipe.html">Add</a>
 				</div>
 					</li>
@@ -67,87 +67,86 @@
 </ul>
 
 <h2>Preview</h2>
-
-<h3> Recipe Title: {{ recipeTitle }} </h3> <br>
-<h3> Meal Type: {{ mealString }} </h3> <br>
-
-<h3> Skill Level: {{skillLevelString}} </h3> <br>
-
-<h3> Hours: {{hours}} </h3> <br>
-
-<h3> Minutes: {{minutes}} </h3><br>
-
-<h3> Number of servings: {{servings}} </h3> <br>
-
-<h3> Identified Categories: </h3> <br>
-
-<ul>
-    <!-- If pasta display it -->
-    {% if categories[0] %}
-    <li> Pasta </li>
-    {% endif %}
+<br>
+<div style="height:auto; min-height:350px; background-color:#f0dcd1;">
+	{% if file_URL is none %}
+	    <img src="static/knifeAndFork.jpg" alt="img" style="float:left; height:300px; width:400px; margin:10px; object-fit:cover;">
+	{% else %}
+	    <img src="{{ file_URL }}" alt="img" style="float:left; height:300px; width:400px; margin:20px; object-fit:cover;">
+	{% endif %}
+		<h2 class="recipe_info" style="padding-left:425px;">{{ recipeTitle }} </h2> <!--Recipe Title-->
+		<p class="recipe_info" style="line-height:2; padding-left:450px;">
+			Meal Type: {{ mealString }} <br>
+			Cooking time: {{hours}} hrs {{minutes}} mins <br>
+			Skill Level: {{skillLevelString}} <br>
+			Servings: {{servings}} <br>
+			Categories:
+				<ul class="recipe_info category_list">
+				    <!-- If pasta display it -->
+				    {% if categories[0] %}
+				    <li> Pasta </li>
+				    {% endif %}
     
-    <!-- If Spicy display it -->
-    {% if categories[1] %}
-    <li> Spicy </li>
-    {% endif %}
+				    <!-- If Spicy display it -->
+				    {% if categories[1] %}
+				    <li> Spicy </li>
+				    {% endif %}
     
-    {% if categories[2] %}
-    <li> Rice </li>
-    {% endif %}
+				    {% if categories[2] %}
+				    <li> Rice </li>
+				    {% endif %}
     
-    {% if categories[3] %}
-    <li> Noodles </li>
-    {% endif %}
+				    {% if categories[3] %}
+				    <li> Noodles </li>
+				    {% endif %}
     
-    {% if categories[4] %}
-    <li> Baked </li>
-    {% endif %}
+				    {% if categories[4] %}
+				    <li> Baked </li>
+				    {% endif %}
     
-    {% if categories[5] %}
-    <li> Pie </li>
-    {% endif %}
+				    {% if categories[5] %}
+				    <li> Pie </li>
+				    {% endif %}
     
-    {% if categories[6] %}
-    <li> Vegetarian </li>
-    {% endif %}
+				    {% if categories[6] %}
+				    <li> Vegetarian </li>
+				    {% endif %}
     
-    {% if categories[7] %}
-    <li> One Pot </li>
-    {% endif %}
+				    {% if categories[7] %}
+				    <li> One Pot </li>
+				    {% endif %}
     
-    {% if categories[8] %}
-    <li> Cake </li>
-    {% endif %}
-</ul>
-
-<h3> List of Ingredients:</h3>
-<p>
-{% for ing in ingredients %}
-     {{ ing }} <br>
-{% endfor %}
-</p>
-
+				    {% if categories[8] %}
+				    <li> Cake </li>
+				    {% endif %}
+				</ul>
+		</p>
+</div>
+<div style="position:relative; float:left; width:400px; display:inline">
+<h3 style=clear:left>Ingredients</h3>
+	<p>
+		{% for ing in ingredients %}
+   	 	 	{{ ing }} <br>
+	  {% endfor %}
+	</p>
+</div>
+<div style="position:relative; float:left; width:650px; display:inline;">
 <h3> Method: </h3>
 <p>
 {% for m in method %}
      {{ m }} <br>
 {% endfor %}
 </p>
+</div>
 
-<h3> Notes: (Cat you'll need to figure a way of making text wrap onto next line)</h3>
+<h3 style="clear:left"> Notes:</h3>
 <p>
 {% for n in notes %}
      {{ n }} <br>
 {% endfor %}
 </p>
 
-<h3> Uploaded Image: </h3>
-{% if file_URL is none %}
-    <img src="static/knifeAndFork.jpg" alt="img" />
-{% else %}
-    <img src="{{ file_URL }}" alt="img" />
-{% endif %}
+
 
 <form action="Submitted_Recipe.html" method="post">
     <input type="submit" value="Submit" id="submit_button">

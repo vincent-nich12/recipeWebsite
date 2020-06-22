@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Recipe Home</title>
+<title>Add Recipe</title>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
@@ -28,7 +28,7 @@
 				<div class="nav_dropdown">
 					<a href="#">Meals</a>
 					<a href="Category_Search.html">Categories</a>
-					<a href="Favourites.html">Favourties</a>
+					<a href="Favourites.html">Favourites</a>
 					<a href="Add_a_Recipe.html">Add</a>
 				</div>
 					</li>
@@ -99,14 +99,14 @@
 			
 			<!-- Cooking Time-->
 			<br><label for="cooking_time">Cooking Time</label><br> 	
-			<input type="number" id="hours" name="hours" min="0" max="5">
+			<input type="number" id="hours" name="hours" min="0" max="5" value="0">
 			<label for=hours>Hour(s)</label>
-			<input type="number" id="minutes" name="minutes" min="0" max="59">
+			<input type="number" id="minutes" name="minutes" min="0" max="59" value="0">
 			<label for=minutes>Minutes</label><br>	
 			
 			<!--Servings-->
 			<br><label for="servings">Servings</label><br>
-			<input type="number" id="servings" name="servings" min="1" max="15">
+			<input type="number" id="servings" name="servings" min="0" max="20" value="0">
 			<br>						
 		
 			<!--Categories-->

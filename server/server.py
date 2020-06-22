@@ -1,6 +1,6 @@
 ###################### External functions #######################
 
-from flask import Flask, render_template, request, flash, redirect, url_for
+from flask import Flask, render_template, request, flash, redirect, url_for, abort
 import psycopg2
 import traceback
 import os
@@ -15,6 +15,12 @@ ALLOWED_EXTENSIONS = ['.gif','.png','.jpg','.jpeg']
 
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+app.debug = True
+
+@app.before_request
+def limit_remote_addr():
+    if request.remote_addr != '176.254.59.41':
+        abort(403)
 
 #################################################################
 
@@ -31,9 +37,60 @@ def addRecipes():
 	return render_template('Add_a_Recipe.html')
 
 #Search for a recipe by name
-@app.route('/Recipe_Search.html')
+@app.route('/Recipe_Search.html', methods=['GET'])
 def searchRecipe():
-	return render_template('Recipe_Search.html')
+    try:
+        searchValue = request.args['recipesearch']
+
+        conn = None
+
+        conn = getConn()
+        cur = conn.cursor()
+
+        cur.execute('SET search_path to public')
+        #Get all the recipes and order by similarity
+        cur.execute("SELECT similarity(Recipe_Name,'" + searchValue + "') AS similarity, Recipe_ID, Recipe_Name,Meal_type,Skill_level,Servings,Hours,Minutes,Meal_cat_ID,Ingredients,Method,Notes,Image_URL FROM Recipes ORDER BY similarity DESC;")
+        
+        rows = cur.fetchall()
+        
+        #Get the top 10 results
+        topRecipes = None
+        if len(rows) < 10:
+            topRecipes = rows
+        else:
+            topRecipes = rows[0:10]
+            
+        #Get the useful info 
+        usefulInfo = []
+        for x in range(len(topRecipes)):
+            recipe = []
+            #Recipe Name
+            recipe.append(topRecipes[x][2])
+            #Skill level
+            recipe.append(topRecipes[x][4])
+            #Servings
+            recipe.append(topRecipes[x][5])
+            #Hours
+            recipe.append(topRecipes[x][6])
+            #Minutes
+            recipe.append(topRecipes[x][7])
+            #Image_URL
+            recipe.append(topRecipes[x][12])
+            usefulInfo.append(recipe)
+            
+        #Get the ingredients
+        #print(topRecipes[2][9:10])
+            
+        #Get the method
+        #print(topRecipes[2][10:11])
+
+        return render_template('Recipe_Search.html',recipes=usefulInfo)
+    except Exception as e:
+        print(e)
+        return render_template('Recipe_Home.html',emsg = 'An unexpected error occured, please try again later.', error = e)
+    finally:
+        if conn:
+            conn.close()
 
 #Search for a recipe by category
 @app.route('/Category_Search.html')
@@ -74,22 +131,12 @@ def previewRecipe():
         #Ingredients textbox 
         ingredients = request.form['ingredients']
         #Split by new line.
-        ingredients = ingredients.replace(',','\n')
         ingredients = ingredients.split('\n')
-        #Remove \r characters
-        for x in ingredients:
-            if x == '\r':
-                ingredients.remove(x)
                 
         #Method textbox
         method = request.form['Method']
         #Split by new line.
-        method = method.replace(',','\n')
         method = method.split('\n')
-        #Remove \r characters
-        for x in method:
-            if x == '\r':
-                method.remove(x)
                 
         #Notes textbox
         notes = request.form['notes']
@@ -174,15 +221,13 @@ def submitRecipe():
                
         conn.commit()
         
-        return render_template('Submitted_Recipe.html',error=None)
+        return render_template('Submitted_Recipe.html',error=None, recipeTitle=recipeToAdd[1],mealString=recipeToAdd[2],skillLevelString=recipeToAdd[3],servings=recipeToAdd[4],hours=recipeToAdd[5],minutes=recipeToAdd[6],categories=recipeToAdd[7],ingredients=recipeToAdd[8],method=recipeToAdd[9],notes=recipeToAdd[10],file_URL=recipeToAdd[11])
     except Exception as e:
         traceback.print_exc()
         return render_template('Submitted_Recipe.html', error='Error!', emsg=e)
     finally:
         if conn:
             conn.close()
-    
-	
 
 #Favourites Page
 @app.route('/Favourites.html')
@@ -195,9 +240,10 @@ def ingredientSearch():
 	return render_template('Ingredient_Search.html')
     
 #Recipe Search Result
-@app.route('/Recipe_Result.html')
+@app.route('/Recipe_Result.html',methods=['GET'])
 def recipeResult():
-	return render_template('Recipe_Result.html')
+    print(request.args['hello'])
+    return render_template('Recipe_Result.html')
 	
 #################################################################
 

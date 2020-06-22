@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Recipe Home</title>
+<title>Recipe Search</title>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
@@ -28,7 +28,7 @@
 				<div class="nav_dropdown">
 					<a href="#">Meals</a>
 					<a href="Category_Search.html">Categories</a>
-					<a href="Favourites.html">Favourties</a>
+					<a href="Favourites.html">Favourites</a>
 					<a href="Add_a_Recipe.html">Add</a>
 				</div>
 					</li>
@@ -67,26 +67,23 @@
 </ul>
 
 	<br><h2>Search Results: </h2> <br>
+    
+    {% for recipe in recipes %}
 	
-	<a href="/Recipe_Result.html"><img src="static/sausage_risotto.jpg" alt="Sausage Risotto" id="search_result" style="float:left"></a>
-	<div id="search_result_text">
-		<h3> <a href="/Recipe_Result.html">Sausage Risotto</a></h3>
-		<p><b>Serves:</b> 4<br>
-		<b>Cooking time:</b> 40 mins <br>
-		<b>Skill level: </b>Medium<br>
-		<b>Ingredients:</b> Risotto rice, Sausages, Stock cube, Onions, Mushrooms, Peas </p>
-	</div>
-		<hr style=clear:left>
-
-	<a href="/Recipe_Result.html"><img src="static/Easy-mushroom-risotto.jpg" alt="Mushroom Risotto" id="search_result" style="float:left; clear:left"></a>
-		<div id="search_result_text">
-		<h3><a href=Recipe_Result.html>Mushroom Risotto</a></h3>
-		<p><b>Serves:</b> 4<br>
-			<b>Cooking time:</b> 35 mins<br>
-			<b>Skill level:</b> Easy<br>
-			<b>Ingredients:</b>Risotto rice, Mushrooms, Stock cube, Onions, Peas, Parmesan, White wine </p>
-	</div>
-	
+        {% if recipe[5] is none %}
+            <img src="static/knifeAndFork.jpg" alt="img" style="float:left; height:300px; width:400px; margin:10px; object-fit:cover;">
+        {% else %}
+            <img src="{{ recipe[5] }}" alt="img" style="float:left; height:300px; width:400px; margin:20px; object-fit:cover;">
+        {% endif %}
+        <div class="recipe_info" id="search_result_text">
+            <h3> <a href="/Recipe_Result.html" name="hello">{{recipe[0]}}</a></h3>
+            <p><b>Serves:</b>{{recipe[2]}}<br>
+            <b>Cooking time:</b> {{recipe[3]}} hours and {{recipe[4]}} mins <br>
+            <b>Skill level: </b>{{recipe[1]}}<br>
+        </div>
+        <hr style="clear:left;">
+    
+    {% endfor %}
 	
 </body>
 </html>
