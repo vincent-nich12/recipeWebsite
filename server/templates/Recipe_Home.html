@@ -69,29 +69,44 @@
 </div>
 </ul>
 
-
+<!-- Main text -->
+<div style="display:grid;">
 <br>
 <h2>Search for a Recipe</h2>
-<br>
-<!-- Search for ingredients form-->
-<div>
-	<form action="/Ingredient_Search.html">
-		<label for="ingredient">Search for ingredients</label>
-		<input type="text" id="ingredient" name="ingsearch" placeholder="Search ingredients...">
-		
-		<input type="submit"
-		value="Search">
-	</form>
+<div class="row" style="padding:none">
+	<div class="column" style="width:50%; background-color:#ffffcc;";>
+		<!-- Search by name -->
+		<form action="/Ingredient_Search.html">
+			<label for="ingredient"><h4 style="text-align:center">Search by Name</h4></label>
+			<br>
+			<input type="text" id="recsearch" name="recsearch" placeholder="Search recipes...">
+			<br>
+			<input type="submit"
+			value="Search">
+		</form>
+	</div>
+	
+	<div class="column" style="width:50%; background-color:#ffffcc;">
+		<!-- Search for ingredients form-->
+			<form action="/Ingredient_Search.html">
+				<label for="ingredient"><h4 style="text-align:center">Search by Ingredient</h4></label>
+				<input type="text" id="ingredient" name="ingsearch" placeholder="Search ingredients...">
+				<input type="submit"
+				value="Search">
+			</form>
+	</div>
 </div>
+
 
 <hr>
 
-<h2>Popular Categories</h2>
+<h2>Feeling Lucky?</h2>
+<p> Click here for a random recipe! </p>
 <hr>
 
 <h2>Popular Recipes</h2>
 <hr>
-
+<div>
 <!-- Gallery-->
 <a href="Recipe_Result.html">
 	<div class="gallery">
@@ -120,7 +135,9 @@
 		<div class="desc">Spaghetti Carbonara</div>
 	</div>
 </a>
+</div>
 
+</div>
 </body>
 
 </html>

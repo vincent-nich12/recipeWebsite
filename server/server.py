@@ -6,6 +6,7 @@ import traceback
 import os
 from werkzeug.utils import secure_filename
 import pickle
+import re
 
 #################################################################
 
@@ -19,7 +20,7 @@ app.debug = True
 
 @app.before_request
 def limit_remote_addr():
-    if request.remote_addr != '176.254.59.41':
+    if request.remote_addr != '94.15.6.114':
         abort(403)
 
 #################################################################
@@ -77,12 +78,6 @@ def searchRecipe():
             #Image_URL
             recipe.append(topRecipes[x][12])
             usefulInfo.append(recipe)
-            
-        #Get the ingredients
-        #print(topRecipes[2][9:10])
-            
-        #Get the method
-        #print(topRecipes[2][10:11])
 
         return render_template('Recipe_Search.html',recipes=usefulInfo)
     except Exception as e:
@@ -242,8 +237,42 @@ def ingredientSearch():
 #Recipe Search Result
 @app.route('/Recipe_Result.html',methods=['GET'])
 def recipeResult():
-    print(request.args['hello'])
-    return render_template('Recipe_Result.html')
+    try:
+        recipeName = request.args.get('recipeName')
+        
+        conn = None
+        conn = getConn()
+        cur = conn.cursor()
+        
+        cur.execute('SET search_path to public')
+        
+        cur.execute('SELECT * FROM recipes INNER JOIN meal_cats ON \
+                     recipes.meal_cat_id = meal_cats.meal_cat_id WHERE \
+                     recipes.recipe_name = %s', [recipeName])
+        
+        rows = cur.fetchall()
+        recipe = rows[0]
+        # get the ingredients as an array of strings
+        ingredients = recipe[8]
+        ingredients = re.findall(r'\"(.+?)\"', ingredients)
+        # do the same for method and notes
+        method = recipe[9]
+        method = re.findall(r'\"(.+?)\"', method)
+        notes = recipe[10]
+        notes = re.findall(r'\"(.+?)\"', notes)
+
+        # put categories into an array
+        categories = [recipe[13],recipe[14],recipe[15],recipe[16],recipe[17],recipe[18],recipe[19],recipe[20],recipe[21]]
+        
+
+        return render_template('Recipe_Result.html',recipe=recipe,ingredients=ingredients,method=method,notes=notes,categories=categories)
+    except Exception as e:
+        traceback.print_exc()
+        return render_template('Recipe_Home.html', error='Error!', emsg=e)
+    finally:
+        if conn:
+            conn.close()
+    
 	
 #################################################################
 

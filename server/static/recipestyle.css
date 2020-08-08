@@ -7,6 +7,7 @@ html{
 .main_body{
 	margin-left:10%;
 	margin-right:10%;
+	background-color:#f7f0e3;
 }
 
 /*Removing the margins on the page when the page is less than 1000px so it is not too narrow*/
@@ -182,13 +183,30 @@ div{
 		float:right;
 		left:150px;
 	}
+	
+	
+/* Columns for searching recipe and search ingredient boxes on home page*/
+	.row{
+		width:90%;
+		margin-left:5%;
+		margin-right:5%;
+	}
+
+.column{
+	text-align:center;
+	width:50%;
+	background-color:#ffffcc;
+}	
+	
 
 /* Picture gallery on home page*/
 
 div.gallery{
-	margin:5px;
+	margin-left:0.75%;
+	margin-right:0.25%;
 	border:1px solid #ccc;
 	float:left;
+	width:260px;
 	}
 
 div.gallery:hover {
@@ -197,9 +215,12 @@ div.gallery:hover {
 
 
 div.gallery img{
-	width:200px;
-	height:200px;
+	width:80%;
+	height:240px;
 	object-fit:cover;
+	display:block;
+	margin-left:auto;
+	margin-right:auto;
 }
 
 div.desc{
@@ -209,7 +230,7 @@ div.desc{
 
 /*Forms*/
 
-input[type=text], #add_ingredients, #add_method, select{
+input[type=text], #add_ingredients, #add_method, #notes, select{
 	width:100%;
 	padding:12px 20px;
 	margin:8px 0;
@@ -262,12 +283,23 @@ input[type=submit]:hover {
 		max-height:400px;
 	}
 
-	#add_method{ /*Add ingredients text area*/
+	#add_method{ /*Add method text area*/
 		width: 600px;
 		min-width: 400px;
 		max-width: 900px;
 		min-height: 200px;
 		max-height:600px;
+	}
+	#notes{ /*Add notes text area*/
+		width: 600px;
+		min-width: 400px;
+		max-width: 900px;
+		min-height: 200px;
+		max-height:600px;
+	}
+	
+	#three_columns
+	{columns:100px 3;
 	}
 
 /*Filterable table of category*/
@@ -303,7 +335,7 @@ input[type=submit]:hover {
 
 
 .category_list{
-	margin-left:450px;
+	margin-left:50px;
 }
 
 /*Formatting the preview recipe page when on a small screen*/

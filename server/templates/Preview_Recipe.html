@@ -74,8 +74,10 @@
 	{% else %}
 	    <img src="{{ file_URL }}" alt="img" style="float:left; height:300px; width:400px; margin:20px; object-fit:cover;">
 	{% endif %}
-		<h2 class="recipe_info" style="padding-left:425px;">{{ recipeTitle }} </h2> <!--Recipe Title-->
-		<p class="recipe_info" style="line-height:2; padding-left:450px;">
+
+	<div style="position:relative; left:20px; width:auto; float:left; background-color:#f0dcd1">
+		<h2>{{ recipeTitle }} </h2> <!--Recipe Title-->
+		<p>
 			Meal Type: {{ mealString }} <br>
 			Cooking time: {{hours}} hrs {{minutes}} mins <br>
 			Skill Level: {{skillLevelString}} <br>
@@ -121,6 +123,7 @@
 				    {% endif %}
 				</ul>
 		</p>
+</div>
 </div>
 <div style="position:relative; float:left; width:400px; display:inline">
 <h3 style=clear:left>Ingredients</h3>

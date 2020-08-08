@@ -87,6 +87,8 @@
 			<label for="dessert">Dessert</label><br>
 			<input type="radio" id="snacks" name="meal" value="Snacks">
 			<label for="snacks">Snacks</label><br>
+			<input type="radio" id="other" name="meal" value="Other">
+			<label for="other">Other</label><br>
 			
 			<!--Skill Level (Radio)-->
 			<br><label for="skill_level">Skill Level</label><br>	
@@ -99,7 +101,7 @@
 			
 			<!-- Cooking Time-->
 			<br><label for="cooking_time">Cooking Time</label><br> 	
-			<input type="number" id="hours" name="hours" min="0" max="5" value="0">
+			<input type="number" id="hours" name="hours" min="0" max="24" value="0">
 			<label for=hours>Hour(s)</label>
 			<input type="number" id="minutes" name="minutes" min="0" max="59" value="0">
 			<label for=minutes>Minutes</label><br>	
@@ -111,25 +113,72 @@
 		
 			<!--Categories-->
 			<br><label for="categories">Categories</label><br>
-			<input type="checkbox" id="Spicy" name="Spicy" value="Spicy">
-			<label for="spicy">Spicy</label>
-			<input type="checkbox" id="Baking" name="Baking" value="Baking">
-			<label for="Baking">Baking</label>
-			<input type="checkbox" id="Noodles" name="Noodles" value="Noodles">
-			<label for="Noodles">Noodles</label>
-			<input type="checkbox" id="Rice" name="Rice" value="Rice">
-			<label for="Rice">Rice</label>
-			<input type="checkbox" id="Pasta" name="Pasta" value="Pasta">
-			<label for="Pasta">Pasta</label> 
+			<div class="row">
+				<div class="column">
+					<input type="checkbox" id="Baking" name="Baking" value="Baking">
+					<label for="Baking">Baking</label>
+					<br>
+					<input type="checkbox" id="Cake" name="Cake" value="Cake">
+					<label for="Cake">Cake</label>
+					<br>
+					<input type="checkbox" id="Casserole" name="Casserole" value="Casserole">
+					<label for="Casserole">Casserole</label>
+					<br>
+					<input type="checkbox" id="Chocolate" name="Chocolate" value="Chocolate">
+					<label for="Chocolate">Chocolate</label>
+					<br>
+					<input type="checkbox" id="Curry" name="Curry" value="Curry">
+					<label for="Curry">Curry</label>
+					<br>
+					<input type="checkbox" id="Gluten-Free" name="Gluten-Free" value="Gluten-Free">
+					<label for="Gluten-Free">Gluten-Free</label>
+					<br>
 			
-			<input type="checkbox" id="Pie" name="Pie" value="Pie">
-			<label for="Pie">Pie</label> 
-			<input type="checkbox" id="Vegetarian" name="Vegetarian" value="Vegetarian">
-			<label for="Vegetarian">Vegetarian</label> 
-			<input type="checkbox" id="One Pot" name="One Pot" value="One Pot">
-			<label for="One Pot">One Pot</label> 
-			<input type="checkbox" id="Cake" name="Cake" value="Cake">
-			<label for="Cake">Cake</label> 
+					
+					
+				
+				</div>
+				<div class="column">
+					<input type="checkbox" id="Fish" name="Fish" value="Fish">
+					<label for="Fish">Fish</label>
+					<br>
+					<input type="checkbox" id="Meat" name="Meat" value="Meat">
+					<label for="Meat">Meat</label>
+					<br>
+					<input type="checkbox" id="Noodles" name="Noodles" value="Noodles">
+					<label for="Noodles">Noodles</label>
+					<br>
+					<input type="checkbox" id="One Pot" name="One Pot" value="One Pot">
+					<label for="One Pot">One Pot</label> 
+					<br>
+					<input type="checkbox" id="Pasta" name="Pasta" value="Pasta">
+					<label for="Pasta">Pasta</label>
+					<br>
+					
+					
+					
+				
+				</div>
+				<div class="column">
+					<input type="checkbox" id="Pie" name="Pie" value="Pie">
+					<label for="Pie">Pie</label> 
+					<br>
+					<input type="checkbox" id="Rice" name="Rice" value="Rice">
+					<label for="Rice">Rice</label>
+					<br>
+					<input type="checkbox" id="Salad" name="Salad" value="Salad">
+					<label for="Salad">Salad</label>
+					<br>
+					<input type="checkbox" id="Spicy" name="Spicy" value="Spicy">
+					<label for="spicy">Spicy</label>
+					<br>
+					<input type="checkbox" id="Vegetarian" name="Vegetarian" value="Vegetarian">
+					<label for="Vegetarian">Vegetarian</label> 
+					<br>
+				</div>
+			</div>
+			
+	
 			<br>
 			
 			
@@ -144,11 +193,13 @@
 			<!-- Notes-->
 			<br><label for="notes" id="label">Notes</label>
 			<textarea name="notes" id="notes" placeholder="Enter notes here"></textarea>
+			<br>
 			
 				<!--Image upload-->
 			<br><label for="image" id="label">Image Upload</label> <br>
 			<input type="file" name="upload">
-		
+			
+			<br>
 			<br><input type="submit"
 			value="Preview">
 			

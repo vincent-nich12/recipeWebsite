@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Recipe Search</title>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-  <link rel="stylesheet" type="text/css" href="static/recipestyle.css"> <!--My CSS StyleSheet-->
+    <title>Recipe Search</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="static/recipestyle.css"> <!--My CSS StyleSheet-->
 
 </head>
 <body class="main_body">
@@ -65,25 +65,28 @@
 
 </div>
 </ul>
+<div>
 
 	<br><h2>Search Results: </h2> <br>
     
     {% for recipe in recipes %}
-	
+    
         {% if recipe[5] is none %}
             <img src="static/knifeAndFork.jpg" alt="img" style="float:left; height:300px; width:400px; margin:10px; object-fit:cover;">
         {% else %}
             <img src="{{ recipe[5] }}" alt="img" style="float:left; height:300px; width:400px; margin:20px; object-fit:cover;">
         {% endif %}
         <div class="recipe_info" id="search_result_text">
-            <h3> <a href="/Recipe_Result.html" name="hello">{{recipe[0]}}</a></h3>
-            <p><b>Serves:</b>{{recipe[2]}}<br>
+            <h3> <a href="/Recipe_Result.html?recipeName={{recipe[0]}}" name="hello"> {{recipe[0]}} </a></h3>
+            <p><b>Serves:</b> {{recipe[2]}} <br>
             <b>Cooking time:</b> {{recipe[3]}} hours and {{recipe[4]}} mins <br>
             <b>Skill level: </b>{{recipe[1]}}<br>
         </div>
         <hr style="clear:left;">
+        
+        
     
     {% endfor %}
-	
+</div>
 </body>
 </html>

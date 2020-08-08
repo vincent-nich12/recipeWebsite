@@ -70,46 +70,88 @@
 </ul>
 
 <br>
-<div style="height:350px; background-color:#f0dcd1">
-	<img src="static/sausage_risotto.jpg" style="float:left; height:300px; width:400px; object-fit:cover;">
-	<div style="position:relative; left:20px; width:300px; float:left; background-color:#f0dcd1">
-		<h2>Sausage Risotto</h2> <a href="#">Edit</a>
+<div style="height:auto; min-height:350px; background-color:#f0dcd1">
+    {% if recipe[11] is none %}
+        <img src="static/knifeAndFork.jpg" alt="img" style="float:left; height:300px; width:400px; object-fit:cover;">
+    {% else %}
+        <img src="{{ recipe[11] }}" alt="img" style="float:left; height:300px; width:400px; margin:20px; object-fit:cover;">
+    {% endif %}
+
+	<div style="position:relative; left:20px; width:auto; float:left; background-color:#f0dcd1">
+		<h2>{{ recipe[1] }}</h2> <a href="#">Edit</a>
 		<p style="line-height:2">
-			Meal: Dinner
-			Cooking time: 40 minutes<br>
-			Skill level: Medium<br>
-			Servings: 4<br>
-			Categories: Rice, One-pot, Meat
+			Meal: {{recipe[2]}} <br>
+			Cooking time: {{recipe[5]}} hours and {{recipe[6]}} minutes<br>
+			Skill level: {{recipe[3]}}<br>
+			Servings: {{recipe[4]}}<br>
+			Categories: 
+            
+                <ul class="recipe_info category_list">
+				    <!-- If pasta display it -->
+				    {% if categories[0] %}
+				    <li> Pasta </li>
+				    {% endif %}
+    
+				    <!-- If Spicy display it -->
+				    {% if categories[1] %}
+				    <li> Spicy </li>
+				    {% endif %}
+    
+				    {% if categories[2] %}
+				    <li> Rice </li>
+				    {% endif %}
+    
+				    {% if categories[3] %}
+				    <li> Noodles </li>
+				    {% endif %}
+    
+				    {% if categories[4] %}
+				    <li> Baked </li>
+				    {% endif %}
+    
+				    {% if categories[5] %}
+				    <li> Pie </li>
+				    {% endif %}
+    
+				    {% if categories[6] %}
+				    <li> Vegetarian </li>
+				    {% endif %}
+    
+				    {% if categories[7] %}
+				    <li> One Pot </li>
+				    {% endif %}
+    
+				    {% if categories[8] %}
+				    <li> Cake </li>
+				    {% endif %}
+				</ul>
+		</p>
 		</p>
 </div>
 </div>
 <div style="position:relative; float:left; width:400px; display:inline">
 <h3 style=clear:left>Ingredients</h3>
-<ul><li>450 g best quality pork sausages, about 6 in total </li>
-<li>50 g unsalted butter </li>
-<li>1 small onion, finely chopped </li>
-<li>2 cloves garlic, crushed </li>
-<li>350 g arborio risotto rice </li>
-<li>1.2 litres chicken stock </li>
-<li>150 g frozen peas, or petit pois </li>
-<li>6 tbsp parmesan, freshly grated, plus extra to garnish </li>
-<li>2 tbsp flat leaf parsley, roughly chopped </li>
-<li>black pepper </li>
+
+<ul>
+    {% for i in ingredients %} 
+        <li>{{i}} </li>
+    {% endfor %}
 </ul>
 </div>
 <div style="position:relative; float:left; width:650px; display:inline;">
 <h3>Method</h3>
-<ol>
-<li>Pre heat the grill to medium. Arrange the sausages on a grill rack and grill for 10-15 minutes, depending on the thickness, turning every 2-3 minutes until cooked through and golden brown. Transfer to a plate and leave until cool enough to handle, then cut into chunky slices and set aside.</li>
- 
-<li>Melt the butter in a large, shallow pan. Add the onion and garlic and cook gently for about 4-5 minutes until softened but not coloured, stirring occasionally. Increase the heat, stir in the rice and cook gently for 1 minute, stirring continuously, until the rice is opaque. </li>
- 
-<li>Meanwhile, pour the stock into a separate pan and bring to a gentle simmer. Add a ladleful of stock to the rice mixture and allow to reduce, stirring until it is completely absorbed. Continue to add the simmering stock a ladleful at a time, stirring frequently. Allow each stock addition to be almost completely absorbed before adding the next ladleful.</li>
- 
-<li>After about 20 minutes, when the rice is nearly cooked, tip the peas into the remaining stock and simmer for 2 minutes before adding to the risotto. When the risotto is ready it should be just tender but still have a little bite. Season to taste, then stir in the Parmesan and parsley until combined, then fold in the sausages. Season to taste and divide among warmed serving bowls or plates. Garnish with some Parmesan and serve immediately.</li>
 
+<ol>
+    {% for m in method %}
+        <li> {{m}} </li>
+    {% endfor %}
 </ol>
 </div>
 <h3 style="clear:left;">Notes</h3>
+<p>
+{% for n in notes %}
+     {{ n }} <br>
+{% endfor %}
+</p>
 </body>
 </html>
