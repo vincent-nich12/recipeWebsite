@@ -285,15 +285,15 @@ def openFile(aFile):
 	
 #Function to get the connection to the database
 def getConn():
-	list = openFile('database_access.txt')
-	dbname = list[0]
-	user = list[1]
-	password = list[2]
-	
-	connStr = ("dbname = " + dbname +  "user=" + user + " password=" + password)
-	
-	conn= psycopg2.connect(connStr)
-	return conn
+    list = openFile('/root/recipeWebsite/database/databaseUtils/database_access.txt')
+    dbname = list[0]
+    user = list[1]
+    password = list[2]
+
+    connStr = ("dbname = " + dbname +  "user=" + user + " password=" + password)
+
+    conn= psycopg2.connect(connStr)
+    return conn
 	
 #Function to upload a file onto the server
 def upload_file(request,ID):
