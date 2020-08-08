@@ -1,3 +1,2 @@
 #Location of pgadmin config files
 /etc/postgresql/10/main
-#ham
