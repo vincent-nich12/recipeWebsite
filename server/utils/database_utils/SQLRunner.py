@@ -13,14 +13,12 @@ class SQLRunner:
         
     """
     Run a list of SQL statements and return the result, it automatically commits 
-    the changes (if its not a SELECT command) and returns the result as a list of rows. It
-    also closes the connection once the statement is finished.
+    the changes (if its not a SELECT command) and returns the result as a list of rows.
     """
     def run_scripts(self,sql_strings,values):
         all_rows = []
         for x in range(len(sql_strings)):
             all_rows.append(self.run_script(sql_strings[x],values[x]))
-        self.db_conn.close_connection()
         return all_rows
         
     

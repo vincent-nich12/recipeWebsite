@@ -71,59 +71,25 @@
 
 <br>
 <div style="height:auto; min-height:350px; background-color:#f0dcd1">
-    {% if recipe[11] is none %}
+    {% if recipe.image_URL is none %}
         <img src="static/knifeAndFork.jpg" alt="img" style="float:left; height:300px; width:400px; object-fit:cover;">
     {% else %}
-        <img src="{{ recipe[11] }}" alt="img" style="float:left; height:300px; width:400px; margin:20px; object-fit:cover;">
+        <img src="{{recipe.image_URL}}" alt="img" style="float:left; height:300px; width:400px; margin:20px; object-fit:cover;">
     {% endif %}
 
 	<div style="position:relative; left:20px; width:auto; float:left; background-color:#f0dcd1">
-		<h2>{{ recipe[1] }}</h2> <a href="#">Edit</a>
+		<h2>{{ recipe.recipe_name }}</h2> <a href="#">Edit</a>
 		<p style="line-height:2">
-			Meal: {{recipe[2]}} <br>
-			Cooking time: {{recipe[5]}} hours and {{recipe[6]}} minutes<br>
-			Skill level: {{recipe[3]}}<br>
-			Servings: {{recipe[4]}}<br>
+			Meal: {{recipe.meal_type}} <br>
+			Cooking time: {{recipe.hours}} hours and {{recipe.minutes}} minutes<br>
+			Skill level: {{recipe.skill_level}}<br>
+			Servings: {{recipe.servings}}<br>
 			Categories: 
             
                 <ul class="recipe_info category_list">
-				    <!-- If pasta display it -->
-				    {% if categories[0] %}
-				    <li> Pasta </li>
-				    {% endif %}
-    
-				    <!-- If Spicy display it -->
-				    {% if categories[1] %}
-				    <li> Spicy </li>
-				    {% endif %}
-    
-				    {% if categories[2] %}
-				    <li> Rice </li>
-				    {% endif %}
-    
-				    {% if categories[3] %}
-				    <li> Noodles </li>
-				    {% endif %}
-    
-				    {% if categories[4] %}
-				    <li> Baked </li>
-				    {% endif %}
-    
-				    {% if categories[5] %}
-				    <li> Pie </li>
-				    {% endif %}
-    
-				    {% if categories[6] %}
-				    <li> Vegetarian </li>
-				    {% endif %}
-    
-				    {% if categories[7] %}
-				    <li> One Pot </li>
-				    {% endif %}
-    
-				    {% if categories[8] %}
-				    <li> Cake </li>
-				    {% endif %}
+                    {% for category in categories %}
+                        <li> {{category}} </li>
+                    {% endfor %}
 				</ul>
 		</p>
 		</p>
@@ -133,7 +99,7 @@
 <h3 style=clear:left>Ingredients</h3>
 
 <ul>
-    {% for i in ingredients %} 
+    {% for i in recipe.ingredients %} 
         <li>{{i}} </li>
     {% endfor %}
 </ul>
@@ -142,14 +108,14 @@
 <h3>Method</h3>
 
 <ol>
-    {% for m in method %}
+    {% for m in recipe.method %}
         <li> {{m}} </li>
     {% endfor %}
 </ol>
 </div>
 <h3 style="clear:left;">Notes</h3>
 <p>
-{% for n in notes %}
+{% for n in recipe.notes %}
      {{ n }} <br>
 {% endfor %}
 </p>

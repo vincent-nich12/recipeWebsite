@@ -10,6 +10,8 @@ import re
 from utils.database_utils.DatabaseConnector import DatabaseConnector
 from utils.database_utils.RecipeSearcher import RecipeSearcher
 from utils.database_utils.SQLRunner import SQLRunner
+from utils.common.recipe import Recipe
+from utils.common.categories import Categories
 
 #################################################################
 
@@ -203,37 +205,25 @@ def ingredientSearch():
 @app.route('/Recipe_Result.html',methods=['GET'])
 def recipeResult():
     try:
+        #get the recipe name
         recipeName = request.args.get('recipeName')
-        
-        conn = databaseConnector.get_conn()
-        cur = databaseConnector.get_cursor()
-        
-        cur.execute('SELECT * FROM recipes INNER JOIN meal_cats ON \
-                     recipes.meal_cat_id = meal_cats.meal_cat_id WHERE \
-                     recipes.recipe_name = %s', [recipeName])
-        
-        rows = cur.fetchall()
-        recipe = rows[0]
-        # get the ingredients as an array of strings
-        ingredients = recipe[8]
-        ingredients = re.findall(r'\"(.+?)\"', ingredients)
-        # do the same for method and notes
-        method = recipe[9]
-        method = re.findall(r'\"(.+?)\"', method)
-        notes = recipe[10]
-        notes = re.findall(r'\"(.+?)\"', notes)
-
-        # put categories into an array
-        categories = [recipe[13],recipe[14],recipe[15],recipe[16],recipe[17],recipe[18],recipe[19],recipe[20],recipe[21]]
-        
-
-        return render_template('Recipe_Result.html',recipe=recipe,ingredients=ingredients,method=method,notes=notes,categories=categories)
+        databaseConnector.connect()
+        recipeAtts = sqlRunner.run_script('SELECT * FROM recipes INNER JOIN meal_cats ON \
+                                           recipes.meal_cat_id = meal_cats.meal_cat_id WHERE \
+                                           recipes.recipe_name = %s', [recipeName])
+        recipeAtts = recipeAtts[0]
+        # Construct the recipe object
+        recipe = Recipe.construct_recipe(recipeAtts)
+        # Remove the recipe atts and only use the category atts 
+        recipeAtts = recipeAtts[Recipe.get_num_atts():len(recipeAtts)]
+        # Construct the categories object
+        categories = Categories.construct_categories_for_recipe(recipeAtts)
+        return render_template('Recipe_Result.html',recipe=recipe,categories=categories.get_categories_as_list())
     except Exception as e:
         traceback.print_exc()
         return render_template('Recipe_Home.html', error='Error!', emsg=e)
     finally:
-        if conn:
-            conn.close()
+        databaseConnector.close_connection()
     
 	
 #################################################################

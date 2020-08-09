@@ -1,4 +1,4 @@
-
+import re
 
 class Recipe:
     
@@ -21,14 +21,53 @@ class Recipe:
         self.image_URL = image_URL
         
     """
+    Private function to convert ingredients, method and notes into the correct form.
+    """
+    def _fix_atts(self):
+        #Converts the string into an array of strings
+        if self.ingredients is None:
+            self.ingredients = None
+        else:
+            self.ingredients = re.findall(r'\"(.+?)\"', self.ingredients)
+        if self.method is None:
+            self.method = None
+        else:
+            self.method = re.findall(r'\"(.+?)\"', self.method)
+        if self.notes is None:
+            self.notes = None
+        else:
+            self.notes = re.findall(r'\"(.+?)\"', self.notes)
+        
+    """
     Helper function for constructing recipes from a 2D array of rows
     """
     def construct_recipes(rows):
         list_of_recipes = []
         for row in rows:
-            new_recipe = Recipe()
-            atts = [a for a in list(vars(new_recipe).keys()) if not a.startswith('__')]
-            for x in range(len(atts)):
-                setattr(new_recipe, atts[x],row[x]) 
-            list_of_recipes.append(new_recipe)
+            list_of_recipes.append(Recipe.construct_recipe(row))
         return list_of_recipes
+        
+    """
+    Helper function to construct a recipe object from an array
+    """
+    def construct_recipe(row):
+        new_recipe = Recipe()
+        atts = [a for a in list(vars(new_recipe).keys()) if not a.startswith('__')]
+        for x in range(len(atts)):
+            setattr(new_recipe, atts[x],row[x]) 
+        new_recipe._fix_atts()
+        return new_recipe
+        
+    """
+    String representation for this class.
+    """
+    def __str__(self):
+        return str(vars(self))
+        
+    """
+    Function to get the number of attributes stored in the recipe object (because it might change)
+    """
+    def get_num_atts():
+        new_recipe = Recipe()
+        atts = [a for a in list(vars(new_recipe).keys()) if not a.startswith('__')]
+        return len(atts)
