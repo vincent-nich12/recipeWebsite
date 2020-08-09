@@ -71,21 +71,18 @@
     
     {% for recipe in recipes %}
     
-        {% if recipe[5] is none %}
+        {% if recipe.image_URL is none %}
             <img src="static/knifeAndFork.jpg" alt="img" style="float:left; height:300px; width:400px; margin:10px; object-fit:cover;">
         {% else %}
-            <img src="{{ recipe[5] }}" alt="img" style="float:left; height:300px; width:400px; margin:20px; object-fit:cover;">
+            <img src="{{ recipe.image_URL }}" alt="img" style="float:left; height:300px; width:400px; margin:20px; object-fit:cover;">
         {% endif %}
         <div class="recipe_info" id="search_result_text">
-            <h3> <a href="/Recipe_Result.html?recipeName={{recipe[0]}}" name="hello"> {{recipe[0]}} </a></h3>
-            <p><b>Serves:</b> {{recipe[2]}} <br>
-            <b>Cooking time:</b> {{recipe[3]}} hours and {{recipe[4]}} mins <br>
-            <b>Skill level: </b>{{recipe[1]}}<br>
+            <h3> <a href="/Recipe_Result.html?recipeName={{recipe.recipe_name}}" name="hello"> {{recipe.recipe_name}} </a></h3>
+            <p><b>Serves:</b> {{recipe.servings}} <br>
+            <b>Cooking time:</b> {{recipe.hours}} hours and {{recipe.mins}} mins <br>
+            <b>Skill level: </b>{{recipe.skill_level}}<br>
         </div>
         <hr style="clear:left;">
-        
-        
-    
     {% endfor %}
 </div>
 </body>

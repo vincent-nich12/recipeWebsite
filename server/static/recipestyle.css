@@ -157,6 +157,9 @@ div{
 	.nav_dropdown a:hover{
 		background-color:#5e0707}
 		
+		
+		/*Hovering reveals other buttons*/
+		
 	.dropdwn:hover .dropdwn-content{
 		display: block;
 		}
@@ -186,7 +189,7 @@ div{
 	
 	
 /* Columns for searching recipe and search ingredient boxes on home page*/
-	.row{
+	#home_search{
 		width:90%;
 		margin-left:5%;
 		margin-right:5%;
@@ -265,7 +268,7 @@ input[type=submit]:hover {
 
 /*Formatting for form for adding a recipe*/
 #add_recipe{
-	width:400px;
+	width:100%;
 	background-color:white;
 }
 
@@ -274,6 +277,18 @@ input[type=submit]:hover {
 		padding-right: 15%;
 		padding-left: 15%;
 	}
+	/*Checkbox list of categories to add*/
+	#categories_columns{
+		text-align:center;
+		width:33%;
+	}
+	
+	/*Column layout for add categories*/
+	#three_columns
+	{columns:300px 3;
+		width:100%;
+	}
+	
 
 	/*Formatting for ingredient and method boxes*/
 	#add_ingredients{ /*Add ingredients text area*/
@@ -284,24 +299,51 @@ input[type=submit]:hover {
 	}
 
 	#add_method{ /*Add method text area*/
-		width: 600px;
 		min-width: 400px;
 		max-width: 900px;
 		min-height: 200px;
 		max-height:600px;
 	}
 	#notes{ /*Add notes text area*/
-		width: 600px;
 		min-width: 400px;
 		max-width: 900px;
 		min-height: 200px;
 		max-height:600px;
 	}
 	
-	#three_columns
-	{columns:100px 3;
+	.help_bubble{
+		display:none;
+		width: 300px;
+		  background: #a83122;
+		  text-align: center;
+		  color: #fff;
+		  font-family: arial;
+		  position:absolute;
+		  margin-left:30px;
 	}
-
+	
+	.sb1:before {
+	  content: "";
+	  width: 0px;
+	  height: 0px;
+	  position: absolute;
+      border-right: 10px solid #a83122;
+      border-left: 10px solid transparent;
+      border-top: 10px solid #a83122;
+      border-bottom: 10px solid transparent;
+      left: -20px;
+      top: 6px;
+	}
+	
+	/*Hovering over help_icon will show help_bubble*/
+	
+	.help_icon:hover + .help_bubble{
+		display:inline-block;
+	}
+	
+	
+	
+	
 /*Filterable table of category*/
 #category_table{
 	width: 50%;

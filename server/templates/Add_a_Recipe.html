@@ -6,6 +6,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+  <script src='https://kit.fontawesome.com/a076d05399.js'></script>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <link rel="stylesheet" type="text/css" href="static/recipestyle.css"> <!--My CSS StyleSheet-->
@@ -32,8 +33,6 @@
 					<a href="Add_a_Recipe.html">Add</a>
 				</div>
 					</li>
-	
-	
 	
 	<!-- Meals dropdown menu-->
 	<li class="myTopnav dropdwn"  id="myTopnav">
@@ -72,12 +71,12 @@
 	
 		<form action="/Preview_Recipe.html" id="add_recipe" method="post" enctype="multipart/form-data"> 
 			<!--Title of Recipe-->
-			<label for="recipe_name">Title</label>							
-			<input type="text" name="recipe_name" placeholder="Title">
+			<i class='fas fa-star-of-life'></i><label for="recipe_name">Title</label>							
+			<input type="text" name="recipe_name" placeholder="Title" required>
 			
 			<!--Meal Type (Radio)-->
-			<label for="meal_type">Meal</label> <br>
-			<input type="radio" id="breakfast" name="meal" value="Breakfast" checked>
+			<i class='fas fa-star-of-life'></i><label for="meal_type">Meal</label> <br>
+			<input type="radio" id="breakfast" name="meal" value="Breakfast" >
 			<label for="breakfast">Breakfast</label><br>
 			<input type="radio" id="lunch" name="meal" value="Lunch">
 			<label for="lunch">Lunch</label><br>
@@ -87,16 +86,16 @@
 			<label for="dessert">Dessert</label><br>
 			<input type="radio" id="snacks" name="meal" value="Snacks">
 			<label for="snacks">Snacks</label><br>
-			<input type="radio" id="other" name="meal" value="Other">
+			<input type="radio" id="other" name="meal" value="Other" required>
 			<label for="other">Other</label><br>
 			
 			<!--Skill Level (Radio)-->
-			<br><label for="skill_level">Skill Level</label><br>	
-			<input type="radio" id="easy" name="skill_level" value="Easy" checked>
+			<br><i class='fas fa-star-of-life'></i><label for="skill_level">Skill Level</label><br>	
+			<input type="radio" id="easy" name="skill_level" value="Easy">
 			<label for="easy">Easy</label><br>
 			<input type="radio" id="medium" name="skill_level" value="Medium">
 			<label for="medium">Medium</label><br>
-			<input type="radio" id="hard" name="skill_level" value="Hard">
+			<input type="radio" id="hard" name="skill_level" value="Hard" required>
 			<label for="hard">Hard</label><br>
 			
 			<!-- Cooking Time-->
@@ -113,8 +112,8 @@
 		
 			<!--Categories-->
 			<br><label for="categories">Categories</label><br>
-			<div class="row">
-				<div class="column">
+			<div class="row" id="three_columns">
+				<div id="categories_columns"> <!--First column-->
 					<input type="checkbox" id="Baking" name="Baking" value="Baking">
 					<label for="Baking">Baking</label>
 					<br>
@@ -133,12 +132,9 @@
 					<input type="checkbox" id="Gluten-Free" name="Gluten-Free" value="Gluten-Free">
 					<label for="Gluten-Free">Gluten-Free</label>
 					<br>
-			
-					
-					
-				
 				</div>
-				<div class="column">
+				
+				<div id="categories_columns"> <!-- Second column-->
 					<input type="checkbox" id="Fish" name="Fish" value="Fish">
 					<label for="Fish">Fish</label>
 					<br>
@@ -154,12 +150,9 @@
 					<input type="checkbox" id="Pasta" name="Pasta" value="Pasta">
 					<label for="Pasta">Pasta</label>
 					<br>
-					
-					
-					
-				
 				</div>
-				<div class="column">
+				
+				<div id="categories_columns"> <!--Third column-->
 					<input type="checkbox" id="Pie" name="Pie" value="Pie">
 					<label for="Pie">Pie</label> 
 					<br>
@@ -177,21 +170,20 @@
 					<br>
 				</div>
 			</div>
-			
-	
 			<br>
-			
-			
 			 <!-- Ingredients list-->
-			<br><label for="ingredients" id="label" style=text-align:left>Ingredients </label><br>		
-			<textarea name="ingredients" id="add_ingredients" placeholder="List ingredients here"></textarea>
+			<br> <i class='fas fa-star-of-life'></i><label for="ingredients" id="label" style=text-align:left>Ingredients </label> <span class="help_icon"><i class='fas fa-question-circle'></i></span>
+			<div class="help_bubble sb1"><p>List each ingredient on a new line, e.g.: <br>100g flour<br>50g butter<br>2 eggs</p></div> <br>		
+			<textarea name="ingredients" id="add_ingredients" placeholder="List ingredients here" required></textarea>
 			
 			<!-- Method explanation-->
-			<br><label for="method" id="label">Method</label> 		
-			<textarea name="Method" id="add_method" placeholder="Enter method here"></textarea>
+			<br><i class='fas fa-star-of-life'></i><label for="method" id="label">Method </label> <span class="help_icon"><i class='fas fa-question-circle'></i>
+			</span><div class="help_bubble sb1"><p>List each step on a new line <u>without numbers</u></p></div>
+			<br> 		
+			<textarea name="Method" id="add_method" placeholder="Enter method here" required></textarea>
 			
 			<!-- Notes-->
-			<br><label for="notes" id="label">Notes</label>
+			<br><label for="notes" id="label">Notes</label><br>
 			<textarea name="notes" id="notes" placeholder="Enter notes here"></textarea>
 			<br>
 			
@@ -202,8 +194,6 @@
 			<br>
 			<br><input type="submit"
 			value="Preview">
-			
-		
 		</form>	
 </div>
 </body>

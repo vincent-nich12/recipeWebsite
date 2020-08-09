@@ -7,6 +7,9 @@ import os
 from werkzeug.utils import secure_filename
 import pickle
 import re
+from utils.database_utils.DatabaseConnector import DatabaseConnector
+from utils.database_utils.RecipeSearcher import RecipeSearcher
+from utils.database_utils.SQLRunner import SQLRunner
 
 #################################################################
 
@@ -23,6 +26,8 @@ def limit_remote_addr():
     if request.remote_addr != '94.15.6.114':
         abort(403)
 
+databaseConnector = DatabaseConnector()
+sqlRunner = SQLRunner(databaseConnector)
 #################################################################
 
 ###################Functions to load webpages ###################
@@ -30,7 +35,7 @@ def limit_remote_addr():
 @app.route('/')
 def home():
 	#open website
-	return render_template('Recipe_Home.html')
+    return render_template('Recipe_Home.html')
 
 #Add a recipe
 @app.route('/Add_a_Recipe.html')
@@ -41,51 +46,20 @@ def addRecipes():
 @app.route('/Recipe_Search.html', methods=['GET'])
 def searchRecipe():
     try:
+        #The value to search
         searchValue = request.args['recipesearch']
-
-        conn = None
-
-        conn = getConn()
-        cur = conn.cursor()
-
-        cur.execute('SET search_path to public')
+        #Connect to database
+        databaseConnector.connect()
         #Get all the recipes and order by similarity
-        cur.execute("SELECT similarity(Recipe_Name,'" + searchValue + "') AS similarity, Recipe_ID, Recipe_Name,Meal_type,Skill_level,Servings,Hours,Minutes,Meal_cat_ID,Ingredients,Method,Notes,Image_URL FROM Recipes ORDER BY similarity DESC;")
-        
-        rows = cur.fetchall()
-        
-        #Get the top 10 results
-        topRecipes = None
-        if len(rows) < 10:
-            topRecipes = rows
-        else:
-            topRecipes = rows[0:10]
-            
-        #Get the useful info 
-        usefulInfo = []
-        for x in range(len(topRecipes)):
-            recipe = []
-            #Recipe Name
-            recipe.append(topRecipes[x][2])
-            #Skill level
-            recipe.append(topRecipes[x][4])
-            #Servings
-            recipe.append(topRecipes[x][5])
-            #Hours
-            recipe.append(topRecipes[x][6])
-            #Minutes
-            recipe.append(topRecipes[x][7])
-            #Image_URL
-            recipe.append(topRecipes[x][12])
-            usefulInfo.append(recipe)
-
-        return render_template('Recipe_Search.html',recipes=usefulInfo)
+        #returned as a list of Recipe objects
+        recipeSearcher = RecipeSearcher(sqlRunner,searchValue,10)
+        recipes = recipeSearcher.search_recipes()
+        return render_template('Recipe_Search.html',recipes=recipes)
     except Exception as e:
-        print(e)
+        traceback.print_exc()
         return render_template('Recipe_Home.html',emsg = 'An unexpected error occured, please try again later.', error = e)
     finally:
-        if conn:
-            conn.close()
+        databaseConnector.close_connection()
 
 #Search for a recipe by category
 @app.route('/Category_Search.html')
@@ -96,7 +70,8 @@ def searchCategory():
 @app.route('/Preview_Recipe.html', methods=['POST'])
 def previewRecipe():
     try:
-        conn = None
+        #connect to database
+        databaseConnector.connect()
 
         #Recipe title
         recipeTitle = request.form['recipe_name']
@@ -142,14 +117,10 @@ def previewRecipe():
             if x == '\r':
                 notes.remove(x)
 
-        conn = getConn()
-        cur = conn.cursor()
-
         #Generate the IDs for the new recipe
         ##########################################################
-        cur.execute('SET search_path to public')
-        cur.execute('SELECT * FROM recipes')
-        rows = cur.fetchall()
+        databaseConnector.cur.execute('SELECT * FROM recipes')
+        rows = databaseConnector.cur.fetchall()
 		
         numRecords = 0
         numRecords = len(rows)
@@ -170,18 +141,14 @@ def previewRecipe():
         traceback.print_exc()
         return render_template('Added_Recipe_Error.html', error='Error!', emsg=e)
     finally:
-        if conn:
-            conn.close()
+        databaseConnector.close_connection()
 
 #Function called by the preview page to submit the recipes 
 @app.route('/Submitted_Recipe.html', methods=['POST'])
 def submitRecipe():
     try:
         #Submit everything to the database
-        conn = None
-        
-        conn = getConn()
-        cur = conn.cursor()
+        databaseConnector.connect()
         
         #load previous variables
         file = open('newItems.pkl','rb')
@@ -191,7 +158,6 @@ def submitRecipe():
         #Order of variables in data.
         #[newID,recipeTitle,mealString,skillLevelString,servings,hours,minutes,
         #categories,ingredients,method,notes,file_URL]
-        cur.execute('SET search_path to public')
         
         mealCats = [data[0]] #add the ID
         #Add all the categories (7 because thats the index of the categories)
@@ -210,19 +176,18 @@ def submitRecipe():
         
         
         #Add the category type
-        cur.execute('INSERT INTO meal_cats VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)',mealCats)
+        databaseConnector.cur.execute('INSERT INTO meal_cats VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)',mealCats)
         #Add the recipe
-        cur.execute('INSERT INTO recipes VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)',recipeToAdd)
+        databaseConnector.cur.execute('INSERT INTO recipes VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)',recipeToAdd)
                
-        conn.commit()
+        databaseConnector.commit_changes()
         
         return render_template('Submitted_Recipe.html',error=None, recipeTitle=recipeToAdd[1],mealString=recipeToAdd[2],skillLevelString=recipeToAdd[3],servings=recipeToAdd[4],hours=recipeToAdd[5],minutes=recipeToAdd[6],categories=recipeToAdd[7],ingredients=recipeToAdd[8],method=recipeToAdd[9],notes=recipeToAdd[10],file_URL=recipeToAdd[11])
     except Exception as e:
         traceback.print_exc()
         return render_template('Submitted_Recipe.html', error='Error!', emsg=e)
     finally:
-        if conn:
-            conn.close()
+        databaseConnector.close_connection()
 
 #Favourites Page
 @app.route('/Favourites.html')
@@ -240,11 +205,8 @@ def recipeResult():
     try:
         recipeName = request.args.get('recipeName')
         
-        conn = None
-        conn = getConn()
-        cur = conn.cursor()
-        
-        cur.execute('SET search_path to public')
+        conn = databaseConnector.get_conn()
+        cur = databaseConnector.get_cursor()
         
         cur.execute('SELECT * FROM recipes INNER JOIN meal_cats ON \
                      recipes.meal_cat_id = meal_cats.meal_cat_id WHERE \
@@ -277,23 +239,6 @@ def recipeResult():
 #################################################################
 
 ########################## Helper Functions #####################
-#Function to open a file
-def openFile(aFile):
-	with open(aFile) as inFile:
-		list = inFile.readlines()
-	return list
-	
-#Function to get the connection to the database
-def getConn():
-    list = openFile('/root/recipeWebsite/database/databaseUtils/database_access.txt')
-    dbname = list[0]
-    user = list[1]
-    password = list[2]
-
-    connStr = ("dbname = " + dbname +  "user=" + user + " password=" + password)
-
-    conn= psycopg2.connect(connStr)
-    return conn
 	
 #Function to upload a file onto the server
 def upload_file(request,ID):
