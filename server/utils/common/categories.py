@@ -39,6 +39,23 @@ class Categories:
         
     """
     Helper function for constructing categories from an array
+    The array needs to be the following:
+        1) Category ID
+        2) Pasta
+        3) Spicy
+        4) Rice
+        5) Noodles
+        6) Baked
+        7) Pie
+        8) Vegetarian
+        9) One pot
+        10) Cake
+        11) Casserole
+        12) Chocolate
+        13) Curry
+        14) Gluten_Free
+        15) Fish
+        16) Meat
     """
     def construct_categories_for_recipe(row):
         new_categories = Categories()
@@ -46,6 +63,35 @@ class Categories:
         for x in range(len(atts)):
             setattr(new_categories, atts[x],row[x]) 
         return new_categories
+        
+    """
+    Function inorder to extract the information required from a website
+    to create a new Categories object.
+    Requires the request and its desired ID.
+    """
+    def create_categories_object_from_website(request,newID):
+    
+        categoriesArr = []
+        categoriesArr.append(newID)
+        categoriesArr.append(request.form.get('Pasta') is not None)
+        categoriesArr.append(request.form.get('Spicy') is not None)
+        categoriesArr.append(request.form.get('Rice') is not None)
+        categoriesArr.append(request.form.get('Noodles') is not None)
+        categoriesArr.append(request.form.get('Baking') is not None)
+        categoriesArr.append(request.form.get('Pie') is not None)
+        categoriesArr.append(request.form.get('Vegetarian') is not None)
+        categoriesArr.append(request.form.get('One Pot') is not None)
+        categoriesArr.append(request.form.get('Cake') is not None)
+        categoriesArr.append(request.form.get('Casserole') is not None)
+        categoriesArr.append(request.form.get('Chocolate') is not None)
+        categoriesArr.append(request.form.get('Curry') is not None)
+        categoriesArr.append(request.form.get('Gluten-Free') is not None)
+        categoriesArr.append(request.form.get('Fish') is not None)
+        categoriesArr.append(request.form.get('Meat') is not None)
+        
+        categories = Categories.construct_categories_for_recipe(categoriesArr)
+        
+        return categories
         
         
     """

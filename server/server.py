@@ -8,15 +8,16 @@ from werkzeug.utils import secure_filename
 import pickle
 import re
 from utils.database_utils.DatabaseConnector import DatabaseConnector
-from utils.database_utils.RecipeSearcher import RecipeSearcher
+from utils.searchers.RecipeSearcher import RecipeSearcher
 from utils.database_utils.SQLRunner import SQLRunner
 from utils.common.recipe import Recipe
 from utils.common.categories import Categories
+from utils.common.general_utils import upload_file
 
 #################################################################
 
 ####################### Prerequisites ###########################
-UPLOAD_FOLDER = 'static/'
+UPLOAD_FOLDER = '/root/recipeWebsite/server/static/'
 ALLOWED_EXTENSIONS = ['.gif','.png','.jpg','.jpeg']
 
 app = Flask(__name__)
@@ -25,7 +26,7 @@ app.debug = True
 
 @app.before_request
 def limit_remote_addr():
-    if request.remote_addr != '94.15.6.114':
+    if request.remote_addr != '151.228.104.197':
         abort(403)
 
 databaseConnector = DatabaseConnector()
@@ -39,7 +40,7 @@ def home():
 	#open website
     return render_template('Recipe_Home.html')
 
-#Add a recipe
+#Load the add a recipe page
 @app.route('/Add_a_Recipe.html')
 def addRecipes():
 	return render_template('Add_a_Recipe.html')
@@ -68,75 +69,22 @@ def searchRecipe():
 def searchCategory():
 	return render_template('Category_Search.html')
 
-#Page Rendered when a recipe is added to the database (or attempted)
+#Page Rendered when a recipe is sent for previewing
 @app.route('/Preview_Recipe.html', methods=['POST'])
 def previewRecipe():
     try:
-        #connect to database
-        databaseConnector.connect()
-
-        #Recipe title
-        recipeTitle = request.form['recipe_name']
-        #Breakfast, Lunch, Dinner, Dessert or Snacks
-        mealString = request.form['meal']
-        #Easy, Medium or Hard
-        skillLevelString = request.form['skill_level']
-        #Number of servings
-        servings = request.form['servings']
-        #Time taken to complete the recipe
-        hours = request.form['hours']
-        minutes = request.form['minutes']
-
-        #CheckBoxes for categories
-        pasta = (request.form.get('Pasta') is not None)
-        spicy = (request.form.get('Spicy') is not None)
-        rice = (request.form.get('Rice') is not None)
-        noodles = (request.form.get('Noodles') is not None)
-        baked = (request.form.get('Baking') is not None)
-        pie = (request.form.get('Pie') is not None)
-        vegetarian = (request.form.get('Vegetarian') is not None)
-        one_pot = (request.form.get('One Pot') is not None)
-        cake = (request.form.get('Cake') is not None)
-        
-        categories = [pasta,spicy,rice,noodles,baked,pie,vegetarian,one_pot,cake]
-
-        #Ingredients textbox 
-        ingredients = request.form['ingredients']
-        #Split by new line.
-        ingredients = ingredients.split('\n')
-                
-        #Method textbox
-        method = request.form['Method']
-        #Split by new line.
-        method = method.split('\n')
-                
-        #Notes textbox
-        notes = request.form['notes']
-        #Split by new line.
-        notes = notes.split('\n')
-        #Remove \r characters
-        for x in notes:
-            if x == '\r':
-                notes.remove(x)
-
-        #Generate the IDs for the new recipe
-        ##########################################################
-        databaseConnector.cur.execute('SELECT * FROM recipes')
-        rows = databaseConnector.cur.fetchall()
-		
-        numRecords = 0
-        numRecords = len(rows)
-            
-        newID = numRecords + 1
-        ##########################################################
+        #Create a Recipes object
+        recipe = Recipe.create_recipe_object_from_website(request,databaseConnector)
         #Image upload handler
-        file_URL = upload_file(request,newID)
-
+        file_URL = upload_file(app,request,recipe.recipe_id,ALLOWED_EXTENSIONS)
+        recipe.image_URL = file_URL
+        #Create the categories object
+        categories = Categories.create_categories_object_from_website(request,recipe.recipe_id)
         #Save the details temporarly into a pickle file
         with open('newItems.pkl', 'wb') as f:
-            pickle.dump([newID,recipeTitle,mealString,skillLevelString,servings,hours,minutes,categories,ingredients,method,notes,file_URL],f)
+            pickle.dump([recipe,categories],f)
 
-        return render_template('Preview_Recipe.html',recipeTitle=recipeTitle,mealString=mealString,skillLevelString=skillLevelString,servings=servings,hours=hours,minutes=minutes,categories=categories,ingredients=ingredients,method=method,notes=notes,file_URL=file_URL)
+        return render_template('Preview_Recipe.html',recipe=recipe,categories=categories)
 		
     except Exception as e:
         #print(e)
@@ -213,7 +161,7 @@ def recipeResult():
                                            recipes.recipe_name = %s', [recipeName])
         recipeAtts = recipeAtts[0]
         # Construct the recipe object
-        recipe = Recipe.construct_recipe(recipeAtts)
+        recipe = Recipe.construct_recipe(recipeAtts,True)
         # Remove the recipe atts and only use the category atts 
         recipeAtts = recipeAtts[Recipe.get_num_atts():len(recipeAtts)]
         # Construct the categories object
@@ -224,38 +172,6 @@ def recipeResult():
         return render_template('Recipe_Home.html', error='Error!', emsg=e)
     finally:
         databaseConnector.close_connection()
-    
 	
-#################################################################
-
-########################## Helper Functions #####################
-	
-#Function to upload a file onto the server
-def upload_file(request,ID):
-    if request.method == 'POST':
-        #Check if file has actually been uploaded
-        if 'upload' not in request.files:
-            return None
-        file = request.files['upload']
-		
-        #If user does not select file, then its submitted as an empty string
-        if file.filename == '':
-            return None
-		
-        filename, file_extension = os.path.splitext(file.filename)
-        if file and (file_extension.lower() in ALLOWED_EXTENSIONS):
-            filename = str(ID) + file_extension.lower()
-            file.save(os.path.join(app.config['UPLOAD_FOLDER'],filename))
-            return os.path.join(app.config['UPLOAD_FOLDER'],filename)
-        else:
-            errorStr = ''
-            for i in range(len(ALLOWED_EXTENSIONS)):
-                if i == (len(ALLOWED_EXTENSIONS) - 1):
-                    errorStr = errorStr + ' ' + ALLOWED_EXTENSIONS[i]
-                else:
-                    errorStr = errorStr + ' ' + ALLOWED_EXTENSIONS[i] + ','
-            raise Exception(file_extension + ' found, only' + errorStr + ' allowed.')
-		
 if __name__ == '__main__':
     app.run(debug=True, host="0.0.0.0")
-#################################################################

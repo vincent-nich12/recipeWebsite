@@ -2,8 +2,8 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 10.12 (Ubuntu 10.12-0ubuntu0.18.04.1)
--- Dumped by pg_dump version 10.12 (Ubuntu 10.12-0ubuntu0.18.04.1)
+-- Dumped from database version 10.14 (Ubuntu 10.14-0ubuntu0.18.04.1)
+-- Dumped by pg_dump version 10.14 (Ubuntu 10.14-0ubuntu0.18.04.1)
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -94,7 +94,8 @@ CREATE TYPE public.mealtype AS ENUM (
     'Lunch',
     'Dinner',
     'Dessert',
-    'Snacks'
+    'Snacks',
+    'Other'
 );
 
 
@@ -131,7 +132,13 @@ CREATE TABLE public.meal_cats (
     pie boolean NOT NULL,
     vegetarian boolean NOT NULL,
     one_pot boolean NOT NULL,
-    cake boolean NOT NULL
+    cake boolean NOT NULL,
+    casserole boolean DEFAULT false NOT NULL,
+    chocolate boolean DEFAULT false NOT NULL,
+    curry boolean DEFAULT false NOT NULL,
+    gluten_free boolean DEFAULT false NOT NULL,
+    fish boolean DEFAULT false NOT NULL,
+    meat boolean DEFAULT false NOT NULL
 );
 
 
@@ -163,27 +170,27 @@ ALTER TABLE public.recipes OWNER TO postgres;
 -- Data for Name: meal_cats; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.meal_cats (meal_cat_id, pasta, spicy, rice, noodles, baked, pie, vegetarian, one_pot, cake) FROM stdin;
-1	f	f	f	f	f	f	f	t	f
-2	f	f	f	f	f	f	f	f	t
-3	f	f	f	f	f	f	f	f	f
-4	f	f	f	f	f	f	t	f	f
-5	f	f	f	f	f	f	f	f	f
-6	f	f	f	f	f	f	f	f	f
-7	f	f	f	f	f	f	f	f	f
-8	f	f	f	f	f	f	f	f	t
-9	f	f	f	f	f	f	f	f	t
-10	f	f	f	f	t	f	f	f	t
-11	f	f	f	f	t	f	f	f	t
-12	f	f	f	f	t	f	f	f	t
-13	f	f	f	f	f	f	f	f	t
-14	f	f	f	f	f	f	f	t	f
-15	f	f	f	t	f	f	f	f	f
-16	f	f	f	f	f	f	f	f	t
-17	f	f	f	f	t	f	f	f	f
-18	f	f	f	f	t	f	f	f	f
-19	f	f	f	f	t	f	f	f	f
-20	f	f	t	f	f	f	f	f	f
+COPY public.meal_cats (meal_cat_id, pasta, spicy, rice, noodles, baked, pie, vegetarian, one_pot, cake, casserole, chocolate, curry, gluten_free, fish, meat) FROM stdin;
+1	f	f	f	f	f	f	f	t	f	f	f	f	f	f	f
+2	f	f	f	f	f	f	f	f	t	f	f	f	f	f	f
+3	f	f	f	f	f	f	f	f	f	f	f	f	f	f	f
+4	f	f	f	f	f	f	t	f	f	f	f	f	f	f	f
+5	f	f	f	f	f	f	f	f	f	f	f	f	f	f	f
+6	f	f	f	f	f	f	f	f	f	f	f	f	f	f	f
+7	f	f	f	f	f	f	f	f	f	f	f	f	f	f	f
+8	f	f	f	f	f	f	f	f	t	f	f	f	f	f	f
+9	f	f	f	f	f	f	f	f	t	f	f	f	f	f	f
+10	f	f	f	f	t	f	f	f	t	f	f	f	f	f	f
+11	f	f	f	f	t	f	f	f	t	f	f	f	f	f	f
+12	f	f	f	f	t	f	f	f	t	f	f	f	f	f	f
+13	f	f	f	f	f	f	f	f	t	f	f	f	f	f	f
+14	f	f	f	f	f	f	f	t	f	f	f	f	f	f	f
+15	f	f	f	t	f	f	f	f	f	f	f	f	f	f	f
+16	f	f	f	f	f	f	f	f	t	f	f	f	f	f	f
+17	f	f	f	f	t	f	f	f	f	f	f	f	f	f	f
+18	f	f	f	f	t	f	f	f	f	f	f	f	f	f	f
+19	f	f	f	f	t	f	f	f	f	f	f	f	f	f	f
+20	f	f	t	f	f	f	f	f	f	f	f	f	f	f	f
 \.
 
 
@@ -198,8 +205,8 @@ COPY public.recipes (recipe_id, recipe_name, meal_type, skill_level, servings, h
 6	Date and Cashew Bars	Snacks	Easy	14	0	30	6	{"300 g soft dates\r","100 g nuts (you can use hazel"," walnut or almond – or a mix)\r","100 g cashew nuts\r","2 Tbsp coconut oil"," melted\r","2 Tbsp raw cocoa powder\r","1/2 tsp ground vanilla"}	{"Preheat oven to  Preheat oven to  300 F °/150 C ° (fan).\r","Roast the 100 g of mixed nuts for 15-20 min"," until slightly golden. If you are using hazelnuts"," remove the burned skin with a kitchen cloth.\r","Blend nut in a food processor or blender until semi ground. Then you roughly blend cashew nuts"," you want some larger chunks of these. Remove the stones from the dates and blend theses with coconut oil"," vanilla and cocoa.\r","In a large bowl mix all of the nuts with the date mixture until you have a sticky dough.\r","In a lined baking tray spread out the dough and divide evenly into a square. Place in the fridge or freezer until it is firm and set. Use a sharp knife to cut out your bars in the size you prefer."}	{"Store the bars in an airtight container  in the fridge for up to 14 days."}	static/6.png
 7	Dumplings	Dinner	Easy	0	0	35	7	{"100g GF self raising flour (e.g. Doves Farm) \r","1tsp dry english mustard powder (e.g. colmans) optional \r","50g grated butter (cold from fridge or freezer) \r","1/2 tsp salt (optional) \r","2-3 tbsp cold water"}	{"Mix flour and mustard and salt (if using) in a bowl \r","Grate cold butter into the bowl of flour \r","Bring together mixture with hands (don't over work it) \r","Add enough water to form a soft dough \r","Divide dumplings into balls of equal size (as required) \r","Place dumplings on top of cooked casserole and continue cooking for about 30 minutes. (Oven"," hob"," or slow cooker on high). "}	{""}	\N
 8	Flourless Brownies	Dessert	Easy	0	0	45	8	{"75 g (3oz) unsalted butter"," chopped"," plus extra to grease\r","250 g (9oz) dark chocolate (70% cocoa solids)"," chopped\r","15 g (½oz) cocoa powder\r","2 tsp vanilla extract\r","250 g (9oz) caster sugar\r","4 large eggs\r","100 g (3½oz) ground almonds"}	{"1.\tPreheat oven to 180°C (160°C fan) mark 4. Lightly grease and line a 20.5cm (8in) square tin with baking parchment. Melt the chocolate and butter together in a large pan over a low heat"," stirring occasionally. Take off heat and whisk in cocoa powder"," vanilla and sugar until combined.\r","2.\tNext whisk in the eggs"," one at a time"," before stirring in the ground almonds. Scrape into the prepared tin and level. Bake for 25-30min or until firm to the touch. Leave to cool completely in tin. Chill for at least 1hr before cutting into squares.\r","3.\tTo store: Once chilled keep well wrapped in foil or in an airtight container at room temperature for up to 5 days"}	{""}	static/8.png
-9	GF Chocolate Mug Cake	Dessert	Easy	2	0	5	9	{"25g good quality dark chocolate\r","25g crushed hazelnuts"," almonds or walnuts\r","25g caster sugar\r","1 large egg"}	{"Melt the chocolate.\r","Seperate the egg.\r","Get out your electric whisk.\r","Whisk the egg white until stiff.\r","Whisk the egg yolk and suger together until very pale.\r","Stir in the melted chocolate gradually.\r","Stir in the crushed nuts.\r","Gently stir in the egg whte.\r","Transfer into 2 mugs (two thirds of a way up).\r","Microwave 800W for 1 minutes 30 seconds.\r","Use skewer or toothpick to check that they are cooked."}	{""}	\N
 10	GF Flourless Chocolate Cake	Dessert	Easy	0	0	45	10	{"200g Ground almonds \r","200g Sugar \r","200g Butter \r","Eggs x 4 (roughly 200g!) \r","200g Melted chocolate (70% cocoa)"}	{"Blend the first four ingredients together then add the chocolate. Scoop into silicone cake tray or greased tin. 35 minutes at 180c convection oven. You might need to adjust the time depending on your oven and the height of the shelf. "}	{""}	\N
+9	GF Chocolate Mug Cake	Dessert	Easy	2	0	5	9	{"25g good quality dark chocolate\r","25g crushed hazelnuts, almonds or walnuts\r","25g caster sugar\r","1 large egg"}	{"Melt the chocolate.\r","Seperate the egg.\r","Get out your electric whisk.\r","Whisk the egg white until stiff.\r","Whisk the egg yolk and suger together until very pale.\r","Stir in the melted chocolate gradually.\r","Stir in the crushed nuts.\r","Gently stir in the egg whte.\r","Transfer into 2 mugs (two thirds of a way up).\r","Microwave 800W for 1 minutes 30 seconds.\r","Use skewer or toothpick to check that they are cooked."}	{""}	\N
 1	Eggs and Bacon	Breakfast	Easy	2	0	5	1	{"1. Bacon\r","2. Eggs"}	{"1. Cook Eggs\r","2. Cook Bacon\r","3. Serve"}	{""}	\N
 11	Ginger Cake with Caramel Frosting	Dessert	Easy	12	1	30	11	{"200g butter"," plus extra for the tin\r","200g dark muscovado sugar\r","100g black treacle\r","100g golden syrup\r","2 large egg"," beaten\r","300ml milk\r","350g plain flour\r","2 tsp ground ginger (use 4 tsp ground ginger for more of a ginger taste)\r","2 tsp bicarbonate of soda\r","few chunks crystallised ginger"," chopped\r","85g butter\r","175ml double or whipping cream\r","175g caster sugar (we used white - use golden for a darker icing)\r",""}	{"1.\tHeat oven to 160C/140C fan/gas 3. Butter and line a 23cm round cake tin. Put the butter, sugar, treacle and syrup in a large pan and gently heat, stirring until the butter has melted and the mixture is smooth. Remove from the heat and cool for 10 mins.\r","2.\tStir in the eggs and milk, then sift in the flour, ginger and bicarbonate of soda. Mix well, then pour into the prepared tin. Bake for 50 mins-1 hr until the cake is firm to the touch and springs back when pressed in the centre. Cool in the tin for 15 mins, then turn out, peel off the paper and cool on a wire rack.\r","3.\tPut the frosting ingredients in a small pan over a medium heat and stir until the butter has melted and the mixture is smooth. Increase the heat and boil hard for 3-4 mins, stirring occasionally; at this stage the frosting should look like runny custard. Pour into a bowl and leave to cool for 30 mins. Beat with an electric whisk until thick and spreadable. Spread over the cooled cake and decorate with crystallised ginger."}	{""}	static/11.png
 12	Gluten Free Christmas Cake	Dessert	Medium	0	3	0	12	{"100g/3½oz soya margarine (or whatever kind of butter you like)\r","1 large ripe banana\r","2 large lemons"," finely grated rind and juice only\r","100g/3½oz soft prunes"," stoned and halved\r","75g/3oz raisins\r","75g/3oz sultanas\r","75g/3oz currants\r","150g/5oz soft dried apricots"," chopped in fairly large pieces\r","50g/2oz mixed peel\r","75g/2½oz walnuts"," halved and 25g/¾oz hazelnuts"," chopped OR 75g/3oz large pumpkin seeds and 25g/¾oz sunflower seeds\r","2 eggs (or 2 level tsp gluten-free baking powder to make an egg-free cake)\r","75g/2½oz coarse polenta and 75g/2½oz rice flour and 1 level tsp xanthan gum OR 150g gluten-free flour that already includes xanthan gum\r","2 heaped tsp ground nutmeg\r","1 heaped tsp ground cinnamon\r","1 heaped tsp ground ginger\r","½ teaspoon ground cloves\r","2 tbsp brandy (optional)"}	{"1.\tPreheat the oven to 160C/300F/Gas 3.\r","2.\tIn a food processor beat the butter/margarine with the banana and the lemon juice and rind. Pour into a bowl.\r","3.\tMix in the dried fruit and nuts or seeds.\r","4.\tBeat the eggs if you are using them.\r","5.\tSieve which ever flours you are using with the baking powder (if you are substituting it for the eggs) and the spices.\r","6.\tFold the eggs (if you are using them) into the fruit mixture alternately with the flours. Add some brandy if you like.\r","7.\tLine a 20cm/8in cake tin with greased greaseproof paper. Spoon the mixture in and level off the top.\r","8.\tBake for about two hours or until a skewer inserted in the middle comes out clean.\r","9.\tRemove from the tin and cool on a rack.\r","10.\tEat as it is or store to be iced for Christmas. You can also decorate this cake with whole nuts such as almonds."}	{""}	static/12.png

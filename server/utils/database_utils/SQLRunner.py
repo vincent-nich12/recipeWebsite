@@ -31,3 +31,4 @@ class SQLRunner:
         if(not ("SELECT" in sql_string)):
             self.db_conn.commit_changes()
         return rows
+        

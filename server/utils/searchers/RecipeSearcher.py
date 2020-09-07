@@ -29,6 +29,6 @@ class RecipeSearcher:
         else:
             topRecipes = rows[0:self.num_results]
         #Convert into a list of Recipe objects
-        recipes = Recipe.construct_recipes(topRecipes)
+        recipes = Recipe.construct_recipes(topRecipes,True)
         return recipes
         
