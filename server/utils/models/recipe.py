@@ -83,15 +83,12 @@ class Recipe:
     requires the databaseConnector object in order to do this.
     """
     def get_ID_for_new_recipe(databaseConnector):
-        databaseConnector.cur.execute('SELECT * FROM recipes')
+        databaseConnector.cur.execute('SELECT recipe_id FROM recipes')
         rows = databaseConnector.cur.fetchall()
-		
-        numRecords = 0
-        numRecords = len(rows)
-            
-        newID = numRecords + 1
-        
-        return newID
+        rowIDs = []
+        for row in rows:
+            rowIDs.append(row[0])
+        return (max(rowIDs) + 1)
         
     """
     Function inorder to extract the information required from a website
@@ -138,14 +135,51 @@ class Recipe:
         method = method.split('\n')
         recipeArray.append(method)
         ##################################################
+        
+        ############# Add Notes ##########################
         #Notes textbox
-        recipeArray.append(request.form['notes'])
-        #Add None for Image_URL
+        notes = request.form['notes']
+        #Split by new line.
+        notes = notes.split('\n')
+        recipeArray.append(notes)
+        ##################################################
+        
+        #Add Empty string for Image_URL
         recipeArray.append("")
         # Create the recipe object
         recipe = Recipe.construct_recipe(recipeArray,False)
         
         return recipe
+        
+    """
+    Function used to submit a recipe object into the database
+    """
+    def submit_recipe_to_database(self,sqlRunner):
+        sqlString = Recipe._create_sql_string()
+        values = self._get_values()
+        sqlRunner.run_script(sqlString,values)
+        
+    """
+    Static method for creating the sql string for a recipe object
+    """
+    def _create_sql_string():
+        sqlString = "INSERT INTO recipes VALUES ("
+        for x in range(Recipe.get_num_atts()):
+            if x < Recipe.get_num_atts() - 1:
+                sqlString = sqlString + "%s,"
+            else:
+                sqlString = sqlString + "%s)"
+        return sqlString
+        
+    """
+    Function to get all the values stored in the Recipe object into a list.
+    """
+    def _get_values(self):
+        atts = [a for a in list(vars(self).keys()) if not a.startswith('__')]
+        attVals = []
+        for x in range(len(atts)):
+            attVals.append(getattr(self,atts[x]))
+        return attVals
         
     """
     Function to get the number of attributes stored in the recipe object (because it might change)

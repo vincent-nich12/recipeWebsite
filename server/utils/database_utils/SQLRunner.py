@@ -27,8 +27,10 @@ class SQLRunner:
     """
     def run_script(self,sql_string,values):
         self.db_conn.cur.execute(sql_string,values)
-        rows = self.db_conn.cur.fetchall()
+        rows = None
         if(not ("SELECT" in sql_string)):
             self.db_conn.commit_changes()
+        else:
+            rows = self.db_conn.cur.fetchall()
         return rows
         

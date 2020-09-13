@@ -10,8 +10,8 @@ import re
 from utils.database_utils.DatabaseConnector import DatabaseConnector
 from utils.searchers.RecipeSearcher import RecipeSearcher
 from utils.database_utils.SQLRunner import SQLRunner
-from utils.common.recipe import Recipe
-from utils.common.categories import Categories
+from utils.models.recipe import Recipe
+from utils.models.categories import Categories
 from utils.common.general_utils import upload_file
 
 #################################################################
@@ -42,8 +42,15 @@ def home():
 
 #Load the add a recipe page
 @app.route('/Add_a_Recipe.html')
-def addRecipes():
+def addRecipe():
 	return render_template('Add_a_Recipe.html')
+
+
+#Load the login page
+@app.route('/Login_Page.html')
+def loginPage():
+	return render_template('Login_Page.html')
+
 
 #Search for a recipe by name
 @app.route('/Recipe_Search.html', methods=['GET'])
@@ -55,7 +62,7 @@ def searchRecipe():
         databaseConnector.connect()
         #Get all the recipes and order by similarity
         #returned as a list of Recipe objects
-        recipeSearcher = RecipeSearcher(sqlRunner,searchValue,10)
+        recipeSearcher = RecipeSearcher(sqlRunner,searchValue,10,0.15)
         recipes = recipeSearcher.search_recipes()
         return render_template('Recipe_Search.html',recipes=recipes)
     except Exception as e:
@@ -83,11 +90,10 @@ def previewRecipe():
         #Save the details temporarly into a pickle file
         with open('newItems.pkl', 'wb') as f:
             pickle.dump([recipe,categories],f)
-
-        return render_template('Preview_Recipe.html',recipe=recipe,categories=categories)
-		
+        return render_template('Preview_Recipe.html',recipe=recipe,categories=categories.get_categories_as_list())
     except Exception as e:
         #print(e)
+        #This shouldn't occur but just incase...
         traceback.print_exc()
         return render_template('Added_Recipe_Error.html', error='Error!', emsg=e)
     finally:
@@ -97,42 +103,17 @@ def previewRecipe():
 @app.route('/Submitted_Recipe.html', methods=['POST'])
 def submitRecipe():
     try:
-        #Submit everything to the database
         databaseConnector.connect()
-        
-        #load previous variables
+        #load saved variables
         file = open('newItems.pkl','rb')
         data = pickle.load(file)
         file.close()
-        
-        #Order of variables in data.
-        #[newID,recipeTitle,mealString,skillLevelString,servings,hours,minutes,
-        #categories,ingredients,method,notes,file_URL]
-        
-        mealCats = [data[0]] #add the ID
-        #Add all the categories (7 because thats the index of the categories)
-        for x in data[7]:
-            mealCats.append(x)
-            
-        #Initialise list
-        recipeToAdd = [0]*len(data)
-        recipeToAdd[0] = data[0] #add a new ID
-        recipeToAdd[7] = data[0] #add the category ID
-        
-        for x in range(0,len(data)):
-            if x == 7 or x == 0:
-                continue
-            recipeToAdd[x] = data[x]
-        
-        
-        #Add the category type
-        databaseConnector.cur.execute('INSERT INTO meal_cats VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)',mealCats)
-        #Add the recipe
-        databaseConnector.cur.execute('INSERT INTO recipes VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)',recipeToAdd)
-               
-        databaseConnector.commit_changes()
-        
-        return render_template('Submitted_Recipe.html',error=None, recipeTitle=recipeToAdd[1],mealString=recipeToAdd[2],skillLevelString=recipeToAdd[3],servings=recipeToAdd[4],hours=recipeToAdd[5],minutes=recipeToAdd[6],categories=recipeToAdd[7],ingredients=recipeToAdd[8],method=recipeToAdd[9],notes=recipeToAdd[10],file_URL=recipeToAdd[11])
+        recipe = data[0]
+        categories = data[1]
+        #Submit data to the database
+        categories.submit_categories_to_database(sqlRunner)
+        recipe.submit_recipe_to_database(sqlRunner)  
+        return render_template('Submitted_Recipe.html',error=None,recipe=recipe,categories=categories.get_categories_as_list())
     except Exception as e:
         traceback.print_exc()
         return render_template('Submitted_Recipe.html', error='Error!', emsg=e)

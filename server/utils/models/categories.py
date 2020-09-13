@@ -36,7 +36,6 @@ class Categories:
                 cats.append(atts[x])
         return cats
         
-        
     """
     Helper function for constructing categories from an array
     The array needs to be the following:
@@ -101,9 +100,42 @@ class Categories:
         return str(vars(self))
         
     """
+    Function used to submit a categories object into the database
+    """
+    def submit_categories_to_database(self,sqlRunner):
+        sqlString = Categories._create_sql_string()
+        values = self._get_values()
+        sqlRunner.run_script(sqlString,values)
+        
+    """
+    Function that operates in a similar way to get_categories_as_list except that 
+    a list of booleans is returned instead (except for the ID).
+    """
+    def _get_values(self):
+        atts = [a for a in list(vars(self).keys()) if not a.startswith('__')]
+        cats = []
+        for x in range(len(atts)):
+            cats.append(getattr(self,atts[x]))
+        return cats
+    
+    """
+    Static method for creating the sql string for a categories object
+    """
+    def _create_sql_string():
+        sqlString = "INSERT INTO meal_cats VALUES ("
+        for x in range(Categories.get_num_atts()):
+            if x < Categories.get_num_atts() - 1:
+                sqlString = sqlString + "%s,"
+            else:
+                sqlString = sqlString + "%s)"
+        return sqlString
+    
+    """
     Function to get the number of attributes stored in the Categories object (because it might change)
     """
     def get_num_atts():
         new_categories = Categories()
         atts = [a for a in list(vars(new_categories).keys()) if not a.startswith('__')]
         return len(atts)
+        
+    
