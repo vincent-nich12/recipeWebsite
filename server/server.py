@@ -12,24 +12,28 @@ from utils.searchers.RecipeSearcher import RecipeSearcher
 from utils.database_utils.SQLRunner import SQLRunner
 from utils.models.recipe import Recipe
 from utils.models.categories import Categories
-from utils.common.general_utils import upload_file
+from utils.common.general_utils import upload_file, open_config_file
 
 #################################################################
 
 ####################### Prerequisites ###########################
-UPLOAD_FOLDER = '/root/recipeWebsite/server/static/'
-ALLOWED_EXTENSIONS = ['.gif','.png','.jpg','.jpeg']
+config = open_config_file('/root/recipeWebsite/server/config.json')
+UPLOAD_FOLDER = config["misc"]["img_upload_folder"]
+ALLOWED_EXTENSIONS = config["misc"]["allowed_extensions"]
 
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.debug = True
 
 @app.before_request
-def limit_remote_addr():
-    if request.remote_addr != '151.228.104.197':
+def pre_server_setup():
+    #Open the config file
+    config = open_config_file('/root/recipeWebsite/server/config.json')
+    #Check if connecting IP is valid
+    if request.remote_addr not in config["misc"]["valid_ip_addresses"]:
         abort(403)
 
-databaseConnector = DatabaseConnector()
+databaseConnector = DatabaseConnector(config["database_config"]["access_file"])
 sqlRunner = SQLRunner(databaseConnector)
 #################################################################
 
@@ -62,8 +66,8 @@ def searchRecipe():
         databaseConnector.connect()
         #Get all the recipes and order by similarity
         #returned as a list of Recipe objects
-        recipeSearcher = RecipeSearcher(sqlRunner,searchValue,10,0.15)
-        recipes = recipeSearcher.search_recipes()
+        recipeSearcher = RecipeSearcher(sqlRunner,10,0.15)
+        recipes = recipeSearcher.search_recipes(searchValue)
         return render_template('Recipe_Search.html',recipes=recipes)
     except Exception as e:
         traceback.print_exc()

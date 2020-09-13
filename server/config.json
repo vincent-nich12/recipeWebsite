@@ -1,3 +1,15 @@
 {
-	"hello":"ham"
+	"misc": {
+                "img_upload_folder" : "/root/recipeWebsite/server/static/",
+                "allowed_extensions": [".gif",".png",".jpg",".jpeg"],
+                "valid_ip_addresses": ["151.228.104.197"]
+            },
+    "recipe_searcher" : {
+                "num_results":10,
+                "similarity_threshold": 0.15,
+                "_comment": "Threshold must be between 0 and 1"
+            },
+    "database_config": {
+                "access_file" : "/root/recipeWebsite/database/databaseUtils/database_access.txt"
+            }
 }

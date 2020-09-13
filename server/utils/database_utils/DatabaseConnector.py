@@ -9,14 +9,14 @@ class DatabaseConnector:
     """
     Create the object
     """
-    def __init__(self):
-       pass
+    def __init__(self, configFile):
+       self.configFile = configFile
        
     """
     Function for establishing the connection object to the database.
     """
     def _establish_conn(self):
-        list = open_file('/root/recipeWebsite/database/databaseUtils/database_access.txt')
+        list = open_file(self.configFile)
         dbname = list[0]
         user = list[1]
         password = list[2]

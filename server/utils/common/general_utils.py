@@ -1,4 +1,5 @@
 import os
+import json
 
 """
 Function for reading a file given a directory.
@@ -9,6 +10,14 @@ def open_file(aFile):
     with open(aFile) as inFile:
         list = inFile.readlines()
     return list
+    
+"""
+Function to load the config file of the server (stored as a JSON file).
+"""
+def open_config_file(config_file_path):
+    with open(config_file_path) as json_file:
+        data = json.load(json_file)
+    return data
 
 """    
 Function to upload a file onto the server.
