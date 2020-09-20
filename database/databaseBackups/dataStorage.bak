@@ -258,7 +258,7 @@ CREATE INDEX recipes_recipe_name_recipe_id_idx ON public.recipes USING gist (rec
 --
 
 ALTER TABLE ONLY public.recipes
-    ADD CONSTRAINT recipes_meal_cat_id_fkey FOREIGN KEY (meal_cat_id) REFERENCES public.meal_cats(meal_cat_id);
+    ADD CONSTRAINT recipes_meal_cat_id_fkey FOREIGN KEY (meal_cat_id) REFERENCES public.meal_cats(meal_cat_id) ON UPDATE CASCADE ON DELETE CASCADE;
 
 
 --

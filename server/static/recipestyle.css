@@ -407,3 +407,15 @@ input[type=submit]:hover {
 	background-color:gray;
 	align:center;
 }
+
+.fa-star-of-life{
+	font-size:10px;
+	color: red;
+	vertical-align:super;
+}
+
+/* Formatting the favourites star */ 
+.fas-star{
+	color:yellow;
+}
+	

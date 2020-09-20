@@ -65,6 +65,34 @@
 
 </div>
 </ul>
-	
-<h2> Sorry! </h2>
-<p> Searching for ingredients isn't available yet. </p>
+<div>
+
+	<br><h2>Search Results: </h2> <br>
+        
+        {% if num_recipes > 0 %}
+            <!-- results are found -->
+            <h3> Displaying a total of {{ num_recipes }} result(s). </h3>
+
+            {% for recipe in recipes %}
+            
+                {% if recipe.image_URL is none %}
+                    <img src="static/knifeAndFork.jpg" alt="img" style="float:left; height:300px; width:400px; margin:10px; object-fit:cover;">
+                {% else %}
+                    <img src="{{ recipe.image_URL }}" alt="img" style="float:left; height:300px; width:400px; margin:20px; object-fit:cover;">
+                {% endif %}
+                <div class="recipe_info" id="search_result_text">
+                    <h3> <a href="/Recipe_Result.html?recipeName={{recipe.recipe_name}}" name="hello"> {{recipe.recipe_name}} </a></h3>
+                    <p><b>Serves:</b> {{recipe.servings}} <br>
+                    <b>Cooking time:</b> {{recipe.hours}} hours and {{recipe.minutes}} mins <br>
+                    <b>Skill level: </b>{{recipe.skill_level}}<br>
+                </div>
+                <hr style="clear:left;">
+            {% endfor %}
+            
+        {% else %}
+            <!-- No results found here -->
+            <p> No results found. Check the wording of your search and try again. </p>
+        {% endif %}
+</div>
+</body>
+</html>

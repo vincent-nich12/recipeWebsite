@@ -48,7 +48,16 @@ def home():
 @app.route('/Add_a_Recipe.html')
 def addRecipe():
 	return render_template('Add_a_Recipe.html')
+    
+ #Load the edit recipe page
+@app.route('/Edit_Recipe.html')
+def editRecipe():
+	return render_template('Edit_Recipe.html')
 
+ #Load the delete recipe page
+@app.route('/Delete_Recipe.html')
+def deleteRecipe():
+	return render_template('Delete_Recipe.html')
 
 #Load the login page
 @app.route('/Login_Page.html')
@@ -66,9 +75,9 @@ def searchRecipe():
         databaseConnector.connect()
         #Get all the recipes and order by similarity
         #returned as a list of Recipe objects
-        recipeSearcher = RecipeSearcher(sqlRunner,10,0.15)
-        recipes = recipeSearcher.search_recipes(searchValue)
-        return render_template('Recipe_Search.html',recipes=recipes)
+        recipeSearcher = RecipeSearcher(sqlRunner,config["recipe_searcher"]["num_results"],config["recipe_searcher"]["similarity_threshold"])
+        recipes = recipeSearcher.search_recipes_by_name(searchValue)
+        return render_template('Recipe_Search.html',recipes=recipes, num_recipes=len(recipes))
     except Exception as e:
         traceback.print_exc()
         return render_template('Recipe_Home.html',emsg = 'An unexpected error occured, please try again later.', error = e)
@@ -132,7 +141,15 @@ def favs():
 #Search for a recipe by ingredients
 @app.route('/Ingredient_Search.html')
 def ingredientSearch():
-	return render_template('Ingredient_Search.html')
+    #The value to search
+    searchValue = request.args['ingsearch']
+    #Connect to database
+    databaseConnector.connect()
+    #Get all the recipes and order by similarity
+    #returned as a list of Recipe objects
+    recipeSearcher = RecipeSearcher(sqlRunner,config["recipe_searcher"]["num_results"],config["recipe_searcher"]["similarity_threshold"])
+    recipes = recipeSearcher.search_recipes_by_ingredient(searchValue)
+    return render_template('Ingredient_Search.html',recipes=recipes,num_recipes=len(recipes))
     
 #Recipe Search Result
 @app.route('/Recipe_Result.html',methods=['GET'])

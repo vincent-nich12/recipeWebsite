@@ -2,7 +2,7 @@
 	"misc": {
                 "img_upload_folder" : "/root/recipeWebsite/server/static/",
                 "allowed_extensions": [".gif",".png",".jpg",".jpeg"],
-                "valid_ip_addresses": ["151.228.104.197"]
+                "valid_ip_addresses": ["151.228.104.197", "151.227.90.235"]
             },
     "recipe_searcher" : {
                 "num_results":10,
