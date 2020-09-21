@@ -138,6 +138,7 @@ div{
 		min-width: 160px;
 		box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
 		z-index: 1;
+		padding: 0 0;
 		}
 		
 	.nav_dropdown a{
@@ -169,24 +170,30 @@ div{
 	}
 	
 	/*Search recipe bar*/
-	#search {
-		position:relative;
+	
+	#recipeSearch{
+		float:right;
+		padding-right:10px;
+	}
+		
+	#search { /*Search bar*/
 		height:30px;
 		width:200px;
-		float:right;
-		right:150px;
 	}
-
-	/*Search recipe button*/
-	#search_button {
-		position:relative;
+	
+	#searchSelect { /*Search dropdown for choosing title or ingredient*/
+		height:30px;
+		width:100px;
+		padding:0px;
+	}
+	#search_button { /*Search recipe button*/
 		padding-right:15%;
 		height:30px;
 		padding: 0 0;
-		float:right;
-		left:150px;
+		width:30px;
+		background-color:green;
+		color:white;
 	}
-	
 	
 /* Columns for searching recipe and search ingredient boxes on home page*/
 	#home_search{
@@ -404,10 +411,27 @@ input[type=submit]:hover {
 
 #login_form{
 	width:80%;
-	background-color:gray;
+	background-color:#d4d4d4;
 	align:center;
 }
 
+#google_login{
+	background-color:#4285f4;
+	border-color:#4285f4;
+	width:300px;
+	padding:0px;
+	color:white;
+	vertical-align:
+}
+
+#google_icon{
+	width:50px;
+	height:50px;
+	background-color:white;
+	float:left;
+}
+	
+	
 .fa-star-of-life{
 	font-size:10px;
 	color: red;

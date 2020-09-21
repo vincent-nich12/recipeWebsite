@@ -41,11 +41,12 @@
 		<a href="javascript:void(0)"
 		 class="dropbttn">Meals</a>
 			<div class="dropdwn-content"> <!--Meal options-->
-				<a href="#">Breakfast</a>
-				<a href="#">Lunch</a>
-				<a href="#">Dinner</a>
-				<a href="#">Pudding</a>
-				<a href="#">Snacks</a>
+				<a href="/Search_Meal_Type.html?type=Breakfast">Breakfast</a>
+				<a href="/Search_Meal_Type.html?type=Lunch">Lunch</a>
+				<a href="/Search_Meal_Type.html?type=Dinner">Dinner</a>
+				<a href="/Search_Meal_Type.html?type=Dessert">Pudding</a>
+				<a href="/Search_Meal_Type.html?type=Snacks">Snacks</a>
+                <a href="/Search_Meal_Type.html?type=Other">Other</a>
 			</div>
 		</li>
 		
@@ -59,9 +60,13 @@
 	
 	<!--Search bar-->
 	<li>
-		<form action="Recipe_Search.html">
+		<form id="recipeSearch" action="Recipe_Search.html">
 		<input type="text" id="search" name="recipesearch" placeholder="Search all recipes...">
-		<input type="submit" value="Search" id="search_button">
+		<select id="searchSelect">
+			<option value="title">Title</option>
+			<option value="ingredient">Ingredient</option>
+			</select>
+		<button type="submit" id="search_button" <i class="fa fa-search"></i>
 		
 	
 	</form></li>
@@ -73,7 +78,6 @@
 
 <a href="Login_Page.html">Log in here</a>
 
-<div style="display:grid;">
 <br>
 <h2>Search for a Recipe</h2>
 <div class="row" id="home_search" style="padding:none">
@@ -94,8 +98,7 @@
 			<form action="/Ingredient_Search.html">
 				<label for="ingredient"><h4 style="text-align:center">Search by Ingredient</h4></label>
 				<input type="text" id="ingredient" name="ingsearch" placeholder="Search ingredients...">
-				<input type="submit"
-				value="Search">
+				<input type="submit" value="Search">
 			</form>
 	</div>
 </div>

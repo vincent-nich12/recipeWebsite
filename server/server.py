@@ -84,9 +84,9 @@ def searchRecipe():
     finally:
         databaseConnector.close_connection()
 
-#Search for a recipe by category
+#Function to get up the search by category page
 @app.route('/Category_Search.html')
-def searchCategory():
+def categorySearch():
 	return render_template('Category_Search.html')
 
 #Page Rendered when a recipe is sent for previewing
@@ -149,31 +149,65 @@ def ingredientSearch():
     #returned as a list of Recipe objects
     recipeSearcher = RecipeSearcher(sqlRunner,config["recipe_searcher"]["num_results"],config["recipe_searcher"]["similarity_threshold"])
     recipes = recipeSearcher.search_recipes_by_ingredient(searchValue)
-    return render_template('Ingredient_Search.html',recipes=recipes,num_recipes=len(recipes))
+    return render_template('Recipe_Search.html',recipes=recipes,num_recipes=len(recipes))
     
-#Recipe Search Result
+#Page displayed when you click on a recipe to view it
 @app.route('/Recipe_Result.html',methods=['GET'])
 def recipeResult():
     try:
-        #get the recipe name
-        recipeName = request.args.get('recipeName')
+        #The value to search
+        searchValue = request.args.get('recipeName')
+        #Connect to database
         databaseConnector.connect()
-        recipeAtts = sqlRunner.run_script('SELECT * FROM recipes INNER JOIN meal_cats ON \
-                                           recipes.meal_cat_id = meal_cats.meal_cat_id WHERE \
-                                           recipes.recipe_name = %s', [recipeName])
-        recipeAtts = recipeAtts[0]
-        # Construct the recipe object
-        recipe = Recipe.construct_recipe(recipeAtts,True)
-        # Remove the recipe atts and only use the category atts 
-        recipeAtts = recipeAtts[Recipe.get_num_atts():len(recipeAtts)]
-        # Construct the categories object
-        categories = Categories.construct_categories_for_recipe(recipeAtts)
+        #Get the recipe with that name
+        recipeSearcher = RecipeSearcher(sqlRunner,config["recipe_searcher"]["num_results"],config["recipe_searcher"]["similarity_threshold"])
+        recipes = recipeSearcher.search_recipes_by_name(searchValue)
+        #Just extract the first one
+        recipe = recipes[0]
+        #Get the categories from the Recipe object
+        categories = recipe.get_categories(sqlRunner)
         return render_template('Recipe_Result.html',recipe=recipe,categories=categories.get_categories_as_list())
     except Exception as e:
         traceback.print_exc()
         return render_template('Recipe_Home.html', error='Error!', emsg=e)
     finally:
         databaseConnector.close_connection()
-	
+        
+#Function called when user wants to search by meal type (i.e. breakfast,lunch,dinner etc.)
+@app.route('/Search_Meal_Type.html')
+def searchMealType():
+    try:
+        #The value to search
+        searchValue = request.args.get('type')
+        #Connect to database
+        databaseConnector.connect()
+        #Get all the recipes that fall under a particular type
+        recipeSearcher = RecipeSearcher(sqlRunner,-1)
+        recipes = recipeSearcher.get_recipes_by_type(searchValue)
+        return render_template('Recipe_Search.html',recipes=recipes, num_recipes=len(recipes))
+    except Exception as e:
+        traceback.print_exc()
+        return render_template('Recipe_Home.html',emsg = 'An unexpected error occured, please try again later.', error = e)
+    finally:
+        databaseConnector.close_connection()
+    
+#Function called when user wants to search by category
+@app.route('/Search_Category.html')
+def searchCategory():
+    try:
+        #The value to search
+        searchValue = request.args.get('type')
+        #Connect to database
+        databaseConnector.connect()
+        #Get all the recipes that fall under a particular type
+        recipeSearcher = RecipeSearcher(sqlRunner,-1)
+        recipes = recipeSearcher.get_recipes_by_category(searchValue)
+        return render_template('Recipe_Search.html',recipes=recipes, num_recipes=len(recipes))
+    except Exception as e:
+        traceback.print_exc()
+        return render_template('Recipe_Home.html',emsg = 'An unexpected error occured, please try again later.', error = e)
+    finally:
+        databaseConnector.close_connection()
+
 if __name__ == '__main__':
     app.run(debug=True, host="0.0.0.0")

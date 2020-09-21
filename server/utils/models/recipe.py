@@ -1,4 +1,5 @@
 import re
+from utils.models.categories import Categories
 
 class Recipe:
     
@@ -89,6 +90,15 @@ class Recipe:
         for row in rows:
             rowIDs.append(row[0])
         return (max(rowIDs) + 1)
+        
+    """
+    Function to get the categories of the recipe as a Categories object.
+    """
+    def get_categories(self,sqlRunner):
+        rows = sqlRunner.run_script('SELECT * FROM meal_cats WHERE meal_cat_id = %s', [self.recipe_id])
+        row = rows[0]
+        categories = Categories.construct_categories_for_recipe(row)
+        return categories
         
     """
     Function inorder to extract the information required from a website
