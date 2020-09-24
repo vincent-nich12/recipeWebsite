@@ -29,7 +29,15 @@ h1 {
 .header{
 	background-color:#e37d1e;
 	text-align: center;
-	padding: 20px;
+	padding: 10px;
+}
+
+#template{
+	padding: 0 0;
+}
+
+#logInButton{
+	float:right;
 }
 
 /*Formatting for divs*/

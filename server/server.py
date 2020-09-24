@@ -13,6 +13,7 @@ from utils.database_utils.SQLRunner import SQLRunner
 from utils.models.recipe import Recipe
 from utils.models.categories import Categories
 from utils.common.general_utils import upload_file, open_config_file
+from utils.web_scrapers.WebScraper import WebScraper
 
 #################################################################
 
@@ -208,6 +209,16 @@ def searchCategory():
         return render_template('Recipe_Home.html',emsg = 'An unexpected error occured, please try again later.', error = e)
     finally:
         databaseConnector.close_connection()
+        
+@app.route('/Get_Recipe_From_URL.html')
+def getRecipeFromURL():
+    #url = 'https://www.bbcgoodfood.com/recipes/ultimate-spaghetti-carbonara-recipe'
+    url = 'https://www.bbcgoodfood.com/recipes/slow-cooker-chicken-korma'
+    #url = 'https://www.bbcgoodfood.com/recipes/bhaji-burger'
+    #url = 'https://www.bbcgoodfood.com/recipes/blackberry-apple-loaf'
+    web_scraper = WebScraper()
+    recipe = web_scraper.get_recipe_details_from_url(url)
+    return render_template('Add_a_Recipe.html')
 
 if __name__ == '__main__':
     app.run(debug=True, host="0.0.0.0")

@@ -9,6 +9,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <link rel="stylesheet" type="text/css" href="static/recipestyle.css"> <!--My CSS StyleSheet-->
+  <script src="http://www.w3schools.com/lib/w3data.js"></script>
 
 <script>
 $(document).ready(function(){
@@ -25,62 +26,14 @@ $(document).ready(function(){
 </head>
 <body class="main_body">
 <!--Header -->
-<div class="header">
-	<h1>Recipes</h1>
-</div>
- 
-<!-- Navigation bar-->
-<ul class="topnav">
-		<li class="myTopnav"><a href="/">Home</a></li> <!--Clicking home takes you to the home page-->
-		
-		<!--Navigation icon when screen is small-->
-		<li class="myTopnav dropdwn" id="nav_icon">  
-			<a href="javascript:void(0)"
-			 class="dropbttn"> <i class="fa fa-bars"></i> </a>
-				<div class="nav_dropdown">
-					<a href="#">Meals</a>
-					<a href="Category_Search.html">Categories</a>
-					<a href="Favourites.html">Favourites</a>
-					<a href="Add_a_Recipe.html">Add</a>
-				</div>
-					</li>
-	
-	
-	
-	<!-- Meals dropdown menu-->
-	<li class="myTopnav dropdwn"  id="myTopnav">
-		<a href="javascript:void(0)"
-		 class="dropbttn">Meals</a>
-			<div class="dropdwn-content"> <!--Meal options-->
-				<a href="#">Breakfast</a>
-				<a href="#">Lunch</a>
-				<a href="#">Dinner</a>
-				<a href="#">Pudding</a>
-				<a href="#">Snacks</a>
-			</div>
-		</li>
-	<!-- Categories dropdown menu-->
-	<li class="myTopnav active" id="myTopnav">
-			<a href="/Category_Search.html">Categories</a>
-		
-		</li>
-	<li class="myTopnav" id="myTopnav"><a href="/Favourites.html">Favourites</a></li>
-	<li class="myTopnav" id="myTopnav"><a href="/Add_a_Recipe.html">Add</a></li>
-	<!--Search bar-->
-	<li>
-		<form action="Recipe_Search.html">
-		<input type="text" id="search" name="recipesearch" placeholder="Search all recipes...">
-		<input type="submit" value="Search" id="search_button">
-		
-	
-	</form></li>
+<div id="template" w3-include-html="static/content.html"></div> 
 
-</div>
-</ul>
+<script>
+w3IncludeHTML();
+</script>
 
 
-<br>
-
+<div id="main">
 
 <div class="container mt-3" id="category_table" style="width:500px; alignment: left;">
   <h2>Browse Recipes by Category</h2> 
@@ -140,7 +93,7 @@ $(document).ready(function(){
   </table>
 
 </div>
-
+</div>
 
 
 </body>
