@@ -48,7 +48,7 @@ def home():
 #Load the add a recipe page
 @app.route('/Add_a_Recipe.html')
 def addRecipe():
-	return render_template('Add_a_Recipe.html')
+	return render_template('Add_a_Recipe.html', recipe=None)
     
  #Load the edit recipe page
 @app.route('/Edit_Recipe.html')
@@ -210,15 +210,15 @@ def searchCategory():
     finally:
         databaseConnector.close_connection()
         
-@app.route('/Get_Recipe_From_URL.html')
+@app.route('/Get_Recipe_From_URL.html', methods=['GET'])
 def getRecipeFromURL():
-    #url = 'https://www.bbcgoodfood.com/recipes/ultimate-spaghetti-carbonara-recipe'
-    url = 'https://www.bbcgoodfood.com/recipes/slow-cooker-chicken-korma'
-    #url = 'https://www.bbcgoodfood.com/recipes/bhaji-burger'
-    #url = 'https://www.bbcgoodfood.com/recipes/blackberry-apple-loaf'
-    web_scraper = WebScraper()
-    recipe = web_scraper.get_recipe_details_from_url(url)
-    return render_template('Add_a_Recipe.html')
+    try:
+        url = request.args.get("recipe_URL")
+        web_scraper = WebScraper()
+        recipe = web_scraper.get_recipe_from_url(url)
+        return render_template('Add_a_Recipe.html', recipe=recipe)
+    except:
+        return render_template('Add_a_Recipe.html', recipe=None, error="An unknown error has occured")
 
 if __name__ == '__main__':
     app.run(debug=True, host="0.0.0.0")

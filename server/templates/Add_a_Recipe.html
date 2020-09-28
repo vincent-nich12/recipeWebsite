@@ -33,7 +33,7 @@ w3IncludeHTML();
 		<form action="/Preview_Recipe.html" id="add_recipe" method="post" enctype="multipart/form-data"> 
 			<!--Title of Recipe-->
 			<i class='fas fa-star-of-life'></i><label for="recipe_name">Title</label>							
-			<input type="text" name="recipe_name" placeholder="Title" required>
+			<input type="text" name="recipe_name" placeholder="Title" value="{{recipe.recipe_name}}" required>
 			
 			<!--Meal Type (Radio)-->
 			<i class='fas fa-star-of-life'></i><label for="meal_type">Meal</label> <br>
@@ -51,24 +51,24 @@ w3IncludeHTML();
 			<label for="other">Other</label><br>
 			
 			<!--Skill Level (Radio)-->
-			<br><i class='fas fa-star-of-life'></i><label for="skill_level">Skill Level</label><br>	
-			<input type="radio" id="easy" name="skill_level" value="Easy">
-			<label for="easy">Easy</label><br>
-			<input type="radio" id="medium" name="skill_level" value="Medium">
-			<label for="medium">Medium</label><br>
-			<input type="radio" id="hard" name="skill_level" value="Hard" required>
-			<label for="hard">Hard</label><br>
+            <br><i class='fas fa-star-of-life'></i><label for="skill_level">Skill Level</label><br>	
+            <input type="radio" id="easy" name="skill_level" value="Easy" {% if recipe.skill_level == "Easy" %} checked {% endif %}>
+            <label for="easy">Easy</label><br>
+            <input type="radio" id="medium" name="skill_level" value="Medium" {% if recipe.skill_level == "Medium" %} checked {% endif %}>
+            <label for="medium">Medium</label><br>
+            <input type="radio" id="hard" name="skill_level" value="Hard" required {% if recipe.skill_level == "Hard" %} checked {% endif %}>
+            <label for="hard">Hard</label><br>
 			
 			<!-- Cooking Time-->
 			<br><label for="cooking_time">Cooking Time</label><br> 	
-			<input type="number" id="hours" name="hours" min="0" max="24" value="0">
+			<input type="number" id="hours" name="hours" min="0" max="24" {% if recipe is none %} value="0" {% else %} value="{{recipe.hours}}" {% endif %}>
 			<label for=hours>Hour(s)</label>
-			<input type="number" id="minutes" name="minutes" min="0" max="59" value="0">
+			<input type="number" id="minutes" name="minutes" min="0" max="59" {% if recipe is none %} value="0" {% else %} value="{{recipe.minutes}}" {% endif %}>
 			<label for=minutes>Minutes</label><br>	
 			
 			<!--Servings-->
 			<br><label for="servings">Servings</label><br>
-			<input type="number" id="servings" name="servings" min="0" max="20" value="0">
+			<input type="number" id="servings" name="servings" min="0" max="20" {% if recipe is none %} value="0" {% else %} value="{{recipe.servings}}" {% endif %}>
 			<br>						
 		
 			<!--Categories-->
@@ -135,17 +135,17 @@ w3IncludeHTML();
 			 <!-- Ingredients list-->
 			<br> <i class='fas fa-star-of-life'></i><label for="ingredients" id="label" style=text-align:left>Ingredients </label> <span class="help_icon"><i class='fas fa-question-circle'></i></span>
 			<div class="help_bubble sb1"><p>List each ingredient on a new line, e.g.: <br>100g flour<br>50g butter<br>2 eggs</p></div> <br>		
-			<textarea name="ingredients" id="add_ingredients" placeholder="List ingredients here" required></textarea>
+			<textarea name="ingredients" id="add_ingredients" placeholder="List ingredients here" required> {{recipe.ingredients}} </textarea>
 			
 			<!-- Method explanation-->
 			<br><i class='fas fa-star-of-life'></i><label for="method" id="label">Method </label> <span class="help_icon"><i class='fas fa-question-circle'></i>
 			</span><div class="help_bubble sb1"><p>List each step on a new line <u>without numbers</u></p></div>
 			<br> 		
-			<textarea name="Method" id="add_method" placeholder="Enter method here" required></textarea>
+			<textarea name="Method" id="add_method" placeholder="Enter method here" required> {{recipe.method}} </textarea>
 			
 			<!-- Notes-->
 			<br><label for="notes" id="label">Notes</label><br>
-			<textarea name="notes" id="notes" placeholder="Enter notes here"></textarea>
+			<textarea name="notes" id="notes" placeholder="Enter notes here"> {{recipe.notes}} </textarea>
 			<br>
 			
 				<!--Image upload-->

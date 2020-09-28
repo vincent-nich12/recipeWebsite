@@ -50,19 +50,19 @@ w3IncludeHTML();
     </div>
     <div style="position:relative; float:left; width:400px; display:inline">
     <h3 style=clear:left>Ingredients:</h3>
-        <p>
-            {% for ing in recipe.ingredients %}
-                {{ ing }} <br>
-          {% endfor %}
-        </p>
+    <ul>
+        {% for i in recipe.ingredients %} 
+            <li>{{i}} </li>
+        {% endfor %}
+    </ul>
     </div>
     <div style="position:relative; float:left; width:650px; display:inline;">
     <h3> Method: </h3>
-    <p>
+    <ol>
     {% for m in recipe.method %}
-         {{ m }} <br>
+        <li> {{m}} </li>
     {% endfor %}
-    </p>
+    </ol>
     </div>
 
     <h3 style="clear:left"> Notes:</h3>
