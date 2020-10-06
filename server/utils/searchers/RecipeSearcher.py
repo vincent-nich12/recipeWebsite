@@ -78,9 +78,7 @@ class RecipeSearcher:
     Returned as a list of Recipe objects.
     """
     def get_recipes_by_category(self, search_value):
-        rows = self.sql_runner.run_script("SELECT Recipes.* FROM Recipes \
-                                           INNER JOIN Meal_cats ON Recipes.meal_cat_id=Meal_cats.meal_cat_id \
-                                           WHERE Meal_cats." + search_value + " = TRUE;",[])
+        rows = self.sql_runner.run_script("SELECT * FROM Recipes WHERE position('" + search_value.lower() + "' in lower(categories))>0", [])
         if self.num_results == -1:
             self.num_results = len(rows)
         #Get the top self.num_results results

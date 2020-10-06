@@ -2,7 +2,9 @@
 	"misc": {
                 "img_upload_folder" : "/root/recipeWebsite/server/static/",
                 "allowed_extensions": [".gif",".png",".jpg",".jpeg"],
-                "valid_ip_addresses": ["151.228.104.197", "151.227.90.235"]
+                "valid_ip_addresses": ["151.228.104.197", "151.227.90.235"],
+                "categories": ["Cake", "Curry", "Fish", "Gluten Free", "Meat", "Noodles", "One pot", "Pasta",
+                               "Rice", "Spicy", "Vegetarian", "Pie", "Casserole", "Chocolate"]
             },
     "recipe_searcher" : {
                 "num_results":10,

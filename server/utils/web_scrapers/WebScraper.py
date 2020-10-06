@@ -70,12 +70,25 @@ class WebScraper:
                 minsFirst = WebScraper._get_mins_from_string(firstTimeString)
                 hrsSecond = WebScraper._get_hrs_from_string(secondTimeString)
                 minsSecond = WebScraper._get_mins_from_string(secondTimeString)
-                return (hrsFirst+hrsSecond, minsFirst+minsSecond)
+                # Total hours and minutes
+                hrs = hrsFirst+hrsSecond
+                mins = minsFirst+minsSecond
+                #If minutes is 60 or greater, add it onto hours
+                if mins > 59:
+                    extraHrs = int(mins/60)
+                    hrs = hrs+extraHrs
+                    mins = mins - extraHrs*60
+                return (hrs, mins)
             else:
                 #Incase it only has one time given
                 hrs = WebScraper._get_hrs_from_string(firstTimeString)
                 mins = WebScraper._get_mins_from_string(firstTimeString)
-                return (hrs,mins)
+                #If minutes is 60 or greater, add it onto hours
+                if mins > 59:
+                    extraHrs = int(mins/60)
+                    hrs = hrs+extraHrs
+                    mins = mins - extraHrs*60
+                return (hrs, mins)
         except Exception as e:
             #traceback.print_exc()
             return None

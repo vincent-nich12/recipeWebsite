@@ -1,5 +1,4 @@
 import re
-from utils.models.categories import Categories
 
 class Recipe:
     
@@ -7,7 +6,7 @@ class Recipe:
     Constructor for this class
     """
     def __init__(self,recipe_id=None,recipe_name=None,meal_type=None,skill_level=None,servings=None,hours=None, 
-                 minutes=None,meal_cat_id=None,ingredients=None,method=None,notes=None,image_URL=None):
+                 minutes=None,ingredients=None,method=None,notes=None,image_URL=None,categories=None):
         self.recipe_id = recipe_id
         self.recipe_name = recipe_name
         self.meal_type = meal_type
@@ -15,11 +14,11 @@ class Recipe:
         self.servings = servings
         self.hours = hours
         self.minutes = minutes
-        self.meal_cat_id = meal_cat_id
         self.ingredients = ingredients
         self.method = method
         self.notes = notes
         self.image_URL = image_URL
+        self.categories = categories
         
     """
     Private function to convert ingredients, method and notes into the correct form.
@@ -38,6 +37,11 @@ class Recipe:
             self.notes = None
         else:
             self.notes = re.findall(r'\"(.+?)\"', self.notes)
+        if self.categories is None:
+            self.categories = None
+        else:
+            self.categories = self.categories.replace('"', '').strip('}{').split(',')
+            
         
     """
     Helper function for constructing recipes from a 2D array of rows (recipes)
@@ -50,19 +54,7 @@ class Recipe:
         
     """
     Helper function to construct a recipe object from an array
-    The array needs to be the following:
-        1) recipe_ID - int
-        2) recipe_name - string
-        3) meal_type (Breakfast,Lunch,Dinner,Dessert, Snacks or Other) - int
-        4) skill_level (Easy, Medium or Hard) - string
-        5) servings
-        6) hours
-        7) minutes
-        8) the id of the category
-        9) ingredients
-        10) method
-        11) notes
-        12) URL to the image
+    The array needs to match the order of attributes stored in the database.
     """
     def construct_recipe(row,isFromDatabase):
         new_recipe = Recipe()
@@ -92,12 +84,17 @@ class Recipe:
         return (max(rowIDs) + 1)
         
     """
-    Function to get the categories of the recipe as a Categories object.
+    Function to get the categories of the recipe.
+    Since the array stored in the database may contain categories that are not 
+    given in the config.json file, this function filters these out.
     """
-    def get_categories(self,sqlRunner):
-        rows = sqlRunner.run_script('SELECT * FROM meal_cats WHERE meal_cat_id = %s', [self.recipe_id])
-        row = rows[0]
-        categories = Categories.construct_categories_for_recipe(row)
+    def get_categories(self,categoryNames):
+        categoriesStored = self.categories
+        categories = []
+        for cats in categoriesStored:
+            #Ensure that the string search is case insensitive
+            if cats.lower() in (catNames.lower() for catNames in categoryNames):
+                categories.append(cats)
         return categories
         
     """
@@ -107,7 +104,7 @@ class Recipe:
     in the Image Information, this needs to be added later to the object
     if required.
     """
-    def create_recipe_object_from_website(request,databaseConnector):
+    def create_recipe_object_from_website(request,databaseConnector, categoryNames):
         #connect to database
         databaseConnector.connect()
 
@@ -128,8 +125,6 @@ class Recipe:
         #Time taken to complete the recipe
         recipeArray.append(request.form['hours'])
         recipeArray.append(request.form['minutes'])
-        #Category ID (same as Recipe ID)
-        recipeArray.append(newID)
         ############## Add Ingredients ####################
         #Ingredients textbox 
         ingredients = request.form['ingredients']
@@ -153,9 +148,18 @@ class Recipe:
         notes = notes.split('\n')
         recipeArray.append(notes)
         ##################################################
-        
         #Add Empty string for Image_URL
         recipeArray.append("")
+        
+        ############# Get Categories #####################
+        catsArray = []
+        for catName in categoryNames:
+            if request.form.get(catName) is None:
+                pass
+            else:
+                catsArray.append(request.form.get(catName))
+        recipeArray.append(catsArray)
+        ##################################################
         # Create the recipe object
         recipe = Recipe.construct_recipe(recipeArray,False)
         
