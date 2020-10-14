@@ -42,7 +42,7 @@ class RecipeSearcher:
     """
     def search_recipes_by_ingredient(self, search_value):
         #Get all the recipes that contain a particular ingredient
-        rows = self.sql_runner.run_script("SELECT * FROM Recipes WHERE position('" + search_value.lower() + "' in lower(ingredients))>0", [])
+        rows = self.sql_runner.run_script("SELECT * FROM Recipes WHERE position('" + search_value.lower() + "' in lower(ingredients))>0 ORDER BY lower(Recipe_Name)", [])
         if self.num_results == -1:
             self.num_results = len(rows)
         #Get the top self.num_results results
@@ -60,7 +60,7 @@ class RecipeSearcher:
     Returned as a list of Recipe objects.
     """
     def get_recipes_by_type(self, search_value):
-        rows = self.sql_runner.run_script("SELECT * FROM Recipes WHERE meal_type = %s",[search_value])
+        rows = self.sql_runner.run_script("SELECT * FROM Recipes WHERE meal_type = %s ORDER BY lower(Recipe_Name)",[search_value])
         if self.num_results == -1:
             self.num_results = len(rows)
         #Get the top self.num_results results
@@ -78,7 +78,7 @@ class RecipeSearcher:
     Returned as a list of Recipe objects.
     """
     def get_recipes_by_category(self, search_value):
-        rows = self.sql_runner.run_script("SELECT * FROM Recipes WHERE position('" + search_value.lower() + "' in lower(categories))>0", [])
+        rows = self.sql_runner.run_script("SELECT * FROM Recipes WHERE position('" + search_value.lower() + "' in lower(categories))>0 ORDER BY lower(Recipe_Name)", [])
         if self.num_results == -1:
             self.num_results = len(rows)
         #Get the top self.num_results results

@@ -42,12 +42,15 @@ w3IncludeHTML();
   <table class="table table-bordered">
 
     <tbody id="myTable">
+        <tr class="table_row" onclick="window.location='/Search_Category.html?type={{all}}';"> 
+            <td>All</td>
+        </tr>
         {% for cats in categoryNames %}
             <tr class="table_row" onclick="window.location='/Search_Category.html?type={{cats}}';"> 
                 <td>{{cats}}</td>
             </tr>
         {% endfor %}
-	  
+        
     </tbody>
   </table>
 

@@ -22,11 +22,12 @@ def open_config_file(config_file_path):
 """    
 Function to upload a file onto the server.
 
-Params are the app object, the request object, the ID and an array
+Params are the config file object, the request object, the ID and an array
 of valid extensions for the image file.
 
 """
-def upload_file(app,request,ID,ALLOWED_EXTENSIONS):
+def upload_file(config,request,ID):
+    ALLOWED_EXTENSIONS = config['misc']['allowed_extensions']
     if request.method == 'POST':
         #Check if file has actually been uploaded
         if 'upload' not in request.files:
@@ -40,8 +41,8 @@ def upload_file(app,request,ID,ALLOWED_EXTENSIONS):
         filename, file_extension = os.path.splitext(file.filename)
         if file and (file_extension.lower() in ALLOWED_EXTENSIONS):
             filename = str(ID) + file_extension.lower()
-            file.save(os.path.join(app.config['UPLOAD_FOLDER'],filename))
-            return os.path.join(app.config['UPLOAD_FOLDER'],filename)
+            file.save(os.path.join(config['misc']['img_upload_folder'],filename))
+            return 'static/' + filename
         else:
             errorStr = ''
             for i in range(len(ALLOWED_EXTENSIONS)):
