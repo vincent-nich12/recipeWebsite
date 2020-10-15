@@ -94,5 +94,37 @@ def getRecipeFromURL():
         config = open_config_file('/root/recipeWebsite/server/config.json')
         return render_template('Add_a_Recipe.html', recipe=None, error="An unknown error has occured", categoryNames = config["misc"]["categories"])
     
-   
 ##########################################################################################################################
+
+################################################## Edit a Recipe #########################################################
+#Load the edit recipe page (not currently functional)
+@routes.route('/Edit_Recipe.html')
+def editRecipe():
+	return render_template('Edit_Recipe.html')
+
+
+
+
+
+
+
+
+
+
+
+##########################################################################################################################
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

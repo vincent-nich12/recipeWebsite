@@ -1,4 +1,8 @@
+# Database files
 database/
+
+#Certificates
+server/certificates/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

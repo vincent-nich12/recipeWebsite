@@ -14,11 +14,6 @@ def home():
 	#open website
     return render_template('Recipe_Home.html')
 	
-#Load the edit recipe page (not currently functional)
-@routes.route('/Edit_Recipe.html')
-def editRecipe():
-	return render_template('Edit_Recipe.html')
-	
 #Load the delete recipe page (not currently functional)
 @routes.route('/Delete_Recipe.html')
 def deleteRecipe():
