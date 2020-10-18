@@ -1,15 +1,15 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Preview Recipe</title>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-  <link rel="stylesheet" type="text/css" href="static/recipestyle.css"> <!--My CSS StyleSheet-->
-<script src="https://www.w3schools.com/lib/w3data.js"></script>
+    <title>Preview Recipe</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="static/recipestyle.css"> <!--My CSS StyleSheet-->
+    <script src="https://www.w3schools.com/lib/w3data.js"></script>
 </head>
 <body class="main_body">
 <!--Header -->
@@ -26,7 +26,8 @@ w3IncludeHTML();
 	{% if recipe.image_URL is none %}
 	    <img src="static/knifeAndFork.jpg" alt="img" style="float:left; height:300px; width:400px; margin:10px; object-fit:cover;">
 	{% else %}
-	    <img src="{{ recipe.image_URL }}" alt="img" style="float:left; height:300px; width:400px; margin:20px; object-fit:cover;">
+        <!-- Hacky solution to get the image to reload -->
+	    <img src="{{recipe.image_URL}}?{{rnd}}" alt="img" style="float:left; height:300px; width:400px; margin:20px; object-fit:cover;">
 	{% endif %}
 
 	<div style="position:relative; left:20px; width:auto; float:left; background-color:#f0dcd1">

@@ -1,5 +1,6 @@
 import os
 import json
+from shutil import copy2
 
 """
 Function for reading a file given a directory.
@@ -20,29 +21,29 @@ def open_config_file(config_file_path):
     return data
 
 """    
-Function to upload a file onto the server.
+Function to upload a recipe image onto the server. For 
+previewing purposes, the file is stored under the name "temp".
 
-Params are the config file object, the request object, the ID and an array
-of valid extensions for the image file.
-
+Params are the config file object and the request object.
 """
-def upload_file(config,request,ID):
-    ALLOWED_EXTENSIONS = config['misc']['allowed_extensions']
+def upload_recipe_image(config,request):
+    ALLOWED_EXTENSIONS = config['image_uploading']['allowed_extensions']
     if request.method == 'POST':
         #Check if file has actually been uploaded
         if 'upload' not in request.files:
             return None
         file = request.files['upload']
 		
-        #If user does not select file, then its submitted as an empty string
+        #If user does not select file, then it is submitted as an empty string
         if file.filename == '':
             return None
 		
-        filename, file_extension = os.path.splitext(file.filename)
-        if file and (file_extension.lower() in ALLOWED_EXTENSIONS):
-            filename = str(ID) + file_extension.lower()
-            file.save(os.path.join(config['misc']['img_upload_folder'],filename))
-            return 'static/' + filename
+        name, extension = os.path.splitext(file.filename)
+        # if the file type is valid
+        if extension.lower() in ALLOWED_EXTENSIONS:
+            saveLocation = os.path.join(config['image_uploading']['img_upload_folder'],"temp") + extension
+            file.save("/root/recipeWebsite/server/" + saveLocation)
+            return saveLocation
         else:
             errorStr = ''
             for i in range(len(ALLOWED_EXTENSIONS)):
@@ -50,4 +51,16 @@ def upload_file(config,request,ID):
                     errorStr = errorStr + ' ' + ALLOWED_EXTENSIONS[i]
                 else:
                     errorStr = errorStr + ' ' + ALLOWED_EXTENSIONS[i] + ','
-            raise Exception(file_extension + ' found, only' + errorStr + ' allowed.')
+            raise Exception(extension + ' found, only' + errorStr + ' allowed.')
+    
+"""
+This function is called when the user wants to save the recipe onto the server.
+It copies the temp file and saves it. The img's name is simply the recipe_id.
+"""    
+def copy_temp_img_file(config,recipe):
+    name, extension = os.path.splitext(recipe.image_URL)
+    upperDirs = "/root/recipeWebsite/server/"
+    tempFileLoc = recipe.image_URL
+    newFileLoc = config['image_uploading']['img_upload_folder'] + str(recipe.recipe_id) + extension
+    copy2(upperDirs + tempFileLoc, upperDirs + newFileLoc)
+    return newFileLoc
