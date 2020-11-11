@@ -122,7 +122,32 @@ def editRecipe():
         traceback.print_exc()
         return render_template('Recipe_Home.html')
 
-
+@routes.route('/Edit_Recipe_Submit.html', methods=['POST'])
+def submitEdittedRecipe():
+    try:
+        config = open_config_file('/root/recipeWebsite/server/config.json')
+        #Create a Recipes object using the request, databaseConnector object and the valid category names
+        recipe = Recipe.create_recipe_object_from_website(request,databaseConnector,config["misc"]["categories"])
+        
+        return str(recipe)
+        
+        
+        
+        #Image upload handler (to a temporary location for previewing)
+        recipe.image_URL = upload_recipe_image(config,request)
+        #Get the selected categories
+        categories = recipe.get_categories(config["misc"]["categories"])
+        #Save the details temporarly into a pickle file
+        with open('/root/recipeWebsite/server/newItems.pkl', 'wb') as f:
+            pickle.dump([recipe,categories],f)
+        return render_template('Preview_Recipe.html',recipe=recipe,categories=categories, rnd=random())
+    except Exception as e:
+        #This shouldn't occur but just incase...
+        traceback.print_exc()
+        return render_template('Added_Recipe_Error.html', error='Error!', emsg=e)
+    finally:
+        databaseConnector.close_connection()
+    #return "changes submitted successfully"
 
 ##########################################################################################################################
 

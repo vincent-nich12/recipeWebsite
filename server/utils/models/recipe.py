@@ -172,6 +172,12 @@ class Recipe:
         sqlString = Recipe._create_sql_string()
         values = self._get_values()
         sqlRunner.run_script(sqlString,values)
+    
+    """
+    Function to send the updated recipe information to the database.
+    """
+    def edit_recipe_details_to_database(self,sqlRunner):
+        pass
         
     """
     Static method for creating the sql string for a recipe object
@@ -207,16 +213,25 @@ class Recipe:
     Function to display a recipe's ingredients as a string (for the HTML).
     """
     def ingredients_str(self):
-        pass
-    
+        strRep = ''
+        for ing in self.ingredients:
+            strRep = strRep + ing + "\n"
+        return strRep
+        
     """
     Function to display a recipe's method as a string (for the HTML).
     """
     def method_str(self):
-        pass
+        strRep = ''
+        for line in self.method:
+            strRep = strRep + line + "\n"
+        return strRep
     
     """
     Function to display a recipe's notes as a string (for the HTML).
     """
     def notes_str(self):
-        pass
+        strRep = ''
+        for line in self.notes:
+            strRep = strRep + line + "\n"
+        return strRep

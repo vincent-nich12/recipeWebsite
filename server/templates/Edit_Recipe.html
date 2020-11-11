@@ -26,24 +26,24 @@ w3IncludeHTML();
 <br>
 	<h2>Edit Recipe</h2>
 	
-		<form action="/Preview_Recipe.html" id="add_recipe" method="post" enctype="multipart/form-data"> 
+		<form action="/Edit_Recipe_Submit.html" id="add_recipe" method="post" enctype="multipart/form-data"> 
 			<!--Title of Recipe-->
 			<i class='fas fa-star-of-life'></i><label for="recipe_name">Title</label>							
 			<input type="text" name="recipe_name" placeholder="Title" value="{{recipe.recipe_name}}" required>
-
+            <input type="hidden" id="recipe_id" name="recipe_id" value="{{recipe.recipe_id}}"><!-- Don't delete this line!! (need the ID for the database) vince X-->
 			<!--Meal Type (Radio)-->
 			<i class='fas fa-star-of-life'></i><label for="meal_type">Meal</label> <br>
-			<input type="radio" id="breakfast" name="meal" value="Breakfast" >
+			<input type="radio" id="breakfast" name="meal" value="Breakfast" {% if recipe.meal_type == "Breakfast" %} checked {% endif %} >
 			<label for="breakfast">Breakfast</label><br>
-			<input type="radio" id="lunch" name="meal" value="Lunch">
+			<input type="radio" id="lunch" name="meal" value="Lunch" {% if recipe.meal_type == "Lunch" %} checked {% endif %}>
 			<label for="lunch">Lunch</label><br>
-			<input type="radio" id="dinner" name="meal" value="Dinner">
+			<input type="radio" id="dinner" name="meal" value="Dinner" {% if recipe.meal_type == "Dinner" %} checked {% endif %}>
 			<label for="dinner">Dinner</label><br>
-			<input type="radio" id="dessert" name="meal" value="Dessert">
+			<input type="radio" id="dessert" name="meal" value="Dessert" {% if recipe.meal_type == "Dessert" %} checked {% endif %}>
 			<label for="dessert">Dessert</label><br>
-			<input type="radio" id="snacks" name="meal" value="Snacks">
+			<input type="radio" id="snacks" name="meal" value="Snacks" {% if recipe.meal_type == "Snacks" %} checked {% endif %}>
 			<label for="snacks">Snacks</label><br>
-			<input type="radio" id="other" name="meal" value="Other" required>
+			<input type="radio" id="other" name="meal" value="Other" required {% if recipe.meal_type == "Other" %} checked {% endif %}>
 			<label for="other">Other</label><br>
 			
 			<!--Skill Level (Radio)-->
@@ -73,7 +73,7 @@ w3IncludeHTML();
                     
 				<div id="categories_columns"> <!--First column-->
 					{% for cats in col1 %}
-                        <input type="checkbox" id="{{cats}}" name="{{cats}}" value="{{cats}}">
+                        <input type="checkbox" id="{{cats}}" name="{{cats}}" value="{{cats}}" {% if cats in recipe.categories %} checked {% endif %}>
                         <label for="{{cats}}">{{cats}}</label>
                         <br>
                     {% endfor %}
@@ -81,7 +81,7 @@ w3IncludeHTML();
 				
 				<div id="categories_columns"> <!-- Second column-->
 					{% for cats in col2 %}
-                        <input type="checkbox" id="{{cats}}" name="{{cats}}" value="{{cats}}">
+                        <input type="checkbox" id="{{cats}}" name="{{cats}}" value="{{cats}}" {% if cats in recipe.categories %} checked {% endif %}>
                         <label for="{{cats}}">{{cats}}</label>
                         <br>
                     {% endfor %}
@@ -89,7 +89,7 @@ w3IncludeHTML();
 				
 				<div id="categories_columns"> <!--Third column-->
 					{% for cats in col3 %}
-                        <input type="checkbox" id="{{cats}}" name="{{cats}}" value="{{cats}}">
+                        <input type="checkbox" id="{{cats}}" name="{{cats}}" value="{{cats}}" {% if cats in recipe.categories %} checked {% endif %}>
                         <label for="{{cats}}">{{cats}}</label>
                         <br>
                     {% endfor %}
@@ -100,26 +100,27 @@ w3IncludeHTML();
 			 <!-- Ingredients list-->
 			<br> <i class='fas fa-star-of-life'></i><label for="ingredients" id="label" style=text-align:left>Ingredients </label> <span class="help_icon"><i class='fas fa-question-circle'></i></span>
 			<div class="help_bubble sb1"><p>List each ingredient on a new line, e.g.: <br>100g flour<br>50g butter<br>2 eggs</p></div> <br>		
-			<textarea name="ingredients" id="add_ingredients" placeholder="List ingredients here" required> {{recipe.ingredients}} </textarea>
+			<textarea name="ingredients" id="add_ingredients" placeholder="List ingredients here" required> {{recipe.ingredients_str()}} </textarea>
 			
 			<!-- Method explanation-->
 			<br><i class='fas fa-star-of-life'></i><label for="method" id="label">Method </label> <span class="help_icon"><i class='fas fa-question-circle'></i>
 			</span><div class="help_bubble sb1"><p>List each step on a new line <u>without numbers</u></p></div>
 			<br> 		
-			<textarea name="Method" id="add_method" placeholder="Enter method here" required> {{recipe.method}} </textarea>
+			<textarea name="Method" id="add_method" placeholder="Enter method here" required> {{recipe.method_str()}} </textarea>
 			
 			<!-- Notes-->
 			<br><label for="notes" id="label">Notes</label><br>
-			<textarea name="notes" id="notes" placeholder="Enter notes here"> {{recipe.notes}} </textarea>
+			<textarea name="notes" id="notes" placeholder="Enter notes here"> {{recipe.notes_str()}} </textarea>
 			<br>
 			
 				<!--Image upload-->
-			<br><label for="image" id="label">Image Upload</label> <br>
+			<br><label for="image" id="label">Image Upload</label><span class="help_icon"><i class='fas fa-question-circle'></i>
+			</span><div class="help_bubble sb1"><p> Select new image for recipe. If no file is chosen, original image is unchanged. </p></div>
 			<input type="file" name="upload">
 			
 			<br>
 			<br><input type="submit"
-			value="Preview">
+			value="Submit">
 		</form>	
 </div>
 </body>
