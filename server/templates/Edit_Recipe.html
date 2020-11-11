@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Add Recipe</title>
+<title>Edit a Recipe</title>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
@@ -29,10 +29,10 @@ w3IncludeHTML();
 		<form action="/Preview_Recipe.html" id="add_recipe" method="post" enctype="multipart/form-data"> 
 			<!--Title of Recipe-->
 			<i class='fas fa-star-of-life'></i><label for="recipe_name">Title</label>							
-			<input type="text" name="recipe_name" placeholder="Title" required>
-			
+			<input type="text" name="recipe_name" placeholder="Title" value="{{recipe.recipe_name}}" required>
+
 			<!--Meal Type (Radio)-->
-			<i class='fas fa-star-of-life' style="font-size:10px; color:red"></i><label for="meal_type">Meal</label> <br>
+			<i class='fas fa-star-of-life'></i><label for="meal_type">Meal</label> <br>
 			<input type="radio" id="breakfast" name="meal" value="Breakfast" >
 			<label for="breakfast">Breakfast</label><br>
 			<input type="radio" id="lunch" name="meal" value="Lunch">
@@ -47,101 +47,70 @@ w3IncludeHTML();
 			<label for="other">Other</label><br>
 			
 			<!--Skill Level (Radio)-->
-			<br><i class='fas fa-star-of-life'></i><label for="skill_level">Skill Level</label><br>	
-			<input type="radio" id="easy" name="skill_level" value="Easy">
-			<label for="easy">Easy</label><br>
-			<input type="radio" id="medium" name="skill_level" value="Medium">
-			<label for="medium">Medium</label><br>
-			<input type="radio" id="hard" name="skill_level" value="Hard" required>
-			<label for="hard">Hard</label><br>
+            <br><i class='fas fa-star-of-life'></i><label for="skill_level">Skill Level</label><br>	
+            <input type="radio" id="easy" name="skill_level" value="Easy" {% if recipe.skill_level == "Easy" %} checked {% endif %}>
+            <label for="easy">Easy</label><br>
+            <input type="radio" id="medium" name="skill_level" value="Medium" {% if recipe.skill_level == "Medium" %} checked {% endif %}>
+            <label for="medium">Medium</label><br>
+            <input type="radio" id="hard" name="skill_level" value="Hard" required {% if recipe.skill_level == "Hard" %} checked {% endif %}>
+            <label for="hard">Hard</label><br>
 			
 			<!-- Cooking Time-->
 			<br><label for="cooking_time">Cooking Time</label><br> 	
-			<input type="number" id="hours" name="hours" min="0" max="24" value="0">
+			<input type="number" id="hours" name="hours" min="0" max="24" {% if recipe is none %} value="0" {% else %} value="{{recipe.hours}}" {% endif %}>
 			<label for=hours>Hour(s)</label>
-			<input type="number" id="minutes" name="minutes" min="0" max="59" value="0">
+			<input type="number" id="minutes" name="minutes" min="0" max="59" {% if recipe is none %} value="0" {% else %} value="{{recipe.minutes}}" {% endif %}>
 			<label for=minutes>Minutes</label><br>	
 			
 			<!--Servings-->
 			<br><label for="servings">Servings</label><br>
-			<input type="number" id="servings" name="servings" min="0" max="20" value="0">
+			<input type="number" id="servings" name="servings" min="0" max="20" {% if recipe is none %} value="0" {% else %} value="{{recipe.servings}}" {% endif %}>
 			<br>						
 		
 			<!--Categories-->
 			<br><label for="categories">Categories</label><br>
-			<div class="row" id="three_columns">
+			<div class="row" id="three_columns"> 
+                    
 				<div id="categories_columns"> <!--First column-->
-					<input type="checkbox" id="Baking" name="Baking" value="Baking">
-					<label for="Baking">Baking</label>
-					<br>
-					<input type="checkbox" id="Cake" name="Cake" value="Cake">
-					<label for="Cake">Cake</label>
-					<br>
-					<input type="checkbox" id="Casserole" name="Casserole" value="Casserole">
-					<label for="Casserole">Casserole</label>
-					<br>
-					<input type="checkbox" id="Chocolate" name="Chocolate" value="Chocolate">
-					<label for="Chocolate">Chocolate</label>
-					<br>
-					<input type="checkbox" id="Curry" name="Curry" value="Curry">
-					<label for="Curry">Curry</label>
-					<br>
-					<input type="checkbox" id="Gluten-Free" name="Gluten-Free" value="Gluten-Free">
-					<label for="Gluten-Free">Gluten-Free</label>
-					<br>
+					{% for cats in col1 %}
+                        <input type="checkbox" id="{{cats}}" name="{{cats}}" value="{{cats}}">
+                        <label for="{{cats}}">{{cats}}</label>
+                        <br>
+                    {% endfor %}
 				</div>
 				
 				<div id="categories_columns"> <!-- Second column-->
-					<input type="checkbox" id="Fish" name="Fish" value="Fish">
-					<label for="Fish">Fish</label>
-					<br>
-					<input type="checkbox" id="Meat" name="Meat" value="Meat">
-					<label for="Meat">Meat</label>
-					<br>
-					<input type="checkbox" id="Noodles" name="Noodles" value="Noodles">
-					<label for="Noodles">Noodles</label>
-					<br>
-					<input type="checkbox" id="One Pot" name="One Pot" value="One Pot">
-					<label for="One Pot">One Pot</label> 
-					<br>
-					<input type="checkbox" id="Pasta" name="Pasta" value="Pasta">
-					<label for="Pasta">Pasta</label>
-					<br>
+					{% for cats in col2 %}
+                        <input type="checkbox" id="{{cats}}" name="{{cats}}" value="{{cats}}">
+                        <label for="{{cats}}">{{cats}}</label>
+                        <br>
+                    {% endfor %}
 				</div>
 				
 				<div id="categories_columns"> <!--Third column-->
-					<input type="checkbox" id="Pie" name="Pie" value="Pie">
-					<label for="Pie">Pie</label> 
-					<br>
-					<input type="checkbox" id="Rice" name="Rice" value="Rice">
-					<label for="Rice">Rice</label>
-					<br>
-					<input type="checkbox" id="Salad" name="Salad" value="Salad">
-					<label for="Salad">Salad</label>
-					<br>
-					<input type="checkbox" id="Spicy" name="Spicy" value="Spicy">
-					<label for="spicy">Spicy</label>
-					<br>
-					<input type="checkbox" id="Vegetarian" name="Vegetarian" value="Vegetarian">
-					<label for="Vegetarian">Vegetarian</label> 
-					<br>
+					{% for cats in col3 %}
+                        <input type="checkbox" id="{{cats}}" name="{{cats}}" value="{{cats}}">
+                        <label for="{{cats}}">{{cats}}</label>
+                        <br>
+                    {% endfor %}
 				</div>
+
 			</div>
 			<br>
 			 <!-- Ingredients list-->
 			<br> <i class='fas fa-star-of-life'></i><label for="ingredients" id="label" style=text-align:left>Ingredients </label> <span class="help_icon"><i class='fas fa-question-circle'></i></span>
 			<div class="help_bubble sb1"><p>List each ingredient on a new line, e.g.: <br>100g flour<br>50g butter<br>2 eggs</p></div> <br>		
-			<textarea name="ingredients" id="add_ingredients" placeholder="List ingredients here" required></textarea>
+			<textarea name="ingredients" id="add_ingredients" placeholder="List ingredients here" required> {{recipe.ingredients}} </textarea>
 			
 			<!-- Method explanation-->
 			<br><i class='fas fa-star-of-life'></i><label for="method" id="label">Method </label> <span class="help_icon"><i class='fas fa-question-circle'></i>
 			</span><div class="help_bubble sb1"><p>List each step on a new line <u>without numbers</u></p></div>
 			<br> 		
-			<textarea name="Method" id="add_method" placeholder="Enter method here" required></textarea>
+			<textarea name="Method" id="add_method" placeholder="Enter method here" required> {{recipe.method}} </textarea>
 			
 			<!-- Notes-->
 			<br><label for="notes" id="label">Notes</label><br>
-			<textarea name="notes" id="notes" placeholder="Enter notes here"></textarea>
+			<textarea name="notes" id="notes" placeholder="Enter notes here"> {{recipe.notes}} </textarea>
 			<br>
 			
 				<!--Image upload-->

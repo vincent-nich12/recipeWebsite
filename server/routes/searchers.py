@@ -4,6 +4,7 @@ from utils.database_utils.DatabaseConnector import DatabaseConnector
 from utils.database_utils.SQLRunner import SQLRunner
 from utils.searchers.RecipeSearcher import RecipeSearcher
 from utils.common.general_utils import open_config_file
+from utils.common.search_utils import searchRecipesByName, searchRecipesByIngredient
 import traceback
 
 """
@@ -113,23 +114,3 @@ def recipeResult():
         return render_template('Recipe_Home.html', emsg='An unexpected error occured, please try again later.', error=e)
     finally:
         databaseConnector.close_connection()
-        
-############################################# Utils ##############################################
-def searchRecipesByName(name):
-    config = open_config_file('/root/recipeWebsite/server/config.json')
-    #Connect to database
-    databaseConnector.connect()
-    #Get all the recipes and order by similarity
-    #returned as a list of Recipe objects
-    recipeSearcher = RecipeSearcher(sqlRunner,config["recipe_searcher"]["num_results"],config["recipe_searcher"]["similarity_threshold"])
-    return recipeSearcher.search_recipes_by_name(name)
-    
-def searchRecipesByIngredient(ing):
-    config = open_config_file('/root/recipeWebsite/server/config.json')
-    #Connect to database
-    databaseConnector.connect()
-    #returned as a list of Recipe objects
-    recipeSearcher = RecipeSearcher(sqlRunner,config["recipe_searcher"]["num_results"],config["recipe_searcher"]["similarity_threshold"])
-    return recipeSearcher.search_recipes_by_ingredient(ing)
-    
-##################################################################################################

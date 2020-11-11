@@ -6,6 +6,7 @@ from utils.database_utils.DatabaseConnector import DatabaseConnector
 from utils.database_utils.SQLRunner import SQLRunner
 from utils.web_scrapers.WebScraper import WebScraper
 from utils.models.recipe import Recipe
+from utils.common.search_utils import searchRecipesByName
 import re
 from werkzeug.utils import secure_filename
 import pickle
@@ -83,7 +84,7 @@ def getRecipeFromURL():
         web_scraper = WebScraper()
         recipe = web_scraper.get_recipe_from_url(url)
         
-        return render_template('Add_a_Recipe.html', recipe=recipe, categoryNames = config["misc"]["categories"], col1=col1, col2=col2, col3=col3)
+        return render_template('Add_a_Recipe.html', recipe=recipe, col1=col1, col2=col2, col3=col3)
     except:
         config = open_config_file('/root/recipeWebsite/server/config.json')
         return render_template('Add_a_Recipe.html', recipe=None, error="An unknown error has occured", categoryNames = config["misc"]["categories"], col1=col1, col2=col2, col3=col3)
@@ -108,17 +109,18 @@ def createCategoryColumns():
 
 ################################################## Edit a Recipe #########################################################
 #Load the edit recipe page (not currently functional)
-@routes.route('/Edit_Recipe.html')
+@routes.route('/Edit_Recipe.html', methods=['GET'])
 def editRecipe():
-	return render_template('Edit_Recipe.html')
-
-
-
-
-
-
-
-
+    try:
+        config = open_config_file('/root/recipeWebsite/server/config.json')
+        name = request.args.get("recipeName")
+        recipe = searchRecipesByName(name)[0]
+        categories = recipe.get_categories(config["misc"]["categories"])
+        col1,col2,col3 = createCategoryColumns()
+        return render_template('Edit_Recipe.html', recipe=recipe, categories=categories, col1=col1, col2=col2, col3=col3)
+    except:
+        traceback.print_exc()
+        return render_template('Recipe_Home.html')
 
 
 

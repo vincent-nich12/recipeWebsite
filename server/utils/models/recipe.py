@@ -203,4 +203,20 @@ class Recipe:
         atts = [a for a in list(vars(new_recipe).keys()) if not a.startswith('__')]
         return len(atts)
         
+    """
+    Function to display a recipe's ingredients as a string (for the HTML).
+    """
+    def ingredients_str(self):
+        pass
     
+    """
+    Function to display a recipe's method as a string (for the HTML).
+    """
+    def method_str(self):
+        pass
+    
+    """
+    Function to display a recipe's notes as a string (for the HTML).
+    """
+    def notes_str(self):
+        pass

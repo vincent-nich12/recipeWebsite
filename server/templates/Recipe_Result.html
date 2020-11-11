@@ -33,7 +33,7 @@ w3IncludeHTML();
 	<div style="position:relative; left:20px; width:auto; float:left; background-color:#f0dcd1">
 		<h2>{{ recipe.recipe_name }}</h2>  <!-- Recipe title -->
 		<i class='far fa-star'></i>
-		<a href="/Edit_Recipe.html">Edit</a> <!-- Edit recipe -->
+		<a href="/Edit_Recipe.html?recipeName={{ recipe.recipe_name }}">Edit</a> <!-- Edit recipe -->
 		<p style="line-height:2">
 			Meal: {{recipe.meal_type}} <br>
 			Cooking time: {{recipe.hours}} hours and {{recipe.minutes}} minutes<br>

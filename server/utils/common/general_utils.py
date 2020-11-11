@@ -58,6 +58,8 @@ This function is called when the user wants to save the recipe onto the server.
 It copies the temp file and saves it. The img's name is simply the recipe_id.
 """    
 def copy_temp_img_file(config,recipe):
+    if recipe.image_URL is None:
+        return None
     name, extension = os.path.splitext(recipe.image_URL)
     upperDirs = "/root/recipeWebsite/server/"
     tempFileLoc = recipe.image_URL

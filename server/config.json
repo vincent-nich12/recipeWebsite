@@ -6,7 +6,7 @@
             },
     "image_uploading" : {
                 "img_upload_folder" : "static/",
-                "_comment" : "image upload folder must be static then something else",
+                "_comment" : "image upload folder route must begin with static/",
                 "allowed_extensions": [".gif",".png",".jpg",".jpeg"]
             },
     "recipe_searcher" : {
