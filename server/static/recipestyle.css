@@ -5,8 +5,6 @@ html{
 
 /*The layout of the whole page*/
 .main_body{
-	margin-left:10%;
-	margin-right:10%;
 	background-color:#f7f0e3;
 }
 
@@ -27,9 +25,10 @@ h1 {
 
 /*The header formatting*/
 .header{
-	background-color:#e37d1e;
+	background-color:#222363; /*Dark blue*/
 	text-align: center;
 	padding: 10px;
+	border-radius:0px;
 }
 
 #template{
@@ -55,7 +54,7 @@ div{
 		margin: 0;
 		padding: 0;
 		overflow:hidden;
-		background-color:#a83122; /*Red*/
+		background-color:#729bd6; /*Light blue*/
 	}
 
 	.myTopnav { /*The list in the navigation bar*/
@@ -73,10 +72,14 @@ div{
 	}
 
 	/*Hovering over nav buttons changes colour*/
-	li a:hover, li.active, .myTopnav.dropdwn:hover .dropbttn .dropdwn {
-		background-color: #5e0707;
+	li a:hover, .myTopnav.dropdwn:hover .dropbttn .dropdwn {
+		background-color: #9fbde0;
 		color:white;
 		text-decoration:none;
+	}
+	
+	li.active,{
+		background-color:#729bd6;
 	}
 
 	/*Resizing the page alters the navbar*/
@@ -201,6 +204,19 @@ div{
 		width:30px;
 		background-color:green;
 		color:white;
+	}
+	
+	
+	/*Landing page image*/
+	.landingImage{
+		width:100%;
+		height:80%%;
+		padding:none;
+	}
+	
+	#landingImageDiv{
+		padding:0;
+		margin:0;
 	}
 	
 /* Columns for searching recipe and search ingredient boxes on home page*/

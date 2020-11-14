@@ -11,7 +11,7 @@ privKey = '../../../../etc/letsencrypt/live/nkrecipes.co.uk/privkey.pem'
 certFile = '../../../../etc/letsencrypt/live/nkrecipes.co.uk/fullchain.pem'
 
 # Run it within native Flask (just port 443) or gevent (both port 443 and 80 but no stdout)
-debugMode = False
+debugMode = True
 
 
 if __name__ == '__main__':

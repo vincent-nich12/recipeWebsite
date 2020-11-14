@@ -58,7 +58,7 @@ class Recipe:
     """
     def construct_recipe(row,isFromDatabase):
         new_recipe = Recipe()
-        atts = [a for a in list(vars(new_recipe).keys()) if not a.startswith('__')]
+        atts = new_recipe._get_names()
         for x in range(len(atts)):
             setattr(new_recipe, atts[x],row[x]) 
         if isFromDatabase:
@@ -168,21 +168,21 @@ class Recipe:
     """
     Function used to submit a recipe object into the database
     """
-    def submit_recipe_to_database(self,sqlRunner):
-        sqlString = Recipe._create_sql_string()
-        values = self._get_values()
-        sqlRunner.run_script(sqlString,values)
+    def submit_recipe_to_database(self,sqlRunner,isEdit=False):
+        sqlString = None
+        if isEdit:
+            sqlString = self._create_edit_string()
+            sqlRunner.run_script(sqlString,[])
+        else:
+            sqlString = self._create_insert_string()
+            values = self._get_values()
+            sqlRunner.run_script(sqlString,values)
     
-    """
-    Function to send the updated recipe information to the database.
-    """
-    def edit_recipe_details_to_database(self,sqlRunner):
-        pass
         
     """
-    Static method for creating the sql string for a recipe object
+    Static method for creating the insert string for a recipe object
     """
-    def _create_sql_string():
+    def _create_insert_string(self):
         sqlString = "INSERT INTO recipes VALUES ("
         for x in range(Recipe.get_num_atts()):
             if x < Recipe.get_num_atts() - 1:
@@ -192,21 +192,51 @@ class Recipe:
         return sqlString
         
     """
-    Function to get all the values stored in the Recipe object into a list.
+    Static method for creating the edit string for a recipe object
+    """
+    def _create_edit_string(self):
+        sqlString = "UPDATE recipes SET "
+        names = self._get_names()
+        vals = self._get_values()
+        for x in range(1,Recipe.get_num_atts()):
+            valToAdd = str(vals[x])
+            #Convert lists to sets
+            if type(vals[x]) is list:
+                valToAdd = str(set(vals[x]))
+            if names[x] == "image_URL":
+                if len(str(vals[x])) == 0:
+                    continue
+            #replace single quotes with double quotes
+            valToAdd = valToAdd.replace("'", "\"")
+            if x < Recipe.get_num_atts() - 1:
+                sqlString = sqlString + names[x] + "=" + "'" + valToAdd + "'"  + ", "
+            else:
+                sqlString = sqlString + names[x] + "=" + "'" + valToAdd + "'"
+        sqlString = sqlString + " WHERE recipe_id = " + str(self.recipe_id) + ";"
+        return sqlString
+        
+    """
+    Function to get all the field values stored in the Recipe object into a list.
     """
     def _get_values(self):
-        atts = [a for a in list(vars(self).keys()) if not a.startswith('__')]
+        atts = self._get_names()
         attVals = []
         for x in range(len(atts)):
             attVals.append(getattr(self,atts[x]))
         return attVals
         
     """
+    Function to get all field names stored in the Recipe object as a list.
+    """
+    def _get_names(self):
+        return [a for a in list(vars(self).keys()) if not a.startswith('__')]
+        
+    """
     Function to get the number of attributes stored in the recipe object (because it might change)
     """
     def get_num_atts():
         new_recipe = Recipe()
-        atts = [a for a in list(vars(new_recipe).keys()) if not a.startswith('__')]
+        atts = new_recipe._get_names()
         return len(atts)
         
     """

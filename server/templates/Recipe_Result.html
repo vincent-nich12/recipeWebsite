@@ -27,7 +27,7 @@ w3IncludeHTML();
     {% if recipe.image_URL is none %}
         <img src="static/knifeAndFork.jpg" alt="img" style="float:left; height:300px; width:400px; object-fit:cover;">
     {% else %}
-        <img src="{{recipe.image_URL}}" alt="img" style="float:left; height:300px; width:400px; margin:20px; object-fit:cover;">
+        <img src="{{recipe.image_URL}}?{{rnd}}" alt="img" style="float:left; height:300px; width:400px; margin:20px; object-fit:cover;">
     {% endif %}
 
 	<div style="position:relative; left:20px; width:auto; float:left; background-color:#f0dcd1">
