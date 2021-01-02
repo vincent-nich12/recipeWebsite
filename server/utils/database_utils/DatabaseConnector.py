@@ -16,12 +16,13 @@ class DatabaseConnector:
     Function for establishing the connection object to the database.
     """
     def _establish_conn(self):
-        list = open_file(self.configFile)
-        dbname = list[0]
-        user = list[1]
-        password = list[2]
-        connStr = ("dbname = " + dbname +  "user=" + user + " password=" + password)
-        conn= psycopg2.connect(connStr)
+        database_conf = open_file(self.configFile)
+        ipaddress = database_conf[0]
+        dbname = database_conf[1]
+        user = database_conf[2]
+        password = database_conf[3]
+        connStr = ("host=" + ipaddress + "dbname = " + dbname +  "user=" + user + " password=" + password)
+        conn = psycopg2.connect(connStr)
         self.conn = conn
         
     """

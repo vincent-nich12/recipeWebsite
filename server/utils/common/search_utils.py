@@ -7,12 +7,12 @@ from utils.searchers.RecipeSearcher import RecipeSearcher
 File used for storing the methods that deal with searching recipes.
 """
 
-config = open_config_file('/root/recipeWebsite/server/config.json')
+config = open_config_file('config.json')
 databaseConnector = DatabaseConnector(config["database_config"]["access_file"])
 sqlRunner = SQLRunner(databaseConnector)
 
 def searchRecipesByName(name):
-    config = open_config_file('/root/recipeWebsite/server/config.json')
+    config = open_config_file('config.json')
     #Connect to database
     databaseConnector.connect()
     #Get all the recipes and order by similarity
@@ -21,7 +21,7 @@ def searchRecipesByName(name):
     return recipeSearcher.search_recipes_by_name(name)
     
 def searchRecipesByIngredient(ing):
-    config = open_config_file('/root/recipeWebsite/server/config.json')
+    config = open_config_file('config.json')
     #Connect to database
     databaseConnector.connect()
     #returned as a list of Recipe objects

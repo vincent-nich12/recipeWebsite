@@ -5,7 +5,7 @@
             },
     "image_uploading" : {
                 "img_upload_folder" : "static/",
-                "_comment" : "image upload folder route must begin with static/",
+                "_comment" : "image upload folder route must begin with 'static/'",
                 "allowed_extensions": [".gif",".png",".jpg",".jpeg"]
             },
     "recipe_searcher" : {
@@ -14,6 +14,6 @@
                 "_comment": "Threshold must be between 0 and 1"
             },
     "database_config": {
-                "access_file" : "/root/recipeWebsite/database/databaseUtils/database_access.txt"
+                "access_file" : "../database/databaseUtils/database_access.txt"
             }
 }

@@ -13,7 +13,7 @@ File for storing the routes involved with searching for things. It also contains
 on search results.
 """
 
-config = open_config_file('/root/recipeWebsite/server/config.json')
+config = open_config_file('config.json')
 databaseConnector = DatabaseConnector(config["database_config"]["access_file"])
 sqlRunner = SQLRunner(databaseConnector)
 
@@ -71,7 +71,7 @@ def searchMealType():
         return render_template('Recipe_Search.html',recipes=recipes, num_recipes=len(recipes))
     except Exception as e:
         traceback.print_exc()
-        return render_template('Recipe_Home.html',emsg = 'An unexpected error occured, please try again later.', error = e)
+        return render_template('Recipe_Home.html', emsg='An unexpected error occured, please try again later.', error=e)
     finally:
         databaseConnector.close_connection()
         
@@ -97,7 +97,7 @@ def searchCategory():
 @app.route('/Recipe_Result.html',methods=['GET'])
 def recipeResult():
     try:
-        config = open_config_file('/root/recipeWebsite/server/config.json')
+        config = open_config_file('config.json')
         #The value to search
         searchValue = request.args.get('recipeName')
         #Connect to database

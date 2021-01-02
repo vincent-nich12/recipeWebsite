@@ -18,7 +18,7 @@ from random import random
 File for storing the routes used to manipulate recipes e.g. adding, editing and deleting recipes.
 """
 
-config = open_config_file('/root/recipeWebsite/server/config.json')
+config = open_config_file('config.json')
 databaseConnector = DatabaseConnector(config["database_config"]["access_file"])
 sqlRunner = SQLRunner(databaseConnector)
 
@@ -33,7 +33,7 @@ def addRecipe():
 @app.route('/Preview_Recipe.html', methods=['POST'])
 def previewRecipe():
     try:
-        config = open_config_file('/root/recipeWebsite/server/config.json')
+        config = open_config_file('config.json')
         #Create a Recipes object using the request, databaseConnector object and the valid category names
         recipe = Recipe.create_recipe_object_from_website(request,databaseConnector,config["misc"]["categories"])
         #Image upload handler (to a temporary location for previewing)
@@ -41,7 +41,7 @@ def previewRecipe():
         #Get the selected categories
         categories = recipe.get_categories(config["misc"]["categories"])
         #Save the details temporarly into a pickle file
-        with open('/root/recipeWebsite/server/newItems.pkl', 'wb') as f:
+        with open('newItems.pkl', 'wb') as f:
             pickle.dump([recipe,categories],f)
         return render_template('Preview_Recipe.html',recipe=recipe,categories=categories, rnd=random())
     except Exception as e:
@@ -56,10 +56,10 @@ def previewRecipe():
 @app.route('/Submitted_Recipe.html', methods=['POST'])
 def submitRecipe():
     try:
-        config = open_config_file('/root/recipeWebsite/server/config.json')
+        config = open_config_file('config.json')
         databaseConnector.connect()
         #load saved variables
-        file = open('/root/recipeWebsite/server/newItems.pkl','rb')
+        file = open('newItems.pkl','rb')
         data = pickle.load(file)
         file.close()
         recipe = data[0]
@@ -80,18 +80,17 @@ def submitRecipe():
 def getRecipeFromURL():
     col1, col2, col3 = createCategoryColumns()
     try:
-        config = open_config_file('/root/recipeWebsite/server/config.json')
         url = request.args.get("recipe_URL")
         web_scraper = WebScraper()
         recipe = web_scraper.get_recipe_from_url(url)
         
         return render_template('Add_a_Recipe.html', recipe=recipe, col1=col1, col2=col2, col3=col3)
     except:
-        config = open_config_file('/root/recipeWebsite/server/config.json')
+        config = open_config_file('config.json')
         return render_template('Add_a_Recipe.html', recipe=None, error="An unknown error has occured", categoryNames = config["misc"]["categories"], col1=col1, col2=col2, col3=col3)
         
 def createCategoryColumns():
-    config = open_config_file('/root/recipeWebsite/server/config.json')
+    config = open_config_file('config.json')
     catNames = sorted(config["misc"]["categories"])
     #Split the catNames into 3 columns (as this is how they are displayed
     col1 = []
@@ -113,7 +112,7 @@ def createCategoryColumns():
 @app.route('/Edit_Recipe.html', methods=['GET'])
 def editRecipe():
     try:
-        config = open_config_file('/root/recipeWebsite/server/config.json')
+        config = open_config_file('config.json')
         name = request.args.get("recipeName")
         recipe = searchRecipesByName(name)[0]
         categories = recipe.get_categories(config["misc"]["categories"])
@@ -127,7 +126,7 @@ def editRecipe():
 @app.route('/Edit_Recipe_Submit.html', methods=['POST'])
 def submitEdittedRecipe():
     try:
-        config = open_config_file('/root/recipeWebsite/server/config.json')
+        config = open_config_file('config.json')
         #Create a Recipes object using the request, databaseConnector object and the valid category names
         recipe = Recipe.create_recipe_object_from_website(request,databaseConnector,config["misc"]["categories"])
         #Get its ID

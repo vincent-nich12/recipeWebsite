@@ -42,7 +42,7 @@ def upload_recipe_image(config,request):
         # if the file type is valid
         if extension.lower() in ALLOWED_EXTENSIONS:
             saveLocation = os.path.join(config['image_uploading']['img_upload_folder'],"temp") + extension
-            file.save("/root/recipeWebsite/server/" + saveLocation)
+            file.save(saveLocation)
             return saveLocation
         else:
             errorStr = ''
@@ -61,8 +61,7 @@ def copy_temp_img_file(config,recipe):
     if recipe.image_URL is None:
         return None
     name, extension = os.path.splitext(recipe.image_URL)
-    upperDirs = "/root/recipeWebsite/server/"
     tempFileLoc = recipe.image_URL
     newFileLoc = config['image_uploading']['img_upload_folder'] + str(recipe.recipe_id) + extension
-    copy2(upperDirs + tempFileLoc, upperDirs + newFileLoc)
+    copy2(tempFileLoc, newFileLoc)
     return newFileLoc
