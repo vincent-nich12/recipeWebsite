@@ -44,6 +44,7 @@ class WebScraper:
     Private function for getting the title of a recipe in BBC good food.
     Returns None if it cannot find the title of the recipe.
     """
+    @staticmethod
     def _get_title(soup):
         try:
             headers = soup.findAll("h1", {"class": "masthead__title heading-1"})
@@ -56,6 +57,7 @@ class WebScraper:
     Returned as a tuple - (num hrs, num mins)
     Returns none if it cannot extract the cooking time.
     """
+    @staticmethod
     def _get_cooking_time(soup):
         try:
             #Get the first time given (usually prep)
@@ -97,6 +99,7 @@ class WebScraper:
     Private function used to extract the number of hours in a string.
     Returns None if the string doesn't contain 'hrs'.
     """
+    @staticmethod
     def _get_hrs_from_string(string):
         hrs = re.findall("[0-9]+ hrs", string)
         if len(hrs) == 0:
@@ -109,6 +112,7 @@ class WebScraper:
     Private function used to extract the number of minutes in a string.
     Returns 0 if the string doesn't contain 'mins'.
     """
+    @staticmethod
     def _get_mins_from_string(string):
         mins = re.findall("[0-9]+ mins", string)
         if len(mins) == 0:
@@ -122,6 +126,7 @@ class WebScraper:
     On BBC good food its either Easy or More effort (converted to 'Medium').
     Returns None if it cannot extract the difficulty.
     """
+    @staticmethod
     def _get_difficulty(soup):
         try:
             divs = soup.findAll("div", {"class": "icon-with-text__children"})
@@ -136,6 +141,7 @@ class WebScraper:
     Private function used to extract the number of servings of the recipe.
     Returns None if it cannot extract the number of servings.
     """
+    @staticmethod
     def _get_num_servings(soup):
         try:
             divs = soup.findAll("div", {"class": "icon-with-text__children"})
@@ -149,6 +155,7 @@ class WebScraper:
     Private function used to extract the ingredients of the recipe.
     Returns None if it cannot extract the ingredients.
     """
+    @staticmethod
     def _get_ingredients(soup):
         try:
             ingredientsWhole = soup.findAll("section", {"class": "recipe-template__ingredients col-12 mt-md col-lg-6"})[0]
@@ -174,7 +181,8 @@ class WebScraper:
     """
     Private function used to extract the method of the recipe.
     Returns None if it cannot extract the method.
-    """    
+    """
+    @staticmethod
     def _get_method(soup):
         try:
             ul = soup.findAll("ul", {"class": "grouped-list__list list"})[0]
@@ -201,6 +209,7 @@ class WebScraper:
     Private function used to extract the notes of the recipe.
     Returns None if it cannot extract the notes.
     """
+    @staticmethod
     def _get_notes(soup):
         try:
             div = soup.findAll("div", {"class": "editor-content"})[0]

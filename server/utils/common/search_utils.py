@@ -6,7 +6,6 @@ from utils.searchers.RecipeSearcher import RecipeSearcher
 """
 File used for storing the methods that deal with searching recipes.
 """
-
 config = open_config_file('config.json')
 databaseConnector = DatabaseConnector(config["database_config"]["access_file"])
 sqlRunner = SQLRunner(databaseConnector)

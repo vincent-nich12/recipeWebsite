@@ -21,7 +21,6 @@ class SQLRunner:
             all_rows.append(self.run_script(sql_strings[x],values[x]))
         return all_rows
         
-    
     """
     Function run in run_scripts to run a single SQL statement.
     """
@@ -33,4 +32,3 @@ class SQLRunner:
         else:
             rows = self.db_conn.cur.fetchall()
         return rows
-        

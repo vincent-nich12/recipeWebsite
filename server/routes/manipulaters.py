@@ -8,16 +8,12 @@ from utils.database_utils.SQLRunner import SQLRunner
 from utils.web_scrapers.WebScraper import WebScraper
 from utils.models.recipe import Recipe
 from utils.common.search_utils import searchRecipesByName
-import re
-from werkzeug.utils import secure_filename
 import pickle
-import os
 from random import random
 
 """
 File for storing the routes used to manipulate recipes e.g. adding, editing and deleting recipes.
 """
-
 config = open_config_file('config.json')
 databaseConnector = DatabaseConnector(config["database_config"]["access_file"])
 sqlRunner = SQLRunner(databaseConnector)
@@ -26,7 +22,7 @@ sqlRunner = SQLRunner(databaseConnector)
 #Load the add a recipe page (1st stage for adding a recipe)
 @app.route('/Add_a_Recipe.html')
 def addRecipe():
-    col1,col2,col3 = createCategoryColumns()
+    col1, col2, col3 = createCategoryColumns()
     return render_template('Add_a_Recipe.html', recipe=None, col1=col1, col2=col2, col3=col3)
 
 #Page Rendered when a recipe is sent for previewing (2nd stage for adding a new recipe)
@@ -34,13 +30,13 @@ def addRecipe():
 def previewRecipe():
     try:
         config = open_config_file('config.json')
-        #Create a Recipes object using the request, databaseConnector object and the valid category names
+        # Create a Recipes object using the request, databaseConnector object and the valid category names
         recipe = Recipe.create_recipe_object_from_website(request,databaseConnector,config["misc"]["categories"])
-        #Image upload handler (to a temporary location for previewing)
+        # Image upload handler (to a temporary location for previewing)
         recipe.image_URL = upload_recipe_image(config,request)
-        #Get the selected categories
+        # Get the selected categories
         categories = recipe.get_categories(config["misc"]["categories"])
-        #Save the details temporarly into a pickle file
+        # Save the details temporarly into a pickle file
         with open('newItems.pkl', 'wb') as f:
             pickle.dump([recipe,categories],f)
         return render_template('Preview_Recipe.html',recipe=recipe,categories=categories, rnd=random())
@@ -116,7 +112,7 @@ def editRecipe():
         name = request.args.get("recipeName")
         recipe = searchRecipesByName(name)[0]
         categories = recipe.get_categories(config["misc"]["categories"])
-        col1,col2,col3 = createCategoryColumns()
+        col1, col2, col3 = createCategoryColumns()
         return render_template('Edit_Recipe.html', recipe=recipe, categories=categories, col1=col1, col2=col2, col3=col3)
     except:
         traceback.print_exc()
@@ -132,7 +128,7 @@ def submitEdittedRecipe():
         #Get its ID
         recipe.recipe_id = request.form['recipe_id']
         # check if an image has been added
-        imageURL = upload_recipe_image(config,request)
+        imageURL = upload_recipe_image(config, request)
         if imageURL is None:
             pass
         else:

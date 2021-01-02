@@ -11,7 +11,8 @@ def open_file(aFile):
     with open(aFile) as inFile:
         list = inFile.readlines()
     return list
-    
+
+
 """
 Function to load the config file of the server (stored as a JSON file).
 """
@@ -19,6 +20,7 @@ def open_config_file(config_file_path):
     with open(config_file_path) as json_file:
         data = json.load(json_file)
     return data
+
 
 """    
 Function to upload a recipe image onto the server. For 
@@ -29,15 +31,13 @@ Params are the config file object and the request object.
 def upload_recipe_image(config,request):
     ALLOWED_EXTENSIONS = config['image_uploading']['allowed_extensions']
     if request.method == 'POST':
-        #Check if file has actually been uploaded
+        # Check if file has actually been uploaded
         if 'upload' not in request.files:
             return None
         file = request.files['upload']
-		
-        #If user does not select file, then it is submitted as an empty string
+        # If user does not select file, then it is submitted as an empty string
         if file.filename == '':
             return None
-		
         name, extension = os.path.splitext(file.filename)
         # if the file type is valid
         if extension.lower() in ALLOWED_EXTENSIONS:
@@ -52,7 +52,8 @@ def upload_recipe_image(config,request):
                 else:
                     errorStr = errorStr + ' ' + ALLOWED_EXTENSIONS[i] + ','
             raise Exception(extension + ' found, only' + errorStr + ' allowed.')
-    
+
+
 """
 This function is called when the user wants to save the recipe onto the server.
 It copies the temp file and saves it. The img's name is simply the recipe_id.
