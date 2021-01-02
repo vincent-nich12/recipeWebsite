@@ -1,5 +1,6 @@
+# Necessary import
+from __main__ import app
 from flask import render_template, request
-from . import routes
 import traceback
 from utils.common.general_utils import open_config_file, upload_recipe_image,copy_temp_img_file
 from utils.database_utils.DatabaseConnector import DatabaseConnector
@@ -23,13 +24,13 @@ sqlRunner = SQLRunner(databaseConnector)
 
 #################################################### Add a recipe ########################################################
 #Load the add a recipe page (1st stage for adding a recipe)
-@routes.route('/Add_a_Recipe.html')
+@app.route('/Add_a_Recipe.html')
 def addRecipe():
     col1,col2,col3 = createCategoryColumns()
     return render_template('Add_a_Recipe.html', recipe=None, col1=col1, col2=col2, col3=col3)
 
 #Page Rendered when a recipe is sent for previewing (2nd stage for adding a new recipe)
-@routes.route('/Preview_Recipe.html', methods=['POST'])
+@app.route('/Preview_Recipe.html', methods=['POST'])
 def previewRecipe():
     try:
         config = open_config_file('/root/recipeWebsite/server/config.json')
@@ -52,7 +53,7 @@ def previewRecipe():
         databaseConnector.close_connection()
         
 #Function called by the preview page to submit the recipes (final stage)
-@routes.route('/Submitted_Recipe.html', methods=['POST'])
+@app.route('/Submitted_Recipe.html', methods=['POST'])
 def submitRecipe():
     try:
         config = open_config_file('/root/recipeWebsite/server/config.json')
@@ -75,7 +76,7 @@ def submitRecipe():
         databaseConnector.close_connection()
         
 #Function called to fill in the recipe details given by a URL    
-@routes.route('/Get_Recipe_From_URL.html', methods=['GET'])
+@app.route('/Get_Recipe_From_URL.html', methods=['GET'])
 def getRecipeFromURL():
     col1, col2, col3 = createCategoryColumns()
     try:
@@ -109,7 +110,7 @@ def createCategoryColumns():
 
 ################################################## Edit a Recipe #########################################################
 #Load the edit recipe page
-@routes.route('/Edit_Recipe.html', methods=['GET'])
+@app.route('/Edit_Recipe.html', methods=['GET'])
 def editRecipe():
     try:
         config = open_config_file('/root/recipeWebsite/server/config.json')
@@ -123,7 +124,7 @@ def editRecipe():
         return render_template('Recipe_Home.html')
         
 #Submit the updates changes to a recipe
-@routes.route('/Edit_Recipe_Submit.html', methods=['POST'])
+@app.route('/Edit_Recipe_Submit.html', methods=['POST'])
 def submitEdittedRecipe():
     try:
         config = open_config_file('/root/recipeWebsite/server/config.json')

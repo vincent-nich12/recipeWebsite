@@ -36,7 +36,8 @@ h1 {
 }
 
 #logInButton{
-	float:right;
+	position:absolute;
+	right:1%;
 }
 
 /*Formatting for divs*/
@@ -210,7 +211,7 @@ div{
 	/*Landing page image*/
 	.landingImage{
 		width:100%;
-		height:80%%;
+		height:80%;
 		padding:none;
 	}
 	
@@ -218,6 +219,30 @@ div{
 		padding:0;
 		margin:0;
 	}
+	
+	#landingButton{
+		background-color:#222363;
+		color:white;
+		 width:150px;
+	     transform: translate(-50%);
+	     position: relative;
+	     left: 50%;
+		 bottom:35vw;
+		 border-radius:inherit;
+		 border:none;
+		 height:50px;
+	 }
+	 
+	 #landingText{
+ 		color:black;
+		text-align:center;
+		font-size:5em;
+ 	     transform: translate(-50%);
+ 	     position: relative;
+ 	     left: 50%;
+ 		 bottom:40vw;
+		 font-weight:bold;
+	 }
 	
 /* Columns for searching recipe and search ingredient boxes on home page*/
 	#home_search{

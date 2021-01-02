@@ -1,6 +1,5 @@
 {
 	"misc": {
-                "valid_ip_addresses": ["151.228.104.197","46.65.200.126"],
                 "categories": ["Cake", "Curry", "Fish", "Gluten Free", "Meat", "Noodles", "One pot", "Pasta",
                                "Rice", "Spicy", "Vegetarian", "Pie", "Casserole", "Chocolate"]
             },

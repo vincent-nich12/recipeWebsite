@@ -1,5 +1,6 @@
+# Necessary import
+from __main__ import app
 from flask import render_template, request
-from . import routes
 from utils.database_utils.DatabaseConnector import DatabaseConnector
 from utils.database_utils.SQLRunner import SQLRunner
 from utils.searchers.RecipeSearcher import RecipeSearcher
@@ -17,7 +18,7 @@ databaseConnector = DatabaseConnector(config["database_config"]["access_file"])
 sqlRunner = SQLRunner(databaseConnector)
 
 #Handler for the recipe searcher in the header
-@routes.route('/Recipe_Search_Header.html', methods=['GET'])
+@app.route('/Recipe_Search_Header.html', methods=['GET'])
 def headerSearcherHandler():
     searchType = request.args['searchSelect']
     searchValue = request.args['recipesearch']
@@ -29,7 +30,7 @@ def headerSearcherHandler():
         return render_template('Recipe_Search.html',recipes=recipes, num_recipes=len(recipes))
 
 #Search for a recipe by name
-@routes.route('/Recipe_Search.html', methods=['GET'])
+@app.route('/Recipe_Search.html', methods=['GET'])
 def searchName():
     try:
         #The value to search
@@ -43,7 +44,7 @@ def searchName():
         databaseConnector.close_connection()
         
 #Search for a recipe by ingredients
-@routes.route('/Ingredient_Search.html')
+@app.route('/Ingredient_Search.html')
 def searchIngredient():
     try:
         #The value to search
@@ -57,7 +58,7 @@ def searchIngredient():
         databaseConnector.close_connection()
         
 #Search by meal type (breakfast, lunch, dinner, dessert, snacks or other)
-@routes.route('/Search_Meal_Type.html')
+@app.route('/Search_Meal_Type.html')
 def searchMealType():
     try:
         #The value to search
@@ -75,7 +76,7 @@ def searchMealType():
         databaseConnector.close_connection()
         
 #Function called when user wants to search by category
-@routes.route('/Search_Category.html')
+@app.route('/Search_Category.html')
 def searchCategory():
     try:
         #The value to search
@@ -93,7 +94,7 @@ def searchCategory():
         databaseConnector.close_connection()
         
 #Page displayed when you click on a recipe to view it
-@routes.route('/Recipe_Result.html',methods=['GET'])
+@app.route('/Recipe_Result.html',methods=['GET'])
 def recipeResult():
     try:
         config = open_config_file('/root/recipeWebsite/server/config.json')
