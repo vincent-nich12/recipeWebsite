@@ -10,6 +10,7 @@ from utils.models.recipe import Recipe
 from utils.common.search_utils import searchRecipesByName
 import pickle
 from random import random
+from utils.searchers.RecipeSearcher import RecipeSearcher
 
 """
 File for storing the routes used to manipulate recipes e.g. adding, editing and deleting recipes.
@@ -123,29 +124,38 @@ def editRecipe():
 def submitEdittedRecipe():
     try:
         config = open_config_file('config.json')
-        #Create a Recipes object using the request, databaseConnector object and the valid category names
-        recipe = Recipe.create_recipe_object_from_website(request,databaseConnector,config["misc"]["categories"])
-        #Get its ID
+        # Create a Recipes object using the request, databaseConnector object and the valid category names
+        recipe = Recipe.create_recipe_object_from_website(request,databaseConnector,config["misc"]["categories"], isEdit=True)
+        # Get its ID
         recipe.recipe_id = request.form['recipe_id']
-        # check if an image has been added
+        # Image handle:
+        # Get the original recipe object
+        rs = RecipeSearcher(sqlRunner)
+        original_recipe_object = rs.search_recipes_by_name(recipe.recipe_name)[0]
+        # check if a new image has been added
         imageURL = upload_recipe_image(config, request)
-        if imageURL is None:
-            pass
+        new_image_uploaded = imageURL is not None
+        # If no image uploaded, do nothing
+        if not new_image_uploaded:
+            if original_recipe_object.image_URL != "None":
+                recipe.image_URL = original_recipe_object.image_URL
+            else:
+                recipe.image_URL = None
         else:
+            # If there is a new image, upload it
             recipe.image_URL = imageURL
-            recipe.image_URL = copy_temp_img_file(config,recipe)
-        #Submit the updated details to the database
+            recipe.image_URL = copy_temp_img_file(config, recipe)
+        # Submit the updated details to the database
         recipe.submit_recipe_to_database(sqlRunner, isEdit=True)
-        #Get the categories from the Recipe object
+        # Get the categories from the Recipe object
         categories = recipe.get_categories(config["misc"]["categories"])
         return render_template('Recipe_Result.html',recipe=recipe,categories=categories,rnd=random())
     except Exception as e:
-        #This shouldn't occur but just incase...
+        # This shouldn't occur but just incase...
         traceback.print_exc()
         return render_template('Added_Recipe_Error.html', error='Error!', emsg=e)
     finally:
         databaseConnector.close_connection()
-
 ##########################################################################################################################
 
 

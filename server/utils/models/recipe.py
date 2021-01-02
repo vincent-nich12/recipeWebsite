@@ -210,7 +210,7 @@ class Recipe:
     if required.
     """
     @staticmethod
-    def create_recipe_object_from_website(request,databaseConnector, categoryNames):
+    def create_recipe_object_from_website(request,databaseConnector, categoryNames, isEdit=False):
         #connect to database
         databaseConnector.connect()
         ##########################################################
@@ -279,4 +279,5 @@ def clean_text(text_arr:list):
     text_arr = [x.replace("\r", "") for x in text_arr]
     text_arr = [x.replace("\n", "") for x in text_arr]
     text_arr = [n for n in text_arr if not n.isspace()]
+    text_arr = [x.strip() for x in text_arr]
     return text_arr
