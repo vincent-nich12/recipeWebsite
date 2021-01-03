@@ -16,18 +16,18 @@
 
   <!--Header -->
   <div id="template" w3-include-html="static/content.html"></div>
-
   <script>
   w3IncludeHTML();
   </script>
 
-  <form action="/Delete_Recipe_Submit.html" method="post">
-    <!-- Don't remove this hidden text box, the server needs the name of the recipe to know which one to delete -->
-    <input type="text" value="{{recipeName}}" name="recipeName" hidden/>
-    <p> Are you sure you want to delete this recipe? </p>
-    <input type="submit" value="Yes" name="Yes"/>
-    <input type="submit" value="No" name="No"/>
-  </form>
+  <!-- If the recipe was not deleted successfully -->
+  {% if error %}
+    <h1 style="color:black"> Recipe not deleted successfully. </h1>
+    <h2 style="color:black"> Reason: {{error}} </h2>
+  {% else %}
+    <!-- If it was -->
+    <h1 style="color:black"> Recipe deleted successfully! </h1>
+  {% endif %}
 
 </body>
 </html>

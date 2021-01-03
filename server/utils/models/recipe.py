@@ -77,9 +77,8 @@ class Recipe:
             sqlRunner.run_script(sqlString, values)
 
     """
-    Static method for creating the insert string for a recipe object
+    Method for creating the insert string for a recipe object
     """
-
     def _create_insert_string(self):
         sqlString = "INSERT INTO recipes VALUES ("
         for x in range(Recipe.get_num_atts()):
@@ -90,7 +89,7 @@ class Recipe:
         return sqlString
 
     """
-    Static method for creating the edit string for a recipe object
+    Method for creating the edit string for a recipe object
     """
     def _create_edit_string(self):
         sqlString = "UPDATE recipes SET "
@@ -170,12 +169,15 @@ class Recipe:
     The array needs to match the order of attributes stored in the database.
     """
     @staticmethod
-    def construct_recipe(row, isFromDatabase):
+    def construct_recipe(row, is_from_database:bool):
         new_recipe = Recipe()
         atts = new_recipe._get_names()
         for x in range(len(atts)):
-            setattr(new_recipe, atts[x], row[x])
-        if isFromDatabase:
+            if row[x] == 'None':
+                setattr(new_recipe, atts[x], None)
+            else:
+                setattr(new_recipe, atts[x], row[x])
+        if is_from_database:
             new_recipe._fix_atts()
         return new_recipe
 
@@ -184,22 +186,22 @@ class Recipe:
     requires the databaseConnector object in order to do this.
     """
     @staticmethod
-    def get_ID_for_new_recipe(databaseConnector: DatabaseConnector):
-        databaseConnector.cur.execute('SELECT recipe_id FROM recipes')
-        rows = databaseConnector.cur.fetchall()
+    def get_ID_for_new_recipe(database_conn: DatabaseConnector):
+        database_conn.cur.execute('SELECT recipe_id FROM recipes')
+        rows = database_conn.cur.fetchall()
         rowIDs = []
         for row in rows:
             rowIDs.append(row[0])
-        return (max(rowIDs) + 1)
+        return max(rowIDs) + 1
 
     """
     Helper function for constructing recipes from a 2D array of rows (recipes)
     """
     @staticmethod
-    def construct_recipes(rows, isFromDatabase):
+    def construct_recipes(rows, is_from_database:bool):
         list_of_recipes = []
         for row in rows:
-            list_of_recipes.append(Recipe.construct_recipe(row, isFromDatabase))
+            list_of_recipes.append(Recipe.construct_recipe(row, is_from_database))
         return list_of_recipes
 
     """
@@ -210,13 +212,13 @@ class Recipe:
     if required.
     """
     @staticmethod
-    def create_recipe_object_from_website(request,databaseConnector, categoryNames, isEdit=False):
+    def create_recipe_object_from_website(request,database_conn, cat_names):
         #connect to database
-        databaseConnector.connect()
+        database_conn.connect()
         ##########################################################
         #Gather the information required for a recipe
         recipeArray = []
-        newID = Recipe.get_ID_for_new_recipe(databaseConnector)
+        newID = Recipe.get_ID_for_new_recipe(database_conn)
         #Get the assigned ID for the new recipe to be added.
         recipeArray.append(newID)
         #Recipe title
@@ -235,10 +237,8 @@ class Recipe:
         ingredients = request.form['ingredients']
         #Split by new line.
         ingredients = ingredients.split('\n')
-        print(ingredients)
         # Get rid off hidden chars
         recipeArray.append(clean_text(ingredients))
-        print(ingredients)
         ##################################################
 
         ############## Add Method ########################
@@ -262,7 +262,7 @@ class Recipe:
         recipeArray.append("")
         ############# Get Categories #####################
         catsArray = []
-        for catName in categoryNames:
+        for catName in cat_names:
             if request.form.get(catName) is None:
                 pass
             else:

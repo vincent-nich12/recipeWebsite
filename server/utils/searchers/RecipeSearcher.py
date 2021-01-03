@@ -27,7 +27,6 @@ class RecipeSearcher:
         if self.num_results == -1:
             self.num_results = len(rows)
         # Get the top self.num_results results
-        topRecipes = None
         if len(rows) < self.num_results:
             topRecipes = rows
         else:
